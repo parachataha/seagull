@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
 import LoginForm from "./LoginForm";
+import Link from "next/link";
 
 export default async function SignupPage() {
 
@@ -15,6 +16,8 @@ export default async function SignupPage() {
             <h2> Welcome back. Login </h2> 
 
             <LoginForm/>
+
+            <Link href="/signup">Don't have an account? Signup</Link>
         </div>
 
     </div>

@@ -39,7 +39,7 @@ export async function validateSession(token: string) : Promise<SessionValidation
         expiresAt: result.rows[0].expires_at
     }
 
-    console.log(result)
+    // console.log(result)
     
     const user: User = {
         id: result.rows[0].id,

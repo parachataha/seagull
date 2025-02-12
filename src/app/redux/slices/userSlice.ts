@@ -4,7 +4,7 @@ interface UserState {
     id: number | null;
     firstName: string;
     lastName: string;
-    email: string;
+    email?: string;
     slug: string;
 }
 

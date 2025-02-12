@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
+import { getCurrentSession } from "@/lib/auth/cookies/getCurrentSession";
 import LoginForm from "./LoginForm";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ export default async function SignupPage() {
 
     const { user } = await getCurrentSession();
     if (user !== null) {
-        return redirect("/");
+        return redirect("/profile");
     }
 
     return <div className="wrapper">

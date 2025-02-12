@@ -3,7 +3,7 @@ import styles from "./loginForm.module.css"
 
 import { useRouter } from "next/navigation";
 
-import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
+import { getCurrentSession } from "@/lib/auth/cookies/getCurrentSession";
 import loginUser from "@/lib/auth/loginUser";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -64,7 +64,7 @@ export default function LoginForm() {
             return;
         }
         
-        router.push("/user")
+        router.push("/profile")
         dispatch(setUser({ id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, slug: result.user.slug }))
 
     }

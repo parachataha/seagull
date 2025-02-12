@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
+import { getCurrentSession } from "@/lib/auth/cookies/getCurrentSession";
 
 export default async function Home() {
 
@@ -15,6 +15,7 @@ export default async function Home() {
       <div className="container">
         <Link href='/signup'>signup</Link>
         <Link href='/login'>login</Link>
+        <Link href='/profile'>profile</Link>
       </div>
       
     </div>

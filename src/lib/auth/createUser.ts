@@ -4,7 +4,7 @@ import { query } from "../database"
 import hash from "../passwords/hash"
 import generateSessionToken from "./sessions/generateSessionToken"
 import { createSession } from "./sessions/createSession"
-import { setSessionTokenCookie } from "../cookies/setSessionTokenCookie"
+import { setSessionTokenCookie } from "./cookies/setSessionTokenCookie"
 
 // Types
 import { Session } from "@/types/auth"

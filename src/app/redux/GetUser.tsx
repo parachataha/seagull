@@ -6,7 +6,7 @@
  * 
  */
 
-import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
+import { getCurrentSession } from "@/lib/auth/cookies/getCurrentSession";
 
 import { useDispatch } from "react-redux";
 import { setUser } from "./slices/userSlice";

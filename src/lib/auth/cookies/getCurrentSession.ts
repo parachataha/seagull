@@ -1,7 +1,7 @@
 "use server"
 import { cookies } from "next/headers";
 import { cache } from "react";
-import { validateSession } from "../auth/sessions/validateSession";
+import { validateSession } from "../sessions/validateSession";
 
 // Types
 import { SessionValidationResult } from "@/types/auth";

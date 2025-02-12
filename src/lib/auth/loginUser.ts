@@ -7,7 +7,7 @@ import { compareHash } from "../passwords/compareHash"
 import { Session } from "@/types/auth"
 import { createSession } from "./sessions/createSession"
 import generateSessionToken from "./sessions/generateSessionToken"
-import { setSessionTokenCookie } from "../cookies/setSessionTokenCookie"
+import { setSessionTokenCookie } from "./cookies/setSessionTokenCookie"
 
 type Data = {
     email : string, 
@@ -51,10 +51,10 @@ export default async function loginUser(data : Data) : Promise<Result> {
         )
 
         if (!rows || !rows.rowCount) {
-            return { success: false, status: 400, msg: "A database error occurred" }
+            return { success: false, status: 400, msg: "A user does not exist with that email" }
         }
         if (rows.rowCount < 1) {
-            return { success: false, status: 404, msg: "That user does not exist" }
+            return { success: false, status: 404, msg: "A user does not exist with that email" }
         }
         if (rows.rowCount > 1) {
             return { success: false, status: 400, msg: "Multiple users found. Please contact support" }

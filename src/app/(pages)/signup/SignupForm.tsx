@@ -3,7 +3,7 @@ import styles from "./signupForm.module.css"
 
 import { useRouter } from "next/navigation";
 
-import { getCurrentSession } from "@/lib/cookies/getCurrentSession";
+import { getCurrentSession } from "@/lib/auth/cookies/getCurrentSession";
 import createUser from "@/lib/auth/createUser";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -98,6 +98,7 @@ export default function SignupForm() {
             return;
         }
         
+        router.push("/profile")
         dispatch(setUser({ id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, slug: result.user.slug }))
 
     }

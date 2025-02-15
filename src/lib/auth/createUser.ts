@@ -17,11 +17,15 @@ type Data = {
 }
 
 type Result = {
-    success: boolean,
+    success: true, 
+    msg: string,
     status: number,
-    msg?: string
-    user?: User, 
-    session?: Session | null
+    user: User,
+    session: Session | null,
+} | { 
+    success: false,
+    msg: string,
+    status: number
 }
 
 export default async function createUser(data : Data) : Promise<Result> {
@@ -66,7 +70,7 @@ export default async function createUser(data : Data) : Promise<Result> {
 
         if (createSessionResult === null) {
             return { 
-                success: false, 
+                success: true, 
                 status: 400,
                 msg: "User created but sessions could not be created",
                 user: {
@@ -88,6 +92,7 @@ export default async function createUser(data : Data) : Promise<Result> {
         return { 
             success: true, 
             status: 200,
+            msg: "User created",
             user: {
                 id: result.rows[0].id,
                 firstName: data.firstName.trim(),

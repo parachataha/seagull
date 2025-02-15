@@ -9,6 +9,7 @@ import styles from "./user.module.css"
 
 // Types
 import { User } from '@/types/auth'
+import Tag from '@/app/components/Tags/Tag'
 
 type Props = {
     params: Promise<{ user: string }>
@@ -48,6 +49,17 @@ export default async function UserPage( {params} : Props ) {
             <div className="left">
                 <h4 className={styles.user}>Creator</h4>
                 <h1 className='capitalize'>{user.firstName} <br/> {user.lastName}</h1>
+
+                {user.tags?.length == 0 ? 
+                    <div className={styles.newHereLabel}> I'm new here! </div>
+                :
+                    <div className='mt-1 flex flex-wrap gap-2'>
+                        {user.tags?.map((tag) => {
+                            if (tag.type === "label") return <Tag data={tag}/>
+                        })}
+                    </div>
+                }
+
             </div>
 
             <div className="right">

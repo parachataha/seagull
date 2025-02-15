@@ -6,6 +6,7 @@ import GetUser from "./redux/GetUser";
 
 // Types
 import type { Metadata } from "next";
+import Nav from "./components/Nav/Nav";
 
 // Fonts
 const geistSans = Geist({
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <ReduxProvider>
 
+          <Nav/>
           <GetUser/>
           {children}
 

@@ -6,7 +6,12 @@
     font-weight: 700;
 }
 
+/* Header */
 header.header {
     padding: 40px 0;
     border-bottom: 5px solid var(--secondary-bg);
+}
+
+.newHereLabel {
+    color: #2CC771;
 }

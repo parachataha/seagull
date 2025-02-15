@@ -1,3 +1,5 @@
+import { UserTag } from "./user_tag";
+
 export type SessionValidationResult = 
     | { session: Session; user: User } 
     | { session: null; user: null };
@@ -10,10 +12,11 @@ export interface Session {
 }
 
 export interface User {
-    id: number,
+    id: number | null,
     firstName: string,
     lastName: string, 
     email?: string,
     slug: string,
-    createdAt: Date,
+    createdAt?: Date | null,
+    tags: UserTag[] | undefined 
 }

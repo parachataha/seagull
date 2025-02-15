@@ -4,10 +4,11 @@ import { query } from "../database"
 import { compareHash } from "../passwords/compareHash"
 
 // Types
-import { Session } from "@/types/auth"
+import { Session, User } from "@/types/auth"
 import { createSession } from "./sessions/createSession"
 import generateSessionToken from "./sessions/generateSessionToken"
 import { setSessionTokenCookie } from "./cookies/setSessionTokenCookie"
+import getUserTags from "../user/getUserTags"
 
 type Data = {
     email : string, 
@@ -18,13 +19,7 @@ type Result = {
     success: boolean,
     status?: number,
     msg: string,
-    user?: {
-        id: number,
-        firstName: string, 
-        lastName: string, 
-        email: string, 
-        slug: string
-    }, 
+    user?: User,
     session?: Session | null
 }
 
@@ -61,26 +56,30 @@ export default async function loginUser(data : Data) : Promise<Result> {
         }
         
         const correctPassword : boolean = await compareHash(data.password.trim(), rows.rows[0].password)
-        console.log(correctPassword)
 
         if (!correctPassword) {
             return { success: false, status: 403, msg: "Password is incorrect" }
         }
 
+        // Get user tags
+        const userBasicData = rows.rows[0]
+        const userTagsData = await getUserTags(userBasicData.id)
+
         // Otherwise all correct, create a session
 
         const token = generateSessionToken()
-        const id = rows.rows[0].id
+        const id = userBasicData.id
         const createSessionResult : Session | null = await createSession(token, id)
 
         if (!createSessionResult) {
             return { success: true, msg: "Could not create session", 
                 user: {
-                    id: rows.rows[0].id,
-                    slug: rows.rows[0].slug,
-                    firstName: rows.rows[0].first_name,
-                    lastName: rows.rows[0].last_name,
-                    email: rows.rows[0].email
+                    id: userBasicData.id,
+                    slug: userBasicData.slug,
+                    firstName: userBasicData.first_name,
+                    lastName: userBasicData.last_name,
+                    email: userBasicData.email,
+                    tags: userTagsData.data
                 },
                 session: null
             }
@@ -92,11 +91,12 @@ export default async function loginUser(data : Data) : Promise<Result> {
 
         return { success: true, msg: "Logged in", 
             user: {
-                id: rows.rows[0].id,
-                slug: rows.rows[0].slug,
-                firstName: rows.rows[0].first_name,
-                lastName: rows.rows[0].last_name,
-                email: rows.rows[0].email
+                id: userBasicData.id,
+                slug: userBasicData.slug,
+                firstName: userBasicData.first_name,
+                lastName: userBasicData.last_name,
+                email: userBasicData.email,
+                tags: userTagsData.data
             },
             session: createSessionResult
         }

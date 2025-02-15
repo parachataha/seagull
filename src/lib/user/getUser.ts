@@ -2,6 +2,7 @@
 
 import { User } from "@/types/auth"
 import { query } from "../database"
+import getUserTags from "./getUserTags"
 
 type Result = {
     success: boolean,
@@ -34,18 +35,36 @@ export default async function getUser(slug : string) : Promise<Result> {
             return { success: false, status: 404, msg: "User does not exist" }
         }
         
-        const data = rows.rows[0]
+        const userBasicData = rows.rows[0]
+        const userTagsData = await getUserTags(userBasicData.id)
+
+        if (!userTagsData.success || !userTagsData.data || userTagsData.data.length == 0) { 
+            return {
+                success: true,
+                msg: "User found",
+                status: 200,
+                user: {
+                    slug: userBasicData.slug,
+                    firstName: userBasicData.first_name,
+                    lastName: userBasicData.last_name,
+                    id: userBasicData.id,
+                    createdAt: userBasicData.created_at,
+                    tags: []
+                }
+            }
+        }
 
         return {
             success: true,
             msg: "User found",
             status: 200,
             user: {
-                slug: data.slug,
-                firstName: data.first_name,
-                lastName: data.last_name,
-                id: data.id,
-                createdAt: data.created_at
+                slug: userBasicData.slug,
+                firstName: userBasicData.first_name,
+                lastName: userBasicData.last_name,
+                id: userBasicData.id,
+                createdAt: userBasicData.created_at,
+                tags: userTagsData.data
             }
         }
 

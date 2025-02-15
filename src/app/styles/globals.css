@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
+  --background: #171717;
+  --secondary-bg: #1c1c1c;
+  --orange-subtly-lighter: #FF552A;
+  --orange-subtly-darker: #FF3A35;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #131313;
+    --background: #ededed;
   }
-}
+} */
 
 body {
   color: var(--foreground);
@@ -20,15 +23,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* FORMATTING */
 .wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-items: center;
 }
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 20px;
 }
 

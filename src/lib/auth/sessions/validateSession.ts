@@ -5,12 +5,13 @@ import { sha256 } from "@oslojs/crypto/sha2";
 
 // Types
 import { Session, SessionValidationResult, User } from "@/types/auth";
+import getUserTags from "@/lib/user/getUserTags";
 
 export async function validateSession(token: string) : Promise<SessionValidationResult> {
     const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
 
     const cols = [sessionId]
-    const result = await query(`
+    const rows = await query(`
         SELECT 
             user_sessions.id AS session_id, 
             user_sessions.user_id, 
@@ -28,28 +29,37 @@ export async function validateSession(token: string) : Promise<SessionValidation
         cols
     )
     
-    if (!result || result.rowCount === 0) {
+    if (!rows || rows.rowCount === 0) {
         return { session: null, user: null }
     }
 
+    const userBasicData = rows.rows[0]
+    const userTagsData = await getUserTags(userBasicData.user_id)
+
     let session: Session = {
-        id: result.rows[0].session_id,
-        userId: result.rows[0].user_id,
-        createdAt: result.rows[0].session_created_at,
-        expiresAt: result.rows[0].expires_at
+        id: userBasicData.session_id,
+        userId: userBasicData.user_id,
+        createdAt: userBasicData.session_created_at,
+        expiresAt: userBasicData.expires_at
     }
 
-    // console.log(result)
-    
     const user: User = {
-        id: result.rows[0].id,
-        slug: result.rows[0].slug,
-        firstName: result.rows[0].first_name,
-        lastName: result.rows[0].last_name,
-        email: result.rows[0].email,
-        createdAt: result.rows[0].created_at
+        id: userBasicData.id,
+        slug: userBasicData.slug,
+        firstName: userBasicData.first_name,
+        lastName: userBasicData.last_name,
+        email: userBasicData.email,
+        createdAt: userBasicData.created_at,
+        tags: userTagsData.data?.map((tag) => {
+            return { 
+                ... tag,
+                createdAt: tag.createdAt instanceof Date 
+                ? tag.createdAt.toISOString() : tag.createdAt
+            }
+        })
     }
 
+    // HANDLE SESSION INFORMATION
     const expiresAt = session.expiresAt instanceof Date
         ? session.expiresAt
         : new Date(session.expiresAt);

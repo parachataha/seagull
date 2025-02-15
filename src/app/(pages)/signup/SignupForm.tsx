@@ -57,14 +57,11 @@ export default function SignupForm() {
         }
 
         // Create user
-        const slug = `${formValues.email}`.split("@")[0]
-
         const result = await createUser({ 
             firstName: `${formValues.firstName}`,
             lastName: `${formValues.lastName}`,
             email: `${formValues.email}`,
-            password: `${formValues.password}`,
-            slug: slug
+            password: `${formValues.password}`
         });
         
         if (!result) {

@@ -65,8 +65,14 @@ export default function LoginForm() {
         }
         
         router.push("/profile")
-        dispatch(setUser({ id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, slug: result.user.slug }))
-
+        dispatch(setUser({ 
+            id: result.user.id, 
+            firstName: result.user.firstName, 
+            lastName: result.user.lastName, 
+            email: result.user.email, 
+            slug: result.user.slug,
+            tags: []
+        }))
     }
 
     return <form onSubmit={handleSubmit} className={styles.form}>

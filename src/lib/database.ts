@@ -1,15 +1,11 @@
 "use server"
 
 /**
+ * 
  * This configures the connections to a PostgreSQL database.
  *
- * To use `pool`, import it and use `pool.query(SQL, PARAMS)`
+ * To query the database, import @function query()
  * 
- * Example:
- * ```typescript
- * const result = await getPostgresVersion();
- * console.log(result);
- * ```
  */
 
 import { Pool } from 'pg'

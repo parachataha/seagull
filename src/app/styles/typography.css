@@ -1,9 +1,11 @@
 h1 {
     font-size: 36px;
+    font-weight: 900;
 }
 
 h2 {
     font-size: 32px;
+    font-weight: 700;
 }
 
 h3 {
@@ -27,5 +29,5 @@ h6 {
 }
 
 p { 
-    font-size: 18px;
+    font-size: 14px;
 }

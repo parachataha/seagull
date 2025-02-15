@@ -81,6 +81,7 @@ export default async function createUser(data : Data) : Promise<Result> {
                     slug: slug.trim(),
                     followersCount: 0,
                     followingCount: 0,
+                    about: "",
                     tags: []
                 }, 
                 session: null
@@ -100,6 +101,7 @@ export default async function createUser(data : Data) : Promise<Result> {
                 email: data.email.trim(),
                 slug: slug.trim(),
                 tags: [],
+                about: "",
                 followersCount: 0,
                 followingCount: 0
             }, 

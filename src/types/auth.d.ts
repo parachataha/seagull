@@ -18,6 +18,7 @@ export interface User {
     email?: string,
     slug: string,
     createdAt?: Date | null,
+    about: string,
     followingCount: number | 0,
     followersCount: number | 0,
     tags: UserTag[] | []

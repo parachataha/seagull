@@ -42,7 +42,7 @@ export default async function loginUser(data : Data) : Promise<Result> {
 
         const cols = [ data.email.trim().toLowerCase() ]
         const rows = await query(`
-            SELECT id, slug, first_name, last_name, email, password, created_at 
+            SELECT id, slug, first_name, last_name, email, password, created_at, about 
             FROM users 
             WHERE email = $1`, 
             cols
@@ -102,6 +102,7 @@ export default async function loginUser(data : Data) : Promise<Result> {
                 firstName: userBasicData.first_name,
                 lastName: userBasicData.last_name,
                 email: userBasicData.email,
+                about: userBasicData.about,
                 tags: tags,
                 followersCount: followersCount,
                 followingCount: followingCount

@@ -17,7 +17,7 @@ export default async function UserPage() {
     const token = cookieStore.get("session")
 
     if (!token) {
-        redirect("/login")
+        redirect("/login?redirect=profile")
     }
 
     return ( <>

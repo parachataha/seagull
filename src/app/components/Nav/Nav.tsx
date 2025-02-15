@@ -8,7 +8,7 @@ import NavSearchBar from "./NavSearchBar";
 
 export default function Nav() {
 
-    return ( <nav className='wrapper'>
+    return ( <nav className='wrapper pt-6'>
         <div className={`container flex justify-between items-center pt-6`}>
 
             <div className="left flex gap-3 items-center">

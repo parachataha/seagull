@@ -25,7 +25,8 @@ export async function validateSession(token: string) : Promise<SessionValidation
             users.first_name, 
             users.last_name, 
             users.email, 
-            users.created_at 
+            users.created_at,
+            users.about
         FROM user_sessions 
         INNER JOIN users ON users.id = user_sessions.user_id 
         WHERE user_sessions.id = $1`, 
@@ -72,6 +73,7 @@ export async function validateSession(token: string) : Promise<SessionValidation
         lastName: userBasicData.last_name,
         email: userBasicData.email,
         createdAt: userBasicData.created_at,
+        about: userBasicData.about,
         tags: tags,
         followersCount: followersCount,
         followingCount: followingCount

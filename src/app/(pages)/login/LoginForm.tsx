@@ -72,6 +72,7 @@ export default function LoginForm() {
             email: result.user.email, 
             slug: result.user.slug,
             tags: result.user.tags,
+            about: result.user.about,
             followersCount: result.user.followersCount,
             followingCount: result.user.followingCount
         }))

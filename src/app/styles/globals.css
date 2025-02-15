@@ -26,6 +26,7 @@ body {
 /* FORMATTING */
 .wrapper {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   justify-items: center;
@@ -33,8 +34,8 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 20px;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 /* CUSTOM ELEMENTS */
@@ -44,15 +45,32 @@ body {
   border-radius: 15px;
 }
 
+.widget .widget {
+  background-color: rgba(255, 255, 255, 0.04)
+}
+
+/* Buttons */
+.red.button {
+  background-color: var(--orange-subtly-darker);
+  padding: 3px 5px;
+  border-radius: 7px;
+  font-size: .95em;
+}
+
 /* ELEMENTS */
-input { 
+input, textarea { 
   color: white;
-  font-size: .8em;
+  font-size: .9em;
   background-color: rgba(255, 255, 255, 0.06);
   padding: 5px 8px;
   border-radius: 20px;
 }
 
-input::placeholder {
+textarea { 
+  padding: 7px 10px;
+  min-height: 100px;
+}
+
+input::placeholder, textarea::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }

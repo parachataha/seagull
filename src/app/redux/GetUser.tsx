@@ -26,6 +26,7 @@ export default function GetUser() {
                 email: user.email, 
                 slug: user.slug,
                 tags: user.tags,
+                about: user.about,
                 followersCount: user.followersCount,
                 followingCount: user.followingCount
             }))

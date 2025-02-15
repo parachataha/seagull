@@ -11,7 +11,7 @@ export default async function SettingsPage() {
         return redirect("/login")
     }
 
-    return ( <div>
+    return ( <div className='wrapper py-3'>
 
         <Container />
 

@@ -88,7 +88,14 @@ export default function SignupForm() {
             }
 
             if (result.user) {
-                dispatch(setUser({ id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, slug: result.user.slug }))
+                dispatch(setUser({ 
+                    id: result.user.id, 
+                    firstName: result.user.firstName, 
+                    lastName: result.user.lastName, 
+                    email: result.user.email, 
+                    slug: result.user.slug,
+                    tags: [] 
+                }))
             }
 
             setError({isError: true, msg: msg})
@@ -96,7 +103,14 @@ export default function SignupForm() {
         }
         
         router.push("/profile")
-        dispatch(setUser({ id: result.user.id, firstName: result.user.firstName, lastName: result.user.lastName, email: result.user.email, slug: result.user.slug }))
+        dispatch(setUser({ 
+            id: result.user.id, 
+            firstName: result.user.firstName, 
+            lastName: result.user.lastName, 
+            email: result.user.email, 
+            slug: result.user.slug,
+            tags: []
+        }))
 
     }
 

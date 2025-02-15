@@ -1,5 +1,9 @@
 // Styles
+import Link from "next/link"
 import styles from "./Nav.module.css"
+
+// Icons
+import { FaUser } from "react-icons/fa6";
 
 export default function Nav() {
 
@@ -14,9 +18,10 @@ export default function Nav() {
             <div className="right">
                 
                 <ul className='flex gap-3'>
-                    <li> Jobs </li>
-                    <li> Users </li>
-                    <li> Communities </li>
+                    <li> <Link href="/"> Jobs </Link> </li>
+                    <li> <Link href="/"> Users </Link> </li>
+                    <li> <Link href="/"> Communities </Link> </li>
+                    <li> <Link href="/settings"> <FaUser className={styles.profileIcon}/> </Link> </li>
                 </ul>
 
             </div>

@@ -7,9 +7,13 @@ import capitalize from '@/utils/capitalize'
 // Styles
 import styles from "./user.module.css"
 
+// Icons
+import { IoIosWarning } from "react-icons/io";
+
 // Types
 import { User } from '@/types/auth'
 import Tag from '@/app/components/Tags/Tag'
+import Link from 'next/link'
 
 type Props = {
     params: Promise<{ user: string }>
@@ -34,43 +38,77 @@ export async function generateMetadata( {params} : Props ) : Promise<Metadata> {
 
 export default async function UserPage( {params} : Props ) {
 
-    const slug = (await params).user
+    const slug = (await params).user;
 
     const result = await getUser(slug)
     if (!result || !result.success || !result.user) {
-        notFound()
+        notFound();
     }
-    const user : User = result.user
+    const user : User = result.user;
+
+    const tagServices = user.tags.filter((tag) => tag?.type === "service");
+    const tagSkills = user.tags.filter((tag) => tag?.type === "skill");  
 
     return ( <div className='wrapper'>
 
-        <header className={`container flex justify-between ${styles.header}`}>
+        <header className={`container ${styles.header}`}>
 
-            <div className="left">
-                <h4 className={styles.user}>Creator</h4>
-                <h1 className='capitalize'>{user.firstName} <br/> {user.lastName}</h1>
+            <div className='flex justify-between'>
+                <div className="left">
+                    <h4 className={styles.user}>Creator</h4>
+                    <h1 className='capitalize'>{user.firstName} <br/> {user.lastName}</h1>
 
-                {user.tags?.length == 0 ? 
-                    <div className={styles.newHereLabel}> I'm new here! </div>
-                :
-                    <div className='mt-1 flex flex-wrap gap-2'>
-                        {user.tags?.map((tag) => {
-                            if (tag.type === "label") return <Tag data={tag}/>
-                        })}
-                    </div>
-                }
+                    {/* LABEL TAGS */}
+                    {user.tags?.length == 0 ? 
+                        <div className={styles.newHereLabel}> Hey, I'm new here! </div>
+                    :
+                        <div className='mt-1 flex flex-wrap gap-2'>
+                            {user.tags.map((tag) => {
+                                if (tag?.type === "label") return <Tag key={tag.id}> {tag.value} </Tag>
+                            })}
+                        </div>
+                    }
 
-            </div>
-
-            <div className="right">
-
-                <div className="flex">
-                    <p className="followers font-medium mr-2">122 followers</p>
-                    <p className="followers font-medium">32 following</p>
                 </div>
 
+                <div className="right">
 
-                
+                    {/* CONNECTIONS */}
+                    <div className="flex">
+                        <Link href={`/user/${slug}/followers`} className="hover:underline font-medium mr-2"> {user.followersCount} followers </Link>
+                        <Link href={`/user/${slug}/following`} className="hover:underline font-medium"> {user.followingCount} following</Link>
+                    </div>
+
+                    {/* TAGS WIDGET */}
+                    {(tagServices.length > 0 || tagSkills.length > 0) && <div className="widget mt-3">
+
+                        {tagServices.length > 0 && 
+                        <div>
+                            <h3>Services</h3>
+                            <div className="flex flex-wrap">
+
+                                {tagServices.map((tag) => {
+                                    if (tag?.type === "service") return <Tag key={tag.id}> {tag.value} </Tag>
+                                })}
+
+                            </div>
+                        </div>}
+
+                        {tagSkills.length > 0 && 
+                        <div>
+                            <h3>Skills</h3>
+                            <div className="flex flex-wrap">
+
+                                {tagSkills.map((tag) => {
+                                    if (tag?.type === "service") return <Tag key={tag.id}> {tag.value} </Tag>
+                                })}
+
+                            </div>
+                        </div>}
+
+                    </div>}
+                    
+                </div>
             </div>
 
         </header>

@@ -1,4 +1,4 @@
-export interface UserTag {
+export type UserTag = {
     id: number,
     userId: number, 
     createdAt: Date | string,
@@ -6,4 +6,4 @@ export interface UserTag {
     verified: boolean,
     value: string,
     link: string | null
-}
+} | undefined

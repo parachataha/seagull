@@ -1,11 +1,16 @@
-/* Left */
+/* LEFT */
 .seagull {
     font-size: 1.6em;
     font-weight: 600;
 }
 
-/* Right */
+/* Searchbar */
+.searchBar {
+    width: 20vw;
+    max-width: 200px;
+}
+
+/* RIGHT */
 .profileIcon {
     font-size: .9em;
-    transform: translate(0, 6px);
 }

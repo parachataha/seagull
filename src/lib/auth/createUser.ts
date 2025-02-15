@@ -7,7 +7,7 @@ import { createSession } from "./sessions/createSession"
 import { setSessionTokenCookie } from "./cookies/setSessionTokenCookie"
 
 // Types
-import { Session } from "@/types/auth"
+import { Session, User } from "@/types/auth"
 
 type Data = {
     firstName : string, 
@@ -17,26 +17,10 @@ type Data = {
 }
 
 type Result = {
-    success: true,
-    user: {
-        id: number,
-        firstName: string, 
-        lastName: string, 
-        email: string, 
-        slug: string
-    }, 
-    session: Session | null
-} | { 
-    success: false,
-    status: number, 
-    msg: string,
-    user?: {
-        id: number,
-        firstName: string, 
-        lastName: string, 
-        email: string, 
-        slug: string
-    }, 
+    success: boolean,
+    status: number,
+    msg?: string
+    user?: User, 
     session?: Session | null
 }
 
@@ -91,6 +75,9 @@ export default async function createUser(data : Data) : Promise<Result> {
                     lastName: data.lastName.trim(),
                     email: data.email.trim(),
                     slug: slug.trim(),
+                    followersCount: 0,
+                    followingCount: 0,
+                    tags: []
                 }, 
                 session: null
             }
@@ -100,12 +87,16 @@ export default async function createUser(data : Data) : Promise<Result> {
 
         return { 
             success: true, 
+            status: 200,
             user: {
                 id: result.rows[0].id,
                 firstName: data.firstName.trim(),
                 lastName: data.lastName.trim(),
                 email: data.email.trim(),
                 slug: slug.trim(),
+                tags: [],
+                followersCount: 0,
+                followingCount: 0
             }, 
             session: createSessionResult
         }

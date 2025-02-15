@@ -3,9 +3,14 @@ import logoutUser from "@/lib/auth/logoutUser";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+// Redux
+import { clearUser } from "@/app/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+
 export default function Container() {
 
     const router = useRouter()
+    const dispatch = useDispatch()
     const [error, setError] = useState<{isError: Boolean, msg: string}>({isError: false, msg: "An error occurred"})
 
     async function handleLogout() {
@@ -22,6 +27,7 @@ export default function Container() {
             return;
         }
 
+        dispatch(clearUser())
         router.push("/login")
 
     }

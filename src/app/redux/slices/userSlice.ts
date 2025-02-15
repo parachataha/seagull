@@ -8,7 +8,9 @@ const initialState: User = {
     email: "",
     slug: "",
     createdAt: null,
-    tags: []
+    tags: [],
+    followersCount: 0,
+    followingCount: 0
 };
 
 const userSlice = createSlice({
@@ -16,7 +18,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            return action.payload;
+            return { ...action.payload, };
         },
         updateUser: (state, action: PayloadAction<Partial<User>>) => {
             return { ...state, ...action.payload };

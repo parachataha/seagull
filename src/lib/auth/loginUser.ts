@@ -9,6 +9,9 @@ import { createSession } from "./sessions/createSession"
 import generateSessionToken from "./sessions/generateSessionToken"
 import { setSessionTokenCookie } from "./cookies/setSessionTokenCookie"
 import getUserTags from "../user/getUserTags"
+import countUserFollowers from "../user/countUserFollowers"
+import countUserFollowing from "../user/countUserFollowing"
+import { UserTag } from "@/types/user_tag"
 
 type Data = {
     email : string, 
@@ -61,33 +64,36 @@ export default async function loginUser(data : Data) : Promise<Result> {
             return { success: false, status: 403, msg: "Password is incorrect" }
         }
 
-        // Get user tags
+        // FETCH USER DETAILS
         const userBasicData = rows.rows[0]
         const userTagsData = await getUserTags(userBasicData.id)
 
-        // Otherwise all correct, create a session
+        let tags : UserTag[] = []
+
+        if (userTagsData.success && userTagsData.data) { 
+            tags = userTagsData.data 
+        }
+
+        const userFollowerCount = await countUserFollowers(userBasicData.id)
+        const userFollowingCount = await countUserFollowing(userBasicData.id)
+        
+        let followersCount = 0;
+        if (userFollowerCount.success && userFollowerCount.data) {
+            followersCount = userFollowerCount.data
+        }
+        let followingCount = 0;
+        if (userFollowingCount.success && userFollowingCount.data) {
+            followingCount = userFollowingCount.data
+        }
 
         const token = generateSessionToken()
         const id = userBasicData.id
         const createSessionResult : Session | null = await createSession(token, id)
 
-        if (!createSessionResult) {
-            return { success: true, msg: "Could not create session", 
-                user: {
-                    id: userBasicData.id,
-                    slug: userBasicData.slug,
-                    firstName: userBasicData.first_name,
-                    lastName: userBasicData.last_name,
-                    email: userBasicData.email,
-                    tags: userTagsData.data
-                },
-                session: null
-            }
-        }
+        let session : Session | any = null
+        if (createSessionResult) session = createSessionResult
 
-        // Session created
-
-        await setSessionTokenCookie(token, createSessionResult.expiresAt)
+        await setSessionTokenCookie(token, session.expiresAt)
 
         return { success: true, msg: "Logged in", 
             user: {
@@ -96,7 +102,9 @@ export default async function loginUser(data : Data) : Promise<Result> {
                 firstName: userBasicData.first_name,
                 lastName: userBasicData.last_name,
                 email: userBasicData.email,
-                tags: userTagsData.data
+                tags: tags,
+                followersCount: followersCount,
+                followingCount: followingCount
             },
             session: createSessionResult
         }

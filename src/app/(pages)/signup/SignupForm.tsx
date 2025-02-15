@@ -94,7 +94,9 @@ export default function SignupForm() {
                     lastName: result.user.lastName, 
                     email: result.user.email, 
                     slug: result.user.slug,
-                    tags: [] 
+                    tags: [],
+                    followersCount: 0,
+                    followingCount: 0
                 }))
             }
 
@@ -109,7 +111,9 @@ export default function SignupForm() {
             lastName: result.user.lastName, 
             email: result.user.email, 
             slug: result.user.slug,
-            tags: []
+            tags: [],
+            followersCount: 0,
+            followingCount: 0
         }))
 
     }

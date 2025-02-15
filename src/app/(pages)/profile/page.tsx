@@ -20,9 +20,9 @@ export default async function UserPage() {
         redirect("/login")
     }
 
-    return ( <div>
+    return ( <>
 
         <Container/>
 
-    </div>)
+    </>)
 }

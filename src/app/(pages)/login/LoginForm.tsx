@@ -71,7 +71,9 @@ export default function LoginForm() {
             lastName: result.user.lastName, 
             email: result.user.email, 
             slug: result.user.slug,
-            tags: []
+            tags: result.user.tags,
+            followersCount: result.user.followersCount,
+            followingCount: result.user.followingCount
         }))
     }
 

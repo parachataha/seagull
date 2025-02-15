@@ -6,6 +6,9 @@ import { sha256 } from "@oslojs/crypto/sha2";
 // Types
 import { Session, SessionValidationResult, User } from "@/types/auth";
 import getUserTags from "@/lib/user/getUserTags";
+import { UserTag } from "@/types/user_tag";
+import countUserFollowers from "@/lib/user/countUserFollowers";
+import countUserFollowing from "@/lib/user/countUserFollowing";
 
 export async function validateSession(token: string) : Promise<SessionValidationResult> {
     const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)))
@@ -33,8 +36,27 @@ export async function validateSession(token: string) : Promise<SessionValidation
         return { session: null, user: null }
     }
 
+    // FETCH & STORE USER DETAILS
     const userBasicData = rows.rows[0]
     const userTagsData = await getUserTags(userBasicData.user_id)
+
+    let tags : UserTag[] = []
+    if (userTagsData.status && userTagsData.data) {
+        tags = userTagsData.data.map(tag => { return tag } )
+    }
+
+    // Fetch connection details
+    const userFollowerCount = await countUserFollowers(userBasicData.id)
+    const userFollowingCount = await countUserFollowing(userBasicData.id)
+    
+    let followersCount = 0;
+    if (userFollowerCount.success && userFollowerCount.data) {
+        followersCount = userFollowerCount.data
+    }
+    let followingCount = 0;
+    if (userFollowingCount.success && userFollowingCount.data) {
+        followingCount = userFollowingCount.data
+    }
 
     let session: Session = {
         id: userBasicData.session_id,
@@ -50,13 +72,9 @@ export async function validateSession(token: string) : Promise<SessionValidation
         lastName: userBasicData.last_name,
         email: userBasicData.email,
         createdAt: userBasicData.created_at,
-        tags: userTagsData.data?.map((tag) => {
-            return { 
-                ... tag,
-                createdAt: tag.createdAt instanceof Date 
-                ? tag.createdAt.toISOString() : tag.createdAt
-            }
-        })
+        tags: tags,
+        followersCount: followersCount,
+        followingCount: followingCount
     }
 
     // HANDLE SESSION INFORMATION

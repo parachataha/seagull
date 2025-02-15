@@ -58,9 +58,9 @@ export default function SignupForm() {
 
         // Create user
         const result = await createUser({ 
-            firstName: `${formValues.firstName}`,
-            lastName: `${formValues.lastName}`,
-            email: `${formValues.email}`,
+            firstName: `${formValues.firstName.trim()}`,
+            lastName: `${formValues.lastName.trim()}`,
+            email: `${formValues.email.trim()}`,
             password: `${formValues.password}`
         });
         
@@ -68,7 +68,7 @@ export default function SignupForm() {
             setError({isError: true, msg: "An error occurred"})
             return;
         }
-        if (result.success === false) {
+        if (!result.success) {
 
             // Create valid message
             let msg = result.msg
@@ -85,19 +85,6 @@ export default function SignupForm() {
                         msg = result.msg;
                         break;
                 }
-            }
-
-            if (result.user) {
-                dispatch(setUser({ 
-                    id: result.user.id, 
-                    firstName: result.user.firstName, 
-                    lastName: result.user.lastName, 
-                    email: result.user.email, 
-                    slug: result.user.slug,
-                    tags: [],
-                    followersCount: 0,
-                    followingCount: 0
-                }))
             }
 
             setError({isError: true, msg: msg})

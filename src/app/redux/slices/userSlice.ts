@@ -8,7 +8,11 @@ const initialState: User = {
     email: "",
     slug: "",
     createdAt: null,
+    avatar: "/images/public/avatars/orange.png",
     tags: [],
+    hireable: null,
+    onboarding: null,
+    about: "",
     followersCount: 0,
     followingCount: 0
 };

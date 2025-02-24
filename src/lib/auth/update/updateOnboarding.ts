@@ -7,12 +7,12 @@ interface Result {
     success: boolean,
     msg: string, 
     status: number,
-    data?: string // returns the new about text
+    data?: number | null // returns the new stage
 }
 
-export default async function updateAbout(text : string, oldText: string) : Promise<Result> {
+export default async function updateOnboarding(stage : number | null, oldStage: number) : Promise<Result> {
 
-    if (!text || text.length > 500) return { success: false, msg: "Invalid text", status: 400 }
+    if (stage && (stage > 3 || stage < 0)) return { success: false, msg: "Invalid stage", status: 400 }
 
     // AUTHENTICATE USER
     const currentUser = await getCurrentSession()
@@ -20,15 +20,15 @@ export default async function updateAbout(text : string, oldText: string) : Prom
     if (!currentUser) return { success: false, msg: "Sorry, you're not authenticated", status: 403 }
     if (!currentUser.user || !currentUser.session) return { success: false, msg: "Sorry, you're not authenticated", status: 403 }
 
-    if (text == oldText) return { success: false, msg: "Please enter a different about text", status: 400 }
-    if (text == currentUser.user.about) return { success: false, msg: "Please enter a different about text", status: 400 }
+    if (stage == oldStage) return { success: false, msg: "Please enter a different stage", status: 400 }
+    if (stage == currentUser.user.onboarding) return { success: false, msg: "Please enter a different stage", status: 400 }
 
     try {
 
-        const cols = [text, currentUser.user.id]
+        const cols = [stage, currentUser.user.id]
         const result = await query(`
             UPDATE users
-            SET about = $1
+            SET onboarding = $1
             WHERE id = $2    
         `, cols)
 
@@ -40,14 +40,14 @@ export default async function updateAbout(text : string, oldText: string) : Prom
             success: true,
             msg: "User about information updated successfully",
             status: 200,
-            data: text
+            data: stage
         }
 
     } catch (error) {
 
         return { 
             success: false, 
-            msg: error ? `${`${error}`.includes("error: ") ? `${error}`.split("error: ")[1].trim() : error}` : "A server error occurred",
+            msg: error ? `${`${error}`.includes("error: ") ? `${error}`.split("error: ")[1].trim() : error}` : "A server error occurred", 
             status: 505
         }
 

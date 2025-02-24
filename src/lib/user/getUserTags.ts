@@ -23,7 +23,8 @@ export default async function getUserTags(id: number): Promise<Result> {
             SELECT * 
             FROM user_tags 
             WHERE user_id = $1
-            LIMIT 20
+            ORDER BY tag_order
+            LIMIT 40
             `,
             [id]
         );
@@ -44,6 +45,7 @@ export default async function getUserTags(id: number): Promise<Result> {
                 verified: tag.verified,
                 value: tag.value,
                 link: tag.link || null,
+                tagOrder: tag.tag_order
             })),
         };
     } catch (error: any) {

@@ -26,6 +26,9 @@ export async function validateSession(token: string) : Promise<SessionValidation
             users.last_name, 
             users.email, 
             users.created_at,
+            users.avatar,
+            users.onboarding,
+            users.hireable,
             users.about
         FROM user_sessions 
         INNER JOIN users ON users.id = user_sessions.user_id 
@@ -62,8 +65,8 @@ export async function validateSession(token: string) : Promise<SessionValidation
     let session: Session = {
         id: userBasicData.session_id,
         userId: userBasicData.user_id,
-        createdAt: userBasicData.session_created_at,
-        expiresAt: userBasicData.expires_at
+        createdAt: userBasicData.session_created_at.toISOString(),
+        expiresAt: userBasicData.expires_at.toISOString()
     }
 
     const user: User = {
@@ -72,7 +75,10 @@ export async function validateSession(token: string) : Promise<SessionValidation
         firstName: userBasicData.first_name,
         lastName: userBasicData.last_name,
         email: userBasicData.email,
-        createdAt: userBasicData.created_at,
+        createdAt: userBasicData.created_at.toISOString(),
+        avatar: userBasicData.avatar,
+        onboarding: userBasicData.onboarding,
+        hireable: userBasicData.hireable,
         about: userBasicData.about,
         tags: tags,
         followersCount: followersCount,

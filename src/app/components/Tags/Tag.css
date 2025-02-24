@@ -7,7 +7,7 @@
     font-size: 14px;
 }
 
-.Tag.js, .Tag.javascript { border-color: #F7DF1E; color: #F7DF1E; }
+.Tag.js, .Tag.javascript { border-color: #FFBB00; color: #FFBB00; }
 .Tag.ts, .Tag.typescript { border-color: #3178C6; color: #3178C6; }
 .Tag.python { border-color: #3776AB; color: #3776AB; }
 .Tag.java { border-color: #b07219; color: #b07219; }
@@ -19,17 +19,18 @@
 .Tag.swift { border-color: #FA7343; color: #FA7343; }
 .Tag.kotlin { border-color: #F18E33; color: #F18E33; }
 .Tag.rust { border-color: #DEA584; color: #DEA584; }
-.Tag.html, .Tag.html5 { border-color: #E34F26; color: #E34F26; }
-.Tag.css { border-color: #1572B6; color: #1572B6; }
+.Tag.html, .Tag.html5, .Tag.HTML { border-color: #E34F26; color: #E34F26; }
+.Tag.css, .Tag.CSS { border-color: #663399; color: #663399; }
 .Tag.sass, .Tag.scss { border-color: #CC6699; color: #CC6699; }
 .Tag.less { border-color: #1D365D; color: #1D365D; }
 .Tag.sql { border-color: #336791; color: #336791; }
-.Tag.node, .Tag.nodejs { border-color: #68A063; color: #68A063; }
+.Tag.js, .Tag.node.js, .Tag.nodeJS, .Tag.Node.js, .Tag.Node.JS, Tag.node-js { border-color: #339933; color:#339933; }
+.Tag.node, .Tag.nodejs { border-color: #339933; color: #339933; }
 .Tag.react { border-color: #61DAFB; color: #61DAFB; }
 .Tag.angular { border-color: #DD0031; color: #DD0031; }
 .Tag.vue { border-color: #4FC08D; color: #4FC08D; }
 .Tag.svelte { border-color: #FF3E00; color: #FF3E00; }
-.Tag.next, .Tag.nextjs { border-color: #000000; color: #000000; }
+.Tag.next, .Tag.nextjs, .Tag.server.actions, .Tag.vercel, .Tag.Vercel { border-color: #4a4a4a; color: #4a4a4a; }
 .Tag.nuxt, .Tag.nuxtjs { border-color: #00C58E; color: #00C58E; }
 .Tag.gatsby { border-color: #663399; color: #663399; }
 .Tag.ember { border-color: #E04E39; color: #E04E39; }
@@ -41,11 +42,11 @@
 .Tag.symfony { border-color: #000000; color: #000000; }
 .Tag.rails, .Tag.rubyonrails { border-color: #CC0000; color: #CC0000; }
 .Tag.dotnet, .Tag.net { border-color: #512BD4; color: #512BD4; }
-.Tag.express { border-color: #000000; color: #000000; }
+.Tag.express { border-color: #fff; color: #fff; }
 .Tag.electron { border-color: #47848F; color: #47848F; }
 .Tag.bootstrap { border-color: #7952B3; color: #7952B3; }
 .Tag.material, .Tag.materialui { border-color: #0081CB; color: #0081CB; }
-.Tag.tailwind { border-color: #38B2AC; color: #38B2AC; }
+.Tag.tailwind { border-color: #00BCFF; color: #00BCFF; }
 .Tag.linux { border-color: #FCC624; color: #FCC624; }
 .Tag.flutter { border-color: #02569B; color: #02569B; }
 
@@ -54,8 +55,8 @@
 .Tag.antdesign, .Tag.antd { border-color: #1677FF; color: #1677FF; }
 .Tag.semantic { border-color: #35BDB2; color: #35BDB2; }
 .Tag.bulma { border-color: #00D1B2; color: #00D1B2; }
-.Tag.figma { border-color: #F24E1E; color: #F24E1E; }
-.Tag.photoshop { border-color: #31A8FF; color: #31A8FF; }
+.Tag.figma, .Tag.Figma { border-color: #e71ef2; color: #e71ef2; }
+.Tag.photoshop, .Tag.lightroom { border-color: #31A8FF; color: #31A8FF; }
 .Tag.illustrator { border-color: #FF9A00; color: #FF9A00; }
 .Tag.adobexd, .Tag.xd { border-color: #FF2BC2; color: #FF2BC2; }
 .Tag.sketch { border-color: #F7B500; color: #F7B500; }
@@ -71,10 +72,10 @@
 .Tag.wix { border-color: #0073E6; color: #0073E6; }
 .Tag.wordpress { border-color: #21759B; color: #21759B; }
 
-.Tag.mysql { border-color: #4479A1; color: #4479A1; }
-.Tag.mongodb { border-color: #47A248; color: #47A248; }
-.Tag.postgresql { border-color: #336791; color: #336791; }
-.Tag.firebase { border-color: #FFCB2B; color: #FFCB2B; }
+.Tag.mysql { border-color: #FFA518; color: #FFA518; }
+.Tag.mongodb, .Tag.mongo, .Tag.mongo.db, .Tag.mongo-db { border-color: #47A248; color: #47A248; }
+.Tag.postgresql { border-color: #CE9C63; color: #CE9C63; }
+.Tag.firebase, .Tag.firestore { border-color: #FFCB2B; color: #FFCB2B; }
 
 .Tag.graphql { border-color: #E10098; color: #E10098; }
 .Tag.docker { border-color: #2496ED; color: #2496ED; }
@@ -88,3 +89,43 @@
 
 .Tag.minecraft-servers, .Tag.minecraftservers, .Tag.minecraft.servers { border-color: #5E9219; color: #5E9219; }
 
+.Tag.grey {
+    border-color: var(--grey) !important;  
+    color: var(--grey) !important;
+}
+/* Examples */
+.Tag.example:hover {
+    position: relative;
+    border-color: white !important; 
+    color: white !important;
+}
+.Tag.example:hover::after {
+    content: "+";
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    color: white;
+    font-size: 1em;
+    background-color: rgb(31, 188, 0);
+    border-radius: 50%;
+    padding: 0px 7px;
+}
+
+/* Removing Tags */
+.Tag.removable { 
+    position: relative;
+}
+.Tag.removable:hover::after {
+    content: "X";
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    color: white;
+    font-size: .8em;
+    background-color: rgb(255, 83, 83);
+    border-radius: 50%;
+    padding: 3px 7px;
+}
+
+/* Errored Tags */
+.Tag.error { border-color: #ff5d54; color: #ff5d54; }

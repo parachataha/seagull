@@ -4,10 +4,16 @@
 
 :root {
   --foreground: #ffffff;
-  --background: #171717;
-  --secondary-bg: #1c1c1c;
+  --background: #131313;
+  --secondary-bg: #1B1B1B;
+  --tertiary-bg: #262626;
   --orange-subtly-lighter: #FF552A;
   --orange-subtly-darker: #FF3A35;
+
+  --primary-orange: rgb(252, 130, 51);
+  --primary-pink: rgb(248, 29, 127);
+
+  --padding-x: 20px
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -35,14 +41,18 @@ body {
 .container {
   width: 100%;
   max-width: 1200px;
-  padding: 0 20px;
+  padding: 0 var(--padding-x);
 }
 
 /* CUSTOM ELEMENTS */
 .widget {
   background-color: var(--secondary-bg);
-  padding: 10px;
+  padding: 10px 14px;
   border-radius: 15px;
+  border: 2px solid var(--tertiary-bg);
+}
+.widget.rounded {
+  border-radius: 30px;
 }
 
 .widget .widget {
@@ -54,7 +64,11 @@ body {
   background-color: var(--orange-subtly-darker);
   padding: 3px 5px;
   border-radius: 7px;
-  font-size: .95em;
+}
+.button.plus {
+  border-radius: 50%;
+  font-size: 1.3em;
+  padding: 0px 9px;
 }
 
 /* ELEMENTS */

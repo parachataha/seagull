@@ -5,5 +5,6 @@ export type UserTag = {
     type: "label" | "service" | "skill",
     verified: boolean,
     value: string,
-    link: string | null
-} | undefined
+    link: string | null,
+    tagOrder: number | null
+}

@@ -68,27 +68,12 @@ export default async function createUser(data : Data) : Promise<Result> {
         const token = generateSessionToken()
         const createSessionResult : Session | null = await createSession(token, result.rows[0].id);
 
-        if (createSessionResult === null) {
-            return { 
-                success: true, 
-                status: 400,
-                msg: "User created but sessions could not be created",
-                user: {
-                    id: result.rows[0].id,
-                    firstName: data.firstName.trim(),
-                    lastName: data.lastName.trim(),
-                    email: data.email.trim(),
-                    slug: slug.trim(),
-                    followersCount: 0,
-                    followingCount: 0,
-                    about: "",
-                    tags: []
-                }, 
-                session: null
-            }
+        let session : Session | null = null
+        
+        if (createSessionResult) {
+            session = createSessionResult;
+            await setSessionTokenCookie(token, session.expiresAt);
         }
-
-        await setSessionTokenCookie(token, createSessionResult.expiresAt)
 
         return { 
             success: true, 
@@ -101,11 +86,14 @@ export default async function createUser(data : Data) : Promise<Result> {
                 email: data.email.trim(),
                 slug: slug.trim(),
                 tags: [],
+                avatar: "/images/public/avatars/orange.png",
+                onboarding: 0,
+                hireable: null,
                 about: "",
                 followersCount: 0,
                 followingCount: 0
             }, 
-            session: createSessionResult
+            session: session
         }
 
     } catch (error) {

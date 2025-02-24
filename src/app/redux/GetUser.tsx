@@ -19,17 +19,7 @@ export default function GetUser() {
     async function getUser() {
         const { user } = await getCurrentSession();
         if (user !== null) {
-            dispatch(setUser({
-                id: user.id, 
-                firstName: user.firstName, 
-                lastName: user.lastName, 
-                email: user.email, 
-                slug: user.slug,
-                tags: user.tags,
-                about: user.about,
-                followersCount: user.followersCount,
-                followingCount: user.followingCount
-            }))
+            dispatch(setUser({ ...user }))
         }
     }
 

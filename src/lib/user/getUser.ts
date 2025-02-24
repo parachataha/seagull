@@ -27,7 +27,11 @@ export default async function getUser(slug : string) : Promise<Result> {
                 slug, 
                 first_name, 
                 last_name, 
-                created_at
+                created_at,
+                avatar,
+                onboarding,
+                hireable,
+                about
             FROM users
             WHERE slug = $1`,
             cols
@@ -75,6 +79,10 @@ export default async function getUser(slug : string) : Promise<Result> {
                 lastName: userBasicData.last_name,
                 id: userBasicData.id,
                 createdAt: userBasicData.created_at,
+                avatar: userBasicData.avatar,
+                onboarding: userBasicData.onboarding,
+                hireable: userBasicData.hireable,
+                about: userBasicData.about,
                 tags: tags,
                 followersCount: followersCount,
                 followingCount: followingCount

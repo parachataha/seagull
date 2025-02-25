@@ -1,0 +1,12 @@
+.horizontalUserWidget {
+    border-bottom: 1px solid var(--secondary-bg);
+    padding: 20px 10px;
+}
+.horizontalUserWidget.first {
+    border-top: 1px solid var(--secondary-bg);
+}
+
+.name {
+    font-size: 1.1em;
+    font-weight: 600px;
+}

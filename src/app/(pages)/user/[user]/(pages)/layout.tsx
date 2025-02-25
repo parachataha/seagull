@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import UserHeader from "./components/UserHeader"
+import UserHeader from "../components/UserHeader"
 import getUser from '@/lib/user/getUser'
 import capitalize from '@/utils/capitalize'
 

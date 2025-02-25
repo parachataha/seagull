@@ -10,16 +10,20 @@
   --orange-subtly-lighter: #FF552A;
   --orange-subtly-darker: #FF3A35;
 
+  --primary-yellow: rgb(255, 187, 0);
   --primary-orange: rgb(252, 130, 51);
   --primary-pink: rgb(248, 29, 127);
 
-  --padding-x: 20px
+  --padding-x: 20px;
+  --max-width: 1200px
 }
 
 /* @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #131313;
-    --background: #ededed;
+    --foreground: #ffffff;
+    --background: #131313;
+    --secondary-bg: #1B1B1B;
+    --tertiary-bg: #262626;
   }
 } */
 
@@ -40,7 +44,7 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--max-width);
   padding: 0 var(--padding-x);
 }
 
@@ -60,16 +64,39 @@ body {
 }
 
 /* Buttons */
-.red.button {
-  background-color: var(--orange-subtly-darker);
+.button {
+  background-color: var(--tertiary-bg);
   padding: 3px 5px;
   border-radius: 7px;
+  font-size: .9em;
 }
-.button.plus {
-  border-radius: 50%;
-  font-size: 1.3em;
-  padding: 0px 9px;
+
+.button.pill { border-radius: 40px; padding-left: 8px; padding-right: 8px; }
+.button.white { background-color: white; color: var(--background) }
+
+.button.red { background-color: var(--primary-orange); }
+.button.border.red { 
+  border: 1px solid rgba(255, 77, 77); 
+  color: rgba(255, 77, 77); 
+  background-color: transparent; 
 }
+.button.border.red:hover { 
+  background-color: rgba(255, 77, 77, .1); 
+}
+
+.button.yellow { background-color: var(--primary-yellow); }
+.button.border.yellow { 
+  border: 1px solid var(--primary-yellow); 
+  color: var(--primary-yellow); 
+  background-color: transparent; 
+}
+.button.border.yellow:hover { 
+  color: var(--background);
+  background-color: var(--primary-yellow); 
+}
+
+.button.blue { background-color: rgb(0, 110, 255) }
+.button.blue:hover { background-color: rgb(29, 127, 255) }
 
 /* ELEMENTS */
 input, textarea { 

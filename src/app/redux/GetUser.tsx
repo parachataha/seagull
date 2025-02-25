@@ -18,10 +18,12 @@ export default function GetUser() {
 
     async function getUser() {
         const { user } = await getCurrentSession();
+    
         if (user !== null) {
-            dispatch(setUser({ ...user }))
+            dispatch(setUser({ ...user, createdAt: user.createdAt ? new Date(user.createdAt).toISOString() : null }));
         }
     }
+    
 
     useEffect(() => {
         getUser()

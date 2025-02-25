@@ -12,6 +12,7 @@ import getUserTags from "../user/getUserTags"
 import countUserFollowers from "../user/countUserFollowers"
 import countUserFollowing from "../user/countUserFollowing"
 import { UserTag } from "@/types/user_tag"
+import getUser from "../user/getUser"
 
 type Data = {
     email : string, 
@@ -75,30 +76,9 @@ export default async function loginUser(data : Data) : Promise<Result> {
             return { success: false, status: 403, msg: "Password is incorrect" }
         }
 
-        // FETCH USER DETAILS
-        const userBasicData = rows.rows[0]
-        const userTagsData = await getUserTags(userBasicData.id)
-
-        let tags : UserTag[] = []
-
-        if (userTagsData.success && userTagsData.data) { 
-            tags = userTagsData.data 
-        }
-
-        const userFollowerCount = await countUserFollowers(userBasicData.id)
-        const userFollowingCount = await countUserFollowing(userBasicData.id)
-        
-        let followersCount = 0;
-        if (userFollowerCount.success && userFollowerCount.data) {
-            followersCount = userFollowerCount.data
-        }
-        let followingCount = 0;
-        if (userFollowingCount.success && userFollowingCount.data) {
-            followingCount = userFollowingCount.data
-        }
-
+        // CREATE SESSION
         const token = generateSessionToken()
-        const id = userBasicData.id
+        const id = rows.rows[0].id
         const createSessionResult : Session | null = await createSession(token, id)
 
         let session : Session | any = null
@@ -106,21 +86,31 @@ export default async function loginUser(data : Data) : Promise<Result> {
 
         await setSessionTokenCookie(token, session.expiresAt)
 
+        // FETCH USER DATA
+        const userBasicData = rows.rows[0]
+        const userData = await getUser(rows.rows[0].id);
+        let user : User = { 
+            id: userBasicData.id,
+            slug: userBasicData.slug,
+            firstName: userBasicData.first_name,
+            lastName: userBasicData.last_name,
+            email: userBasicData.email,
+            tags: [],
+            followersCount: 0,
+            followingCount: 0,
+            followers: [],
+            followed: [],
+            avatar: "",
+            onboarding: 0,
+            hireable: false,
+            about: ""
+        }
+
+        if (userData.success) { user = userData.user }
+        else return { success: false, status: 500, msg: userData.msg }
+
         return { success: true, msg: "Logged in", 
-            user: {
-                id: userBasicData.id,
-                slug: userBasicData.slug,
-                firstName: userBasicData.first_name,
-                lastName: userBasicData.last_name,
-                email: userBasicData.email,
-                avatar: userBasicData.avatar,
-                onboarding: userBasicData.onboarding,
-                hireable: userBasicData.hireable,
-                about: userBasicData.about,
-                tags: tags,
-                followersCount: followersCount,
-                followingCount: followingCount
-            },
+            user: { ...user, email: rows.rows[0].email },
             session: createSessionResult
         }
 

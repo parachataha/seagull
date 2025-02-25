@@ -1,0 +1,5 @@
+.avatar {
+    background-color: var(--tertiary-bg);
+    border-radius: 50%;
+    object-fit: cover;
+}

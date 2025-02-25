@@ -17,16 +17,11 @@ export default function Tabs( {className, links} : Props ) {
     const router = usePathname();
 
     useEffect(() => {
-        
         links.forEach((link, index) => {
-
             if (link.href == router) {
-                console.log(index)
                 setActive(index)
             }
-
         })
-
     }, [router])
 
     const [active, setActive] = useState<number | undefined>(0)

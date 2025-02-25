@@ -2,7 +2,7 @@ import { User } from "@/types/auth";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: User = {
-    id: null,
+    id: 0,
     firstName: "",
     lastName: "",
     email: "",
@@ -14,7 +14,9 @@ const initialState: User = {
     onboarding: null,
     about: "",
     followersCount: 0,
-    followingCount: 0
+    followingCount: 0,
+    followers: [],
+    followed: []
 };
 
 const userSlice = createSlice({
@@ -22,7 +24,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action: PayloadAction<User>) => {
-            return { ...action.payload, };
+            return { ...action.payload };
         },
         updateUser: (state, action: PayloadAction<Partial<User>>) => {
             return { ...state, ...action.payload };

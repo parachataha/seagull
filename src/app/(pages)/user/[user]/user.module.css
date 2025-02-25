@@ -6,11 +6,3 @@
 .userWidget {
     padding: 20px 30px;
 }
-
-.avatar {
-    background-color: var(--tertiary-bg);
-    border-radius: 50%;
-    object-fit: cover;
-    width: 110px;
-    height: 110px;
-}

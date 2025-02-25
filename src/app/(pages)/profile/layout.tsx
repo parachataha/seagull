@@ -1,6 +1,11 @@
+import Tabs from '@/app/components/Tabs/Tabs';
+import ProfileTop from './components/ProfileTop'
+
+// Styles
+import styles from "./user.module.css"
+
 // Types
 import { Metadata } from 'next'
-import ProfileHeader from './components/ProfileHeader'
 
 // Metadata
 export const metadata: Metadata = {
@@ -14,11 +19,22 @@ type PropsComponent = {
 
 export default function UserLayout({children} : PropsComponent ) {
 
-    return ( <div className='wrapper'>
+    return ( <div className='wrapper relative'>
+        
+        <ProfileTop/>
 
-        <ProfileHeader/>
+        <div className={`container ${styles.container}`}>
 
-        {children}
+            <Tabs className='pb-8' links={[ 
+                { href: `/profile/experience`, text: "Experience" },
+                { href: `/profile/blogs`, text: "Blogs" },
+                { href: `/profile/organizations`, text: "Organizations" },
+                { href: `/profile/teams`, text: "Teams" }
+            ]}/>
+
+            {children}
+
+        </div>
 
     </div> )
 }

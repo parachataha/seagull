@@ -12,7 +12,7 @@ interface Props {
 
 export default function UserTagsWidget( {services, skills, about} : Props ) {
 
-    return ( <div className="widget flex flex-col justify-between">
+    if (services.length || skills.length) return ( <div className="widget flex flex-col justify-between">
 
         <div>
             {services.length > 0 && <>

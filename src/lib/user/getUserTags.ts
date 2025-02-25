@@ -40,7 +40,7 @@ export default async function getUserTags(id: number): Promise<Result> {
             data: rows.rows.map((tag) => ({
                 id: tag.id,
                 userId: tag.user_id,
-                createdAt: tag.created_at instanceof Date ? tag.created_at.toISOString() : tag.created_at, // ✅ Ensure serializable date
+                createdAt: tag.created_at instanceof Date ? tag.created_at.toISOString() : tag.created_at,
                 type: tag.type,
                 verified: tag.verified,
                 value: tag.value,

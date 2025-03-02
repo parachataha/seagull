@@ -9,7 +9,6 @@ import Link from "next/link";
 
 type Props = {
     params: Promise<{ user: string, page?: string }>,
-    children: React.ReactNode
 }
 
 export default async function UserExperiencePage( {params} : Props ) {

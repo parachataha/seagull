@@ -3,7 +3,7 @@ import styles from "./HorizontalUserWidget.module.css"
 import Avatar from "../Avatar/Avatar"
 
 interface Props {
-    key: number,
+    index: number,
     user: {
         id: number,
         slug: string,
@@ -13,10 +13,10 @@ interface Props {
     }
 }
 
-export default function HorizontalUserWidget( {key, user} : Props ) {
+export default function HorizontalUserWidget( {index, user} : Props ) {
 
 
-    return ( <Link key={key} className={`flex gap-3 items-center ${styles.horizontalUserWidget} ${key == 0 ? styles.first : ""}`} href={`/user/${user.slug}/`}>
+    return ( <Link className={`flex gap-3 items-center ${styles.horizontalUserWidget} ${index == 0 ? styles.first : ""}`} href={`/user/${user.slug}/`}>
         
         <Avatar avatar={user.avatar} size={50}/>
 

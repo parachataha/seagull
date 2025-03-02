@@ -24,7 +24,7 @@
 .Tag.sass, .Tag.scss { border-color: #CC6699; color: #CC6699; }
 .Tag.less { border-color: #1D365D; color: #1D365D; }
 .Tag.sql { border-color: #336791; color: #336791; }
-.Tag.js, .Tag.node.js, .Tag.nodeJS, .Tag.Node.js, .Tag.Node.JS, Tag.node-js { border-color: #339933; color:#339933; }
+.Tag.js, .Tag.node.js, .Tag.nodeJS, .Tag.Node.js, .Tag.Node.JS, .Tag.node-js { border-color: #339933; color:#339933; }
 .Tag.node, .Tag.nodejs { border-color: #339933; color: #339933; }
 .Tag.react { border-color: #61DAFB; color: #61DAFB; }
 .Tag.angular { border-color: #DD0031; color: #DD0031; }
@@ -129,3 +129,19 @@
 
 /* Errored Tags */
 .Tag.error { border-color: #ff5d54; color: #ff5d54; }
+
+/* Editing Tags */
+.Tag.editable:hover { cursor: pointer }
+.Tag.editable > .edit-button { display: none; }
+.Tag.editable:hover > .edit-button {
+    display: block;
+    position: absolute;
+    right: -25%;
+    top: -35%;
+    background-color: rgb(31, 188, 0);
+    padding: 7px 7px;
+    border-radius: 50%;
+    font-size: .9em;
+    color: white;
+    z-index: 4;
+}

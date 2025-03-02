@@ -1,15 +1,15 @@
 .button {
     transition: .5s;
-    border: dashed 2px rgba(255, 187, 0); 
+    border: dashed 2px var(--primary-yellow);
     padding: 5px 7px;
     border-radius: 10px;
-    color: rgba(255, 187, 0);
+    color: var(--primary-yellow);
     font-weight: 600;
-    background-color: rgba(255, 187, 0, 0.05);
+    background-color: rgba(var(--primary-yellow-num), 0.05);
     font-size: .9em;
 }
 
 .button:hover {
     transition: .5s;
-    background-color: rgba(255, 187, 0, 0.15);
+    background-color: rgba(var(--primary-yellow-num), 0.15);
 }

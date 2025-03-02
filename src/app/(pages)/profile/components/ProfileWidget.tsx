@@ -78,7 +78,7 @@ export default function ProfileWidget( {user} : Props ) {
             {tagSkills.length > 0 ? <>
                 <div className="flex flex-wrap gap-2">
                     {tagSkills.map(tag => {
-                        return <Tag key={tag.id}> {tag.value} </Tag>
+                        return <Tag key={tag.id} editable={true}> {tag.value} </Tag>
                     })}
                 </div>
             </> 

@@ -38,8 +38,6 @@ export default async function UserLayout({params, children} : PropsComponent ) {
 
     const slug = (await params).user;
 
-    console.log(await params)
-
     const result = await getUser(slug)
     if (!result || !result.success || !result.user) {
         notFound();
@@ -49,8 +47,9 @@ export default async function UserLayout({params, children} : PropsComponent ) {
     return ( <div className='wrapper'>
 
         <UserHeader user={user}/>
-
+        
         {children}
+        <div className='pb-10'></div>
 
     </div> )
 }

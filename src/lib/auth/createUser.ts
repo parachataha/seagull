@@ -91,7 +91,9 @@ export default async function createUser(data : Data) : Promise<Result> {
                 hireable: null,
                 about: "",
                 followersCount: 0,
-                followingCount: 0
+                followingCount: 0,
+                followed: [],
+                followers: []
             }, 
             session: session
         }

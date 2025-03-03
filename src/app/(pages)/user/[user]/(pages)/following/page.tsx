@@ -45,7 +45,7 @@ export default async function FollowingPage( {params} : Props ) {
                     {followed.length > 0 && <div> 
                         
                         {followed.map((followed, index) => {
-                            return <HorizontalUserWidget index={index} user={{
+                            return <HorizontalUserWidget key={index} index={index} user={{
                                 id: followed.followedId,
                                 firstName: followed.followedFirstName,
                                 lastName: followed.followedLastName,

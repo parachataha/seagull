@@ -145,3 +145,20 @@
     color: white;
     z-index: 4;
 }
+
+.Tag.edited:hover > .edited-button {
+    display: block;
+    position: absolute;
+    right: -25%;
+    top: -35%;
+    background-color: var(--primary-yellow);
+    padding: 7px 7px;
+    border-radius: 50%;
+    font-size: .9em;
+    color: white;
+    z-index: 5;
+}
+
+.Tag.dashed {
+    border-style: dashed;
+}

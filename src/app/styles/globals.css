@@ -2,18 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("./elements/buttons.css");
+@import url("./custom.css");
+
 :root {
   --foreground: #ffffff;
   --background: #131313;
   --secondary-bg: #1B1B1B;
   --tertiary-bg: #262626;
-  --orange-subtly-lighter: #FF552A;
-  --orange-subtly-darker: #FF3A35;
 
   --primary-yellow: rgb(255, 187, 0);
   --primary-yellow-num: 255, 187, 0;
   --primary-orange: rgb(252, 130, 51);
+  --primary-orange-num: 252, 130, 51;
   --primary-pink: rgb(248, 29, 127);
+  --primary-pink-num: 248, 29, 127;
 
   --padding-x: 20px;
   --max-width: 1200px
@@ -59,6 +62,18 @@ body {
 .widget.rounded {
   border-radius: 30px;
 }
+.widget.rounded-none {
+  border-radius: 0px;
+}
+
+.widget.dashed {
+  border-style: dashed;
+}
+
+.widget.no-border-x {
+  border-left: none;
+  border-right: none;
+}
 
 .widget.yellow {
   border: 2px dashed var(--primary-yellow);
@@ -69,46 +84,11 @@ body {
   background-color: rgba(255, 255, 255, 0.04)
 }
 
-/* Buttons */
-.button {
-  background-color: var(--tertiary-bg);
-  padding: 3px 5px;
-  border-radius: 7px;
-  font-size: .9em;
-}
-
-.button.pill { border-radius: 40px; padding-left: 8px; padding-right: 8px; }
-.button.white { background-color: white; color: var(--background) }
-
-.button.red { background-color: var(--primary-orange); }
-.button.border.red { 
-  border: 1px solid rgba(255, 77, 77); 
-  color: rgba(255, 77, 77); 
-  background-color: transparent; 
-}
-.button.border.red:hover { 
-  background-color: rgba(255, 77, 77, .1); 
-}
-
-.button.yellow { background-color: var(--primary-yellow); }
-.button.border.yellow { 
-  border: 1px solid var(--primary-yellow); 
-  color: var(--primary-yellow); 
-  background-color: transparent; 
-}
-.button.border.yellow:hover { 
-  color: var(--background);
-  background-color: var(--primary-yellow); 
-}
-
-.button.blue { background-color: rgb(0, 110, 255) }
-.button.blue:hover { background-color: rgb(29, 127, 255) }
-
 /* ELEMENTS */
 input, textarea { 
   color: white;
   font-size: .9em;
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.04);
   padding: 5px 8px;
   border-radius: 20px;
 }
@@ -120,4 +100,10 @@ textarea {
 
 input::placeholder, textarea::placeholder {
   color: rgba(255, 255, 255, 0.3);
+}
+
+input.Tag {
+  background-color: transparent;
+  max-width: 80px;
+  width: min-content;
 }

@@ -7,11 +7,10 @@ import { FaPen } from "react-icons/fa";
 interface Props {
     data?: UserTag,
     children: React.ReactNode,
-    editable?: boolean,
     className?: string
 }
 
-export default function Tag( {data, children, editable, className} : Props ) {
+export default function Tag( {data, children, className} : Props ) {
 
     const newClassName = `
     ${data?.value?.trim()} 
@@ -30,9 +29,11 @@ export default function Tag( {data, children, editable, className} : Props ) {
     `.trim().replaceAll(",", " ")
 
     return (
-        <div className={`Tag ${className} ${newClassName} relative ${editable ? "editable" : ""}`}>
+        <div className={`Tag ${className} ${newClassName} relative`}>
             {children}
-            {editable && <div className='edit-button'> <FaPen/> </div>}
+
+            {className?.includes("editable") && <div className='edit-button'> <FaPen/> </div>}
+            {className?.includes("edited") && <div className='edited-button'> <FaPen/> </div>}
         </div>
     )
 }

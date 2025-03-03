@@ -1,4 +1,5 @@
 import Tag from "@/app/components/Tags/Tag";
+import Tags from "@/app/components/Tags/Tags";
 
 // Type
 import { User } from "@/types/auth";
@@ -17,20 +18,12 @@ export default function UserTagsWidget( {services, skills, about} : Props ) {
         <div>
             {services.length > 0 && <>
                 <h3 className="subtitle grey mb-1"> Services </h3>
-                <div className="flex flex-wrap gap-2">
-                    {services.map(tag => {
-                        return <Tag key={tag.id}> {tag.value} </Tag>
-                    })}
-                </div>
+                <Tags tags={services}/>
             </>}
 
             {skills.length > 0 && <>
                 <h3 className="subtitle grey mb-1 mt-3"> Skills </h3>
-                <div className="flex flex-wrap gap-2">
-                    {skills.map(tag => {
-                        return <Tag key={tag.id}> {tag.value} </Tag>
-                    })}
-                </div>
+                <Tags tags={skills}/>
             </>}
         </div>
 

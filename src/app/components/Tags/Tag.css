@@ -24,9 +24,9 @@
 .Tag.sass, .Tag.scss { border-color: #CC6699; color: #CC6699; }
 .Tag.less { border-color: #1D365D; color: #1D365D; }
 .Tag.sql { border-color: #336791; color: #336791; }
-.Tag.js, .Tag.node.js, .Tag.nodeJS, .Tag.Node.js, .Tag.Node.JS, .Tag.node-js { border-color: #339933; color:#339933; }
+.Tag.node.js, .Tag.nodeJS, .Tag.Node.js, .Tag.Node.JS, .Tag.node-js { border-color: #339933; color:#339933; }
 .Tag.node, .Tag.nodejs { border-color: #339933; color: #339933; }
-.Tag.react { border-color: #61DAFB; color: #61DAFB; }
+.Tag.react, .Tag.jsx, .Tag.JSX, .Tag.Jsx { border-color: #61DAFB; color: #61DAFB; }
 .Tag.angular { border-color: #DD0031; color: #DD0031; }
 .Tag.vue { border-color: #4FC08D; color: #4FC08D; }
 .Tag.svelte { border-color: #FF3E00; color: #FF3E00; }
@@ -45,8 +45,8 @@
 .Tag.express { border-color: #fff; color: #fff; }
 .Tag.electron { border-color: #47848F; color: #47848F; }
 .Tag.bootstrap { border-color: #7952B3; color: #7952B3; }
-.Tag.material, .Tag.materialui { border-color: #0081CB; color: #0081CB; }
-.Tag.tailwind { border-color: #00BCFF; color: #00BCFF; }
+.Tag.material, .Tag.materialui, .Tag.mui, .Tag.MUI { border-color: #0081CB; color: #0081CB; }
+.Tag.tailwind, .Tag.tailwindcss, .Tag.tailwindCSS { border-color: #00BCFF; color: #00BCFF; }
 .Tag.linux { border-color: #FCC624; color: #FCC624; }
 .Tag.flutter { border-color: #02569B; color: #02569B; }
 

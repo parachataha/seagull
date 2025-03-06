@@ -2,7 +2,7 @@ import './Tag.css'
 
 import { UserTag } from "@/types/user_tag";
 
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaTrashAlt } from "react-icons/fa";
 
 interface Props {
     data?: UserTag,
@@ -32,8 +32,10 @@ export default function Tag( {data, children, className} : Props ) {
         <div className={`Tag ${className} ${newClassName} relative`}>
             {children}
 
-            {className?.includes("editable") && <div className='edit-button'> <FaPen/> </div>}
-            {className?.includes("edited") && <div className='edited-button'> <FaPen/> </div>}
+            <div className="manage-buttons flex flex-col gap-[1px]">
+                {className?.includes("deletable") && <div className='delete-button'> <FaTrashAlt/> </div>}
+                {className?.includes("editable") && <div className='edit-button'> <FaPen/> </div>}
+            </div>
         </div>
     )
 }

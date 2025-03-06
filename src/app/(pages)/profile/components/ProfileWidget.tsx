@@ -4,6 +4,9 @@ import HorizontalAdd from "@/app/components/AddButtons/HorizontalAdd/HorizontalA
 import Connections from "@/app/components/User/Connections/Connections";
 import EditTags from "@/app/components/Tags/EditTags"
 
+// Icons
+import { FaPlusMinus } from "react-icons/fa6";
+
 // Styles
 import styles from "../user.module.css"
 
@@ -12,16 +15,66 @@ import { User } from "@/types/auth";
 import { UserTag } from "@/types/user_tag";
 
 interface Props {
-    user: User,
-    editMode: boolean
-    setEditMode: (arg: boolean) => void
+    user: User;
+    editMode: boolean;
+    canceled: boolean;
+    setEditMode: (arg: boolean) => void;
+    
+    // Tags state
+    tagLabels: UserTag[];
+    tagServices: UserTag[];
+    tagSkills: UserTag[];
+    setTagLabels: (tags: UserTag[]) => void;
+    setTagServices: (tags: UserTag[]) => void;
+    setTagSkills: (tags: UserTag[]) => void;
+
+    // Edit state
+    editedLabelTags: number[];
+    setEditedLabelTags: (tags: number[]) => void;
+    newLabelTags: UserTag[];
+    setNewLabelTags: React.Dispatch<React.SetStateAction<UserTag[]>>,
+
+    editedServiceTags: number[];
+    setEditedServiceTags: (tags: number[]) => void;
+    newServiceTags: UserTag[];
+    setNewServiceTags: React.Dispatch<React.SetStateAction<UserTag[]>>,
+
+    editedSkillTags: number[];
+    setEditedSkillTags: (tags: number[]) => void;
+    newSkillTags: UserTag[];
+    setNewSkillTags: React.Dispatch<React.SetStateAction<UserTag[]>>,
 }
 
-export default function ProfileWidget( {user, editMode, setEditMode} : Props ) {
 
-    const [tagLabels, setTagLabels] = useState<UserTag[]>(user.tags.filter((tag) => tag.type === "label"));
-    const [tagServices, setTagServices] = useState<UserTag[]>(user.tags?.filter((tag) => tag.type === "service"));
-    const [tagSkills, setTagSkills] = useState<UserTag[]>(user.tags.filter((tag) => tag.type === "skill"));
+export default function ProfileWidget({ 
+    user, 
+    editMode, 
+    setEditMode, 
+    canceled,
+
+    tagLabels,
+    setTagLabels,
+    tagServices,
+    setTagServices,
+    tagSkills,
+    setTagSkills,
+
+    editedLabelTags,
+    setEditedLabelTags,
+    newLabelTags,
+    setNewLabelTags,
+
+    editedServiceTags,
+    setEditedServiceTags,
+    newServiceTags,
+    setNewServiceTags,
+
+    editedSkillTags,
+    setEditedSkillTags,
+    newSkillTags,
+    setNewSkillTags
+
+} : Props) {
 
     function getAvatar() : string {
 
@@ -37,16 +90,6 @@ export default function ProfileWidget( {user, editMode, setEditMode} : Props ) {
 
     }
 
-    // Edit mode
-    const [editedLabelTags, setEditedLabelTags] = useState<number[]>([])
-    const [newLabelTags, setNewLabelTags] = useState<UserTag[]>( tagLabels )
-
-    const [editedServiceTags, setEditedServiceTags] = useState<number[]>([])
-    const [newServiceTags, setNewServiceTags] = useState<UserTag[]>( tagServices )
-
-    const [editedSkillTags, setEditedSkillTags] = useState<number[]>([])
-    const [newSkillTags, setNewSkillTags] = useState<UserTag[]>( tagSkills )
-
     useEffect(() => {
         setTagLabels(user.tags.filter((tag) => tag.type === "label"));
         setNewLabelTags(user.tags.filter((tag) => tag.type === "label"));
@@ -54,7 +97,40 @@ export default function ProfileWidget( {user, editMode, setEditMode} : Props ) {
         setNewServiceTags(user.tags.filter((tag) => tag.type === "service"));
         setTagSkills(user.tags.filter((tag) => tag.type === "skill"));
         setNewSkillTags(user.tags.filter((tag) => tag.type === "skill"));
+
+        setEditMode(false)
     }, [user])
+
+    useEffect(() => {
+
+        setEditMode(false)
+        if (JSON.stringify(newLabelTags) !== JSON.stringify(tagLabels)) { setEditMode(true);}
+        else if (JSON.stringify(newServiceTags) !== JSON.stringify(tagServices)) { setEditMode(true); }
+        else if (JSON.stringify(newSkillTags) !== JSON.stringify(tagSkills)) { setEditMode(true); }
+        else { setEditMode(false) }
+
+    }, [newLabelTags, newServiceTags, newSkillTags])
+
+    const [addTagMode, setAddTagMode] = useState<"label" | "service" | "skill" | null>()
+
+    // Reset changes
+    useEffect(() => {
+
+        if (canceled) {
+            setNewLabelTags(user.tags.filter((tag) => tag.type === "label"));
+            setNewServiceTags(user.tags.filter((tag) => tag.type === "service"));
+            setNewSkillTags(user.tags.filter((tag) => tag.type === "skill"));
+
+            setTagLabels(user.tags.filter((tag) => tag.type === "label"))
+            setTagServices(user.tags.filter((tag) => tag.type === "service"))
+            setTagSkills(user.tags.filter((tag) => tag.type === "skill"))
+
+            setEditedLabelTags([])
+            setEditedServiceTags([])
+            setEditedSkillTags([])
+        }
+
+    }, [canceled])
 
     return ( 
         <div className={`widget ${editMode ? "dashed" : ""} rounded items-center gap-3 ${styles.userWidget}`}>
@@ -67,19 +143,25 @@ export default function ProfileWidget( {user, editMode, setEditMode} : Props ) {
                     width={110} height={110}
                 />
 
-                <div>
+                <div className='flex flex-col flex-grow'>
                     <h1 className='capitalize text-[20px]'> {user.firstName} {user.lastName} </h1>
                     <Connections user={user}/>
 
                     {tagLabels.length > 1 ? 
-                        <EditTags 
-                            className='mt-1' 
-                            ogTags={tagLabels} 
-                            tags={newLabelTags} 
-                            setTags={setNewLabelTags}
-                            editedTags={editedLabelTags}
-                            setEditedTags={setEditedLabelTags}
-                        />
+                        <div className='gap-1 flex justify-between items-center'>
+                            <EditTags 
+                                className='mt-1' 
+                                ogTags={tagLabels} 
+                                tags={newLabelTags} 
+                                setTags={setNewLabelTags}
+                                type="label"
+                                editedTags={editedLabelTags}
+                                setEditedTags={setEditedLabelTags}
+                                editMode={addTagMode == "label" ? true : false}
+                                setEditMode={setAddTagMode}
+                            />
+                            <button onClick={() => setAddTagMode(addTagMode === "label" ? null : "label")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>
+                        </div>
                     :
                         <HorizontalAdd> Add Labels </HorizontalAdd>
                     }
@@ -87,29 +169,41 @@ export default function ProfileWidget( {user, editMode, setEditMode} : Props ) {
             </div>
 
             {/* TAGS DATA */}
-            <h3 className="subtitle grey mb-1 mt-3"> Services </h3>
+            <span className="flex items-center justify-between gap-2 mb-1 mt-3">
+                <h3 className="subtitle grey"> Services </h3> 
+                {tagServices.length > 0 && <button onClick={() => setAddTagMode(addTagMode === "service" ? null : "service")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
+            </span>
             {tagServices.length > 0 ?
                 <EditTags
                     className='mt-1' 
                     ogTags={tagServices} 
                     tags={newServiceTags} 
                     setTags={setNewServiceTags}
+                    type="service"
                     editedTags={editedServiceTags}
                     setEditedTags={setEditedServiceTags}
+                    editMode={addTagMode == "service" ? true : false}
+                    setEditMode={setAddTagMode}
                 />
             :
                 <HorizontalAdd> Add Services </HorizontalAdd>    
             }
 
-            <h3 className="subtitle grey mb-1 mt-3"> Skills </h3>
+            <span className="flex items-center justify-between gap-2 mb-1 mt-3">
+                <h3 className="subtitle grey"> Skills </h3> 
+                {tagServices.length > 0 && <button onClick={() => setAddTagMode(addTagMode === "skill" ? null : "skill")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
+            </span>
                 {tagSkills.length > 0 ? 
                     <EditTags 
                     className='mt-1' 
                     ogTags={tagSkills} 
                     tags={newSkillTags} 
                     setTags={setNewSkillTags}
+                    type="skill"
                     editedTags={editedSkillTags}
                     setEditedTags={setEditedSkillTags}
+                    editMode={addTagMode == "skill" ? true : false}
+                    setEditMode={setAddTagMode}
                 />
             : 
                 <HorizontalAdd> Add Skills </HorizontalAdd>

@@ -127,38 +127,51 @@
     padding: 3px 7px;
 }
 
-/* Errored Tags */
+/* Colored Tags */
 .Tag.error { border-color: #ff5d54; color: #ff5d54; }
+.Tag.green { border-color: #158100; color: #158100; }
+
+/* Manage tags */
+.manage-buttons {
+    display: none;
+}
+
+.Tag.editable:hover > .manage-buttons,
+.Tag.deletable > .manage-buttons {
+    position: absolute;
+    right: -15%;
+    top: -35%;
+    display: flex;
+}
+
 
 /* Editing Tags */
-.Tag.editable:hover { cursor: pointer }
-.Tag.editable > .edit-button { display: none; }
-.Tag.editable:hover > .edit-button {
+.Tag.editable, .Tag.deletable { cursor: pointer }
+.Tag.editable .edit-button {
     display: block;
-    position: absolute;
-    right: -25%;
-    top: -35%;
-    background-color: rgb(31, 188, 0);
-    padding: 7px 7px;
+    background-color: rgb(21, 129, 0);
+    padding: 5px;
     border-radius: 50%;
     font-size: .9em;
     color: white;
     z-index: 4;
 }
 
-.Tag.edited:hover > .edited-button {
+/* Deletable tags */
+.Tag.deletable .delete-button {
     display: block;
-    position: absolute;
-    right: -25%;
-    top: -35%;
-    background-color: var(--primary-yellow);
-    padding: 7px 7px;
+    background-color: rgb(156, 0, 0);
+    padding: 5px;
     border-radius: 50%;
     font-size: .9em;
     color: white;
-    z-index: 5;
+    z-index: 4;
 }
 
-.Tag.dashed {
+.Tag.deletable:hover {
+    border-color: #ff5d54; color: #ff5d54; 
+}
+
+.Tag.dashed, .Tag.edited {
     border-style: dashed;
 }

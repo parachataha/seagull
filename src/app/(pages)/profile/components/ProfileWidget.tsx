@@ -5,7 +5,7 @@ import Connections from "@/app/components/User/Connections/Connections";
 import EditTags from "@/app/components/Tags/EditTags"
 
 // Icons
-import { FaPlusMinus } from "react-icons/fa6";
+import { FaPen, FaPlusMinus } from "react-icons/fa6";
 
 // Styles
 import styles from "../user.module.css"
@@ -13,11 +13,12 @@ import styles from "../user.module.css"
 // Types
 import { User } from "@/types/auth";
 import { UserTag } from "@/types/user_tag";
+import EditAbout from "@/app/components/User/About/EditAbout";
 
 interface Props {
     user: User;
-    editMode: boolean;
     canceled: boolean;
+    editMode: boolean;
     setEditMode: (arg: boolean) => void;
     
     // Tags state
@@ -43,6 +44,9 @@ interface Props {
     setEditedSkillTags: (tags: number[]) => void;
     newSkillTags: UserTag[];
     setNewSkillTags: React.Dispatch<React.SetStateAction<UserTag[]>>,
+
+    about: string,
+    setAbout: (about: string) => void;
 }
 
 
@@ -52,6 +56,7 @@ export default function ProfileWidget({
     setEditMode, 
     canceled,
 
+    // About
     tagLabels,
     setTagLabels,
     tagServices,
@@ -59,6 +64,7 @@ export default function ProfileWidget({
     tagSkills,
     setTagSkills,
 
+    // Tags
     editedLabelTags,
     setEditedLabelTags,
     newLabelTags,
@@ -72,7 +78,10 @@ export default function ProfileWidget({
     editedSkillTags,
     setEditedSkillTags,
     newSkillTags,
-    setNewSkillTags
+    setNewSkillTags,
+
+    // About
+    about, setAbout
 
 } : Props) {
 
@@ -111,7 +120,7 @@ export default function ProfileWidget({
 
     }, [newLabelTags, newServiceTags, newSkillTags])
 
-    const [addTagMode, setAddTagMode] = useState<"label" | "service" | "skill" | null>()
+    const [editInfoMode, setEditInfoMode] = useState<"label" | "service" | "skill" | "about" | null>()
 
     // Reset changes
     useEffect(() => {
@@ -128,9 +137,34 @@ export default function ProfileWidget({
             setEditedLabelTags([])
             setEditedServiceTags([])
             setEditedSkillTags([])
+
+            setAbout(user.about)
         }
 
     }, [canceled])
+
+    // Check for change
+    useEffect(() => {
+        setEditMode(false);
+        if (about !== user.about) {
+            setEditMode(true);
+        }
+        newLabelTags.forEach((tag, index) => {
+            if (tag.value !== tagLabels[index].value) {
+                setEditMode(true);
+            }
+        })
+        newServiceTags.forEach((tag, index) => {
+            if (tag.value !== tagServices[index].value) {
+                setEditMode(true);
+            }
+        })
+        newSkillTags.forEach((tag, index) => {
+            if (tag.value !== tagSkills[index].value) {
+                setEditMode(true);
+            }
+        })
+    }, [about])
 
     return ( 
         <div className={`widget ${editMode ? "dashed" : ""} rounded items-center gap-3 ${styles.userWidget}`}>
@@ -157,10 +191,10 @@ export default function ProfileWidget({
                                 type="label"
                                 editedTags={editedLabelTags}
                                 setEditedTags={setEditedLabelTags}
-                                editMode={addTagMode == "label" ? true : false}
-                                setEditMode={setAddTagMode}
+                                editMode={editInfoMode == "label" ? true : false}
+                                setEditMode={setEditInfoMode}
                             />
-                            <button onClick={() => setAddTagMode(addTagMode === "label" ? null : "label")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>
+                            <button onClick={() => setEditInfoMode(editInfoMode === "label" ? null : "label")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>
                         </div>
                     :
                         <HorizontalAdd> Add Labels </HorizontalAdd>
@@ -171,7 +205,7 @@ export default function ProfileWidget({
             {/* TAGS DATA */}
             <span className="flex items-center justify-between gap-2 mb-1 mt-3">
                 <h3 className="subtitle grey"> Services </h3> 
-                {tagServices.length > 0 && <button onClick={() => setAddTagMode(addTagMode === "service" ? null : "service")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
+                {tagServices.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "service" ? null : "service")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
             </span>
             {tagServices.length > 0 ?
                 <EditTags
@@ -182,8 +216,8 @@ export default function ProfileWidget({
                     type="service"
                     editedTags={editedServiceTags}
                     setEditedTags={setEditedServiceTags}
-                    editMode={addTagMode == "service" ? true : false}
-                    setEditMode={setAddTagMode}
+                    editMode={editInfoMode == "service" ? true : false}
+                    setEditMode={setEditInfoMode}
                 />
             :
                 <HorizontalAdd> Add Services </HorizontalAdd>    
@@ -191,7 +225,7 @@ export default function ProfileWidget({
 
             <span className="flex items-center justify-between gap-2 mb-1 mt-3">
                 <h3 className="subtitle grey"> Skills </h3> 
-                {tagServices.length > 0 && <button onClick={() => setAddTagMode(addTagMode === "skill" ? null : "skill")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
+                {tagServices.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "skill" ? null : "skill")} className='cursor-pointer text-sm grey hover:text-white'> <FaPlusMinus /> </button>}
             </span>
                 {tagSkills.length > 0 ? 
                     <EditTags 
@@ -202,25 +236,30 @@ export default function ProfileWidget({
                     type="skill"
                     editedTags={editedSkillTags}
                     setEditedTags={setEditedSkillTags}
-                    editMode={addTagMode == "skill" ? true : false}
-                    setEditMode={setAddTagMode}
+                    editMode={editInfoMode == "skill" ? true : false}
+                    setEditMode={setEditInfoMode}
                 />
             : 
                 <HorizontalAdd> Add Skills </HorizontalAdd>
             }
 
             {/* ABOUT DATA */}
-            <h3 className="subtitle grey mt-3">About</h3>
-            {user.about ? <p> 
-                {user.about.split("\n").map((line, index) => {
-                    return <React.Fragment key={index}> 
-                        {line.trim()} <br/>
-                    </React.Fragment>
-                })}    
-            </p> 
-            : 
-                <HorizontalAdd> Add About </HorizontalAdd>
-            }
+            <span className="flex items-center justify-between gap-2 mb-1 mt-3">
+                <h3 className="subtitle grey"> About </h3> 
+                {about.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "about" ? null : "about")} className='cursor-pointer text-sm grey hover:text-white'> <FaPen /> </button>}
+            </span>
+            <EditAbout 
+                about={about}
+                setAbout={setAbout} 
+                editMode={editInfoMode === "about" ? true : false}
+                onSubmit={() => { 
+                    if (about !== user.about) { 
+                        setEditMode(true);
+                    } 
+                    setEditInfoMode(null) } 
+                }
+                onRevert={() => { setAbout(user.about); setEditInfoMode(null) } }
+            />
 
             {user.hireable ? <p className='font-semibold mt-4 text-green-500'> Open for work </p> : <p className='font-semibold mt-4 text-red-500'> Closed for work </p>}
 

@@ -30,7 +30,7 @@ export default async function updateTags( data : Data ) : Promise<Result> {
             return { success: false, msg: `Tag ${tag.value} is too short`, status: 400 }
         }
 
-        if (tag.value.length > 50) {
+        if (tag.value.length > 25) {
             return { success: false, msg: `Tag ${tag.value} is too long`, status: 400 }
         }
 
@@ -142,7 +142,7 @@ export default async function updateTags( data : Data ) : Promise<Result> {
             finalUpdateTags.push({...allUpdateTags[i], created_at: new Date(), tag_order: i})
         }
 
-        for (let i = allUpdateTags.length; i <= allInsertTags.length - 1; i++) {
+        for (let i = allUpdateTags.length; i <= allUpdateTags.length + allInsertTags.length - 2; i++) {
             finalInsertTags.push({...allInsertTags[i], created_at: new Date(), tag_order: i})
         }
 
@@ -181,6 +181,8 @@ export default async function updateTags( data : Data ) : Promise<Result> {
                 INSERT INTO user_tags (user_id, created_at, type, value, tag_order)
                 VALUES ($1, $2, $3, $4, $5)
             `, cols)
+
+            console.log(result)
 
             if (!result) {
                 throw `A database error occurred when inserting ${tag.value}`

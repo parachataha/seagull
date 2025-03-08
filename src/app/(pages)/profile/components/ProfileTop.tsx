@@ -1,14 +1,16 @@
 "use client"
-import Tabs from "../../../components/Tabs/Tabs";
-import ProfileWidget from "./ProfileWidget";
 import { useEffect, useState } from "react";
+import ProfileWidget from "./ProfileWidget";
 import { UserTag } from "@/types/user_tag";
+
 import updateTags from "@/lib/auth/update/updateTags";
+import updateAbout from "@/lib/auth/update/updateAbout";
 
 // Redux
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "@/app/redux/slices/uiSlice";
+import { updateUser } from "@/app/redux/slices/userSlice";
 
 // Styles
 import styles from "../user.module.css"
@@ -52,149 +54,122 @@ export default function ProfileTop() {
 
     async function handleSave() {
 
+        if (ui.loading) {
+            setError({isError: true, msg: "Please wait, loading"})
+            return;
+        }
+
+        startLoading()
         if ( newLabelTags !== tagLabels || newServiceTags !== tagServices || newSkillTags !== tagSkills ) {
             await handleUpdateTags()
         }
+
+        if ( about !== user.about ) {
+            await handleUpdateAbout()
+        }
+        stopLoading()
 
     }
 
     async function handleUpdateTags() {
 
         setError({isError: false, msg: ""})
-        
-        if (ui.loading) {
-            setError({isError: true, msg: "Please wait, loading"})
-            return;
-        }
-        
-        startLoading()
 
         if ( newLabelTags === tagLabels && newServiceTags === tagServices && newSkillTags === tagSkills ) {
             setError({isError: true, msg: "Nothing changed"});
-            stopLoading();
             return;
         }
 
         if (newLabelTags.length > 5) {
             setError({isError: true, msg: "Too many label tags. Please remove some"});
-            stopLoading();
             return;
         }
         
         if (newServiceTags.length > 15) {
             setError({isError: true, msg: "Too many service tags. Please remove some"});
-            stopLoading();
             return;
         }
         
         if (newSkillTags.length > 40) {
             setError({isError: true, msg: "Too many skill tags. Please remove some"});
-            stopLoading();
             return;
         }
 
-        newLabelTags.forEach((tag, index) => {
-
-            if (!tag.value || (tag.type !== "label" && tag.type !== "service" && tag.type !== "skill")) {
-                setError({ isError: true, msg: "Invalid data" })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length < 1) { 
-                setError({ isError: true, msg: `Tag ${tag.value} is too short` })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length > 25) {
-                setError({ isError: true, msg: `Tag ${tag.value} is too long` })
-                stopLoading();
-                return;
-            }
-
-            newLabelTags.forEach((tagInner, index) => {
-                if (tag.value === tagInner.value && tag.id !== tagInner.id) {
-                    setError({ isError: true, msg: `${tag.value} is repeated multiple times` })
-                    return;
+        const validateTags = (tags : UserTag[]) => {
+            return tags.some(tag => {
+                if (!tag.value || (tag.type !== "label" && tag.type !== "service" && tag.type !== "skill")) {
+                    setError({ isError: true, msg: "Invalid data" });
+                    return true;
                 }
-            })
-    
-        })
-        newServiceTags.forEach((tag, index) => {
-
-            if (!tag.value || (tag.type !== "label" && tag.type !== "service" && tag.type !== "skill")) {
-                setError({ isError: true, msg: "Invalid data" })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length < 1) { 
-                setError({ isError: true, msg: `Tag ${tag.value} is too short` })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length > 25) {
-                setError({ isError: true, msg: `Tag ${tag.value} is too long` })
-                stopLoading();
-                return;
-            }
-
-            newServiceTags.forEach((tagInner, index) => {
-                if (tag.value === tagInner.value && tag.id !== tagInner.id) {
-                    setError({ isError: true, msg: `${tag.value} is repeated multiple times` })
-                    return;
+        
+                if (tag.value.length < 1) { 
+                    setError({ isError: true, msg: `Tag ${tag.value} is too short` });
+                    return true;
                 }
-            })
-    
-        })
-        newSkillTags.forEach((tag, index) => {
-
-            if (!tag.value || (tag.type !== "label" && tag.type !== "service" && tag.type !== "skill")) {
-                setError({ isError: true, msg: "Invalid data" })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length < 1) { 
-                setError({ isError: true, msg: `Tag ${tag.value} is too short` })
-                stopLoading();
-                return;
-            }
-    
-            if (tag.value.length > 25) {
-                setError({ isError: true, msg: `Tag ${tag.value} is too long` })
-                stopLoading();
-                return;
-            }
-
-            newSkillTags.forEach((tagInner, index) => {
-                if (tag.value === tagInner.value && tag.id !== tagInner.id) {
-                    setError({ isError: true, msg: `${tag.value} is repeated multiple times` })
-                    return;
+        
+                if (tag.value.length > 25) {
+                    setError({ isError: true, msg: `Tag ${tag.value} is too long` });
+                    return true;
                 }
-            })
-    
-        })
+        
+                if (tags.filter(tagInner => tag.value.toLowerCase() === tagInner.value.toLowerCase() && tag.id !== tagInner.id).length > 0) {
+                    setError({ isError: true, msg: `${tag.value} is repeated multiple times` });
+                    return true;
+                }
+        
+                return false;
+            });
+        };
+        if (validateTags(newLabelTags) || validateTags(newServiceTags) || validateTags(newSkillTags)) { 
+            return;
+        }
 
         const result = await updateTags([...newLabelTags, ...newServiceTags, ...newSkillTags])
 
+        console.log(result)
+
         if (!result.success) {
             setError({isError: true, msg: result.msg});
-            stopLoading();
+            return;
         }
 
-        stopLoading();
+        dispatch(updateUser({ tags: [
+            ...newLabelTags.map(tag => { return { ...tag, createdAt: "" } }), 
+            ...newServiceTags.map(tag => { return { ...tag, createdAt: "" } }), 
+            ...newSkillTags.map(tag => { return { ...tag, createdAt: "" } }) 
+        ] }))
     
     }
 
     async function handleUpdateAbout() {
 
+        setError({ isError: false, msg: "" })
+
+        if (about === user.about) {
+            return;
+        }
+
+        const result = await updateAbout(about, user.about);
+
+        if (!result.success) {
+            setError({ isError: true, msg: result.msg })
+            return;
+        }
+        
+        dispatch(updateUser({ about: about }))
+
     }
 
     return ( <>
         <header className={`container ${styles.container}`}>
+
+        {error.isError && <div className='widget red mb-4'>
+
+            <p className="text-primary-red text-lg font-semibold">An error occurred</p>
+            <p className="text-white"> {error.msg} </p>
+
+        </div> }
+
         {editMode && <div className='mb-5 widget yellow flex justify-between items-center'> 
             You have unsaved changes! 
             <div>

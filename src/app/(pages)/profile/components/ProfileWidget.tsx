@@ -253,9 +253,7 @@ export default function ProfileWidget({
                 setAbout={setAbout} 
                 editMode={editInfoMode === "about" ? true : false}
                 onSubmit={() => { 
-                    if (about !== user.about) { 
-                        setEditMode(true);
-                    } 
+                    if (about !== user.about) { setEditMode(true); } 
                     setEditInfoMode(null) } 
                 }
                 onRevert={() => { setAbout(user.about); setEditInfoMode(null) } }

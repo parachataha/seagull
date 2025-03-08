@@ -24,7 +24,7 @@ export default function EditAbout({about, setAbout, editMode, onRevert, onSubmit
                 />
                 <div className="flex items-center justify-center mt-2 ">
                     <button type='button' onClick={onRevert} className='button grey flex-grow'> Revert </button>
-                    <button type='submit' className='button red flex-grow ml-2'> Edit </button>
+                    <button type='submit' className='button red flex-grow ml-2'> Ok </button>
                 </div>
 
             </form> : 

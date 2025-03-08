@@ -13,6 +13,8 @@
 
   --primary-yellow: rgb(255, 187, 0);
   --primary-yellow-num: 255, 187, 0;
+  --primary-red: rgb(255, 77, 77);
+  --primary-red-num: 255, 77, 77;
   --primary-orange: rgb(252, 130, 51);
   --primary-orange-num: 252, 130, 51;
   --primary-pink: rgb(248, 29, 127);
@@ -76,8 +78,12 @@ body {
 }
 
 .widget.yellow {
-  border: 2px dashed var(--primary-yellow);
+  border: 2px solid var(--primary-yellow);
   background-color: rgba(var(--primary-yellow-num), 0.05);
+}
+.widget.red {
+  border: 2px solid var(--primary-red);
+  background-color: rgba(var(--primary-red-num), 0.05);
 }
 
 .widget .widget {

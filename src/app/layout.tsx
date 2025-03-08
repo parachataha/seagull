@@ -1,14 +1,15 @@
 import "./styles/globals.css";
 import "./styles/typography.css";
-import { Geist, Geist_Mono } from "next/font/google";
+import TopLoadingBar from "./components/Loading/TopLoadingBar";
 import ReduxProvider from "./redux/ReduxProvider";
 import GetUser from "./redux/GetUser";
+import Nav from "./components/Nav/Nav";
 
 // Types
 import type { Metadata } from "next";
-import Nav from "./components/Nav/Nav";
 
 // Fonts
+import { Geist, Geist_Mono } from "next/font/google";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
         <ReduxProvider>
 
+          <TopLoadingBar />
           <Nav/>
           <GetUser/>
           {children}

@@ -13,6 +13,7 @@ export default {
         foreground: "var(--foreground)",
         "secondary-bg": "var(--secondary-bg)", 
         "primary-yellow": "var(--primary-yellow)",
+        "primary-red": "var(--primary-red)",
       },
     },
   },

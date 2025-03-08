@@ -14,6 +14,7 @@ import styles from "../user.module.css"
 import { User } from "@/types/auth";
 import { UserTag } from "@/types/user_tag";
 import EditAbout from "@/app/components/User/About/EditAbout";
+import Link from "next/link";
 
 interface Props {
     user: User;
@@ -178,7 +179,9 @@ export default function ProfileWidget({
                 />
 
                 <div className='flex flex-col flex-grow'>
-                    <h1 className='capitalize text-[20px]'> {user.firstName} {user.lastName} </h1>
+                    <Link href={`/user/${user.slug}/`}>
+                        <h1 className='capitalize text-[20px] hover:underline'> {user.firstName} {user.lastName} </h1>
+                    </Link>
                     <Connections user={user}/>
 
                     {tagLabels.length > 1 ? 

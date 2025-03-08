@@ -59,7 +59,7 @@ export default function ProfileTop() {
             return;
         }
 
-        startLoading()
+        dispatch(startLoading())
         if ( newLabelTags !== tagLabels || newServiceTags !== tagServices || newSkillTags !== tagSkills ) {
             await handleUpdateTags()
         }
@@ -67,7 +67,7 @@ export default function ProfileTop() {
         if ( about !== user.about ) {
             await handleUpdateAbout()
         }
-        stopLoading()
+        dispatch(stopLoading())
 
     }
 
@@ -161,7 +161,7 @@ export default function ProfileTop() {
     }
 
     return ( <>
-        <header className={`container ${styles.container}`}>
+        <header className={`container ${styles.container} relative`}>
 
         {error.isError && <div className='widget red mb-4'>
 
@@ -171,51 +171,51 @@ export default function ProfileTop() {
         </div> }
 
         {editMode && <div className='mb-5 widget yellow flex justify-between items-center'> 
-            You have unsaved changes! 
+            <p className='flex-grow'> You have unsaved changes! </p>
             <div>
                 <button className='mr-2 text-primary-yellow' onClick={() => { setCanceled(true); setEditMode(false) }}> cancel </button>
                 <button className="button yellow" onClick={handleSave}>Save</button>
             </div>
         </div> }
 
-            <div className="grid md:grid-cols-[35%_65%]">
-                <div>
-                    <ProfileWidget 
-                        user={user} 
-                        editMode={editMode} 
-                        setEditMode={setEditMode} 
-                        canceled={canceled} 
+        <div className="grid md:grid-cols-[35%_65%]">
+            <div>
+                <ProfileWidget 
+                    user={user} 
+                    editMode={editMode} 
+                    setEditMode={setEditMode} 
+                    canceled={canceled} 
 
-                        // Tags
-                        tagLabels={tagLabels}
-                        setTagLabels={setTagLabels}
-                        tagServices={tagServices}
-                        setTagServices={setTagServices}
-                        tagSkills={tagSkills}
-                        setTagSkills={setTagSkills}
+                    // Tags
+                    tagLabels={tagLabels}
+                    setTagLabels={setTagLabels}
+                    tagServices={tagServices}
+                    setTagServices={setTagServices}
+                    tagSkills={tagSkills}
+                    setTagSkills={setTagSkills}
 
-                        editedLabelTags={editedLabelTags}
-                        setEditedLabelTags={setEditedLabelTags}
-                        newLabelTags={newLabelTags}
-                        setNewLabelTags={setNewLabelTags}
+                    editedLabelTags={editedLabelTags}
+                    setEditedLabelTags={setEditedLabelTags}
+                    newLabelTags={newLabelTags}
+                    setNewLabelTags={setNewLabelTags}
 
-                        editedServiceTags={editedServiceTags}
-                        setEditedServiceTags={setEditedServiceTags}
-                        newServiceTags={newServiceTags}
-                        setNewServiceTags={setNewServiceTags}
+                    editedServiceTags={editedServiceTags}
+                    setEditedServiceTags={setEditedServiceTags}
+                    newServiceTags={newServiceTags}
+                    setNewServiceTags={setNewServiceTags}
 
-                        editedSkillTags={editedSkillTags}
-                        setEditedSkillTags={setEditedSkillTags}
-                        newSkillTags={newSkillTags}
-                        setNewSkillTags={setNewSkillTags}
+                    editedSkillTags={editedSkillTags}
+                    setEditedSkillTags={setEditedSkillTags}
+                    newSkillTags={newSkillTags}
+                    setNewSkillTags={setNewSkillTags}
 
-                        // About
-                        about={about}
-                        setAbout={setAbout}
-                    />
+                    // About
+                    about={about}
+                    setAbout={setAbout}
+                />
 
-                </div>
             </div>
+        </div>
 
         </header>
     </> )

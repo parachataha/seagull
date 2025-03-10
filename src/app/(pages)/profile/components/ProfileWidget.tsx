@@ -261,9 +261,7 @@ export default function ProfileWidget({
                 }
                 onRevert={() => { setAbout(user.about); setEditInfoMode(null) } }
             />
-
-            {user.hireable ? <p className='font-semibold mt-4 text-green-500'> Open for work </p> : <p className='font-semibold mt-4 text-red-500'> Closed for work </p>}
-
+            
         </div>
     )
 }

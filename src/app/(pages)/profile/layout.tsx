@@ -23,7 +23,7 @@ export default function UserLayout({children} : PropsComponent ) {
         
         <ProfileTop/>
 
-        <div className={`container ${styles.container}`}>
+        <div className={`container ${styles.container} mb-[30px]`}>
 
             <Tabs className='pb-8' links={[ 
                 { href: `/profile/experience`, text: "Experience" },

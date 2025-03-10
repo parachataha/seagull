@@ -12,6 +12,9 @@ import { User } from "@/types/auth"
 import { UserTag } from "@/types/user_tag"
 import { UserFollower } from "@/types/user_follower"
 import { UserFollowed } from "@/types/user_followed"
+import getUserExperience from "./getUserExperience"
+import { getCurrentSession } from "../auth/cookies/getCurrentSession"
+import { Experience } from "@/types/experience"
 
 type Result = {
     success: false,
@@ -25,13 +28,17 @@ type Result = {
     user: User
 }
 
-export default async function getUser(slug : string) : Promise<Result> {
+export default async function getUser(slug : string, isUser?: boolean) : Promise<Result> {
 
+    let currentUser = false;
+    if (!isUser) currentUser = false;
+    else currentUser = isUser;
+    
     try {
 
         // FETCH USER BASIC DATA
         const cols = [slug]
-        const rows = await query(`
+        const basicRows = await query(`
             SELECT 
                 id, 
                 slug, 
@@ -47,45 +54,45 @@ export default async function getUser(slug : string) : Promise<Result> {
             cols
         )
 
-        if (!rows) {
+        if (!basicRows) {
             return { success: false, status: 400, msg: "Could not fetch user" }
         }
-        if (!rows.rowCount) {
+        if (!basicRows.rowCount) {
             return { success: false, status: 404, msg: "User does not exist" }
         }
         
         // STORE USER BASIC DATA
-        const userBasicData = rows.rows[0]
+        const basic = basicRows.rows[0]
 
         // FETCH TAGS
-        const userTagsData = await getUserTags(userBasicData.id)
+        const tagsData = await getUserTags(basic.id)
 
         let tags : UserTag[] = []
 
-        if (userTagsData.success && userTagsData.data) {
-            tags = userTagsData.data;
+        if (tagsData.success && tagsData.data) {
+            tags = tagsData.data;
         }
 
          // FETCH FOLLOWER AND FOLLOWED COUNTS
-        const userFollowerCount = await countUserFollowers(userBasicData.id)
-        const userFollowingCount = await countUserFollowing(userBasicData.id)
+        const followerCountResult = await countUserFollowers(basic.id)
+        const followingCountResult = await countUserFollowing(basic.id)
 
         let followersCount : number = 0
         let followingCount : number = 0
 
-        if (userFollowerCount.success && userFollowerCount.data) { 
-            followersCount = userFollowerCount.data
+        if (followerCountResult.success && followerCountResult.data) { 
+            followersCount = followerCountResult.data
         }
 
-        if (userFollowingCount.success && userFollowingCount.data) { 
-            followingCount = userFollowingCount.data
+        if (followingCountResult.success && followingCountResult.data) { 
+            followingCount = followingCountResult.data
         }
 
         // FETCH FOLLOWERS 
         let followers : UserFollower[] = []
         
         if (followingCount) {
-            const userFollowers = await getUserFollowers(userBasicData.id)
+            const userFollowers = await getUserFollowers(basic.id)
 
             if (userFollowers.success && userFollowers.data) {
                 followers = userFollowers.data;
@@ -96,11 +103,18 @@ export default async function getUser(slug : string) : Promise<Result> {
         let followed : UserFollowed[] = []
 
         if (followersCount) {
-            const userFollowers = await getUserFollowed(userBasicData.id)
+            const userFollowers = await getUserFollowed(basic.id)
 
             if (userFollowers.success && userFollowers.data) {
                 followed = userFollowers.data;
             }
+        }
+
+        // FETCH EXPERIENCE
+        const experienceResult = await getUserExperience(basic.id, currentUser);
+        let experience : Experience[] = [];
+        if (experienceResult.success && experienceResult.data) { 
+            experience = experienceResult.data
         }
 
         return {
@@ -108,20 +122,21 @@ export default async function getUser(slug : string) : Promise<Result> {
             msg: "User found",
             status: 200,
             user: {
-                slug: userBasicData.slug,
-                firstName: userBasicData.first_name,
-                lastName: userBasicData.last_name,
-                id: userBasicData.id,
-                createdAt: userBasicData.created_at,
-                avatar: userBasicData.avatar,
-                onboarding: userBasicData.onboarding,
-                hireable: userBasicData.hireable,
-                about: userBasicData.about,
+                slug: basic.slug,
+                firstName: basic.first_name,
+                lastName: basic.last_name,
+                id: basic.id,
+                createdAt: basic.created_at,
+                avatar: basic.avatar,
+                onboarding: basic.onboarding,
+                hireable: basic.hireable,
+                about: basic.about,
                 tags: tags,
                 followersCount: followersCount,
                 followingCount: followingCount,
                 followers: followers,
-                followed: followed
+                followed: followed,
+                experience: experience
             }
         }
 

@@ -88,7 +88,7 @@ export default async function loginUser(data : Data) : Promise<Result> {
 
         // FETCH USER DATA
         const userBasicData = rows.rows[0]
-        const userData = await getUser(rows.rows[0].id);
+        const userData = await getUser(rows.rows[0].id, true);
         let user : User = { 
             id: userBasicData.id,
             slug: userBasicData.slug,
@@ -103,7 +103,8 @@ export default async function loginUser(data : Data) : Promise<Result> {
             avatar: "",
             onboarding: 0,
             hireable: false,
-            about: ""
+            about: "",
+            experience: []
         }
 
         if (userData.success) { user = userData.user }

@@ -1,3 +1,4 @@
+import { Experience } from "./experience";
 import { UserFollowed } from "./user_followed";
 import { UserFollower } from "./user_follower";
 import { UserTag } from "./user_tag";
@@ -29,5 +30,7 @@ export interface User {
     tags: UserTag[] | [],
     followers: UserFollower[] | [],
     followed: UserFollowed[] | []
+
+    experience: Experience[]
 }
 

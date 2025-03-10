@@ -1,6 +1,6 @@
 import styles from "./HorizontalAdd.module.css"
 
-interface Props {
+interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode,
     className?: string,
 }

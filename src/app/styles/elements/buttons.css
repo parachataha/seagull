@@ -1,11 +1,21 @@
 
 /* Buttons */
 .button {
-    background-color: var(--tertiary-bg);
-    padding: 3px 5px;
-    border-radius: 7px;
-    font-size: .9em;
-  }
+  background-color: var(--tertiary-bg);
+  padding: 3px 5px;
+  border-radius: 7px;
+  font-size: .9em;
+}
+
+.button.secondary {
+  background-color: var(--secondary-bg);
+}
+
+.button.grey:hover { background-color: rgb(44, 44, 44)}
+.button.grey.active { background-color: rgb(54, 54, 54)}
+.button.secondary.active { background-color: rgb(44, 44, 44)}
+
+.button.widget.active { background-color: rgb(39, 39, 39)}
 
 .button.pill { border-radius: 40px; padding-left: 8px; padding-right: 8px; }
 .button.rounded { border-radius: 50%; padding: 4px 5px; }
@@ -24,7 +34,7 @@
 .button.yellow { 
   background-color: var(--primary-yellow); 
 }
-.button.yellow:hover { 
+.button.yellow:hover, .button.yellow.active { 
   background-color: rgba(var(--primary-yellow-num), 0.8); 
 }
 .button.border.yellow { 
@@ -32,13 +42,13 @@
   color: var(--primary-yellow); 
   background-color: transparent; 
 }
-.button.border.yellow:hover { 
+.button.border.yellow:hover, .button.yellow.border.active { 
   color: var(--background);
   background-color: var(--primary-yellow); 
 }
 
 .button.blue { background-color: rgb(0, 110, 255) }
-.button.blue:hover { background-color: rgb(29, 127, 255) }
+.button.blue:hover, .button.blue.active { background-color: rgb(29, 127, 255) }
 
 .button.green { background-color: rgb(13, 159, 0) }
-.button.green:hover { background-color: rgb(13, 159, 0) }
+.button.green:hover, .button.green.active { background-color: rgb(13, 159, 0) }

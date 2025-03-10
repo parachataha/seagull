@@ -18,6 +18,7 @@ import styles from "../user.module.css"
 // Types
 import { User } from "@/types/auth";
 import { RootState } from "@/app/redux/store";
+import Link from "next/link";
 
 export default function ProfileTop() {
 
@@ -170,13 +171,18 @@ export default function ProfileTop() {
 
         </div> }
 
-        {editMode && <div className='mb-5 widget yellow flex justify-between items-center'> 
+        {editMode && <div className='mb-4 widget yellow dashed flex justify-between items-center'> 
             <p className='flex-grow'> You have unsaved changes! </p>
             <div>
                 <button className='mr-2 text-primary-yellow' onClick={() => { setCanceled(true); setEditMode(false) }}> cancel </button>
                 <button className="button yellow" onClick={handleSave}>Save</button>
             </div>
         </div> }
+
+        {user.hireable && <div className='mb-4 widget green rounded flex justify-between items-center'> 
+            <p className='font-semibold py-[6px] ml-2'> You're open for work </p>
+            <Link href='' className='text-primary-green font-semibold mr-2 text-sm'> 0 requests </Link>
+        </div>}
 
         <div className="grid md:grid-cols-[35%_65%]">
             <div>

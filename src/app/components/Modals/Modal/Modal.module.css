@@ -5,7 +5,7 @@
     transform: translate(-50%, -50%);
     z-index: 5;
     width: 90%;
-    max-width: 400px;
+    max-width: 600px;
     
     border: 1px solid var(--tertiary-bg);
     border-radius: 15px;
@@ -16,5 +16,7 @@
 }
 
 .top {
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--tertiary-bg);
+    margin-bottom: 13px;
 }

@@ -3,12 +3,12 @@ import styles from "./Modal.module.css"
 
 // Types
 interface Props {
-    title: string,
-    description?: string,
-    children: React.ReactNode;
+    children: React.ReactNode,
+    title?: string,
+    description?: string
 }
 
-export default function Modal( {title, description, children} : Props ) {
+export default function Modal( {children, title, description} : Props ) {
 
 
     return ( <div>
@@ -17,16 +17,12 @@ export default function Modal( {title, description, children} : Props ) {
 
         <div className={`${styles.modal}`}>
 
-            <div className={`${styles.top}`}>
-                <h3 className='subtitle'> {title} </h3>
-                {description && <p className='mt-[2px] text-sm text-white/20'> {description} </p>}
-            </div>
+            {(title || description) && <div className={styles.top}>
+                <h3 className="subtitle grey"> {title} </h3>    
+                {description && <p className='grey'> {description} </p>}
+            </div>}
 
-            <div className={`${styles.content}`}>
-
-                {children}
-
-            </div>
+            {children}
 
         </div>
 

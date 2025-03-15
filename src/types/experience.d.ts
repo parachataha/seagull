@@ -1,7 +1,7 @@
 export type Experience = {
 
     id?: number,
-    experience_id: number,
+    experience_id?: number,
 
     user_id?: number,
     team_id?: number,

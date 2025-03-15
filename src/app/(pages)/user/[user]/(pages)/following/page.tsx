@@ -1,7 +1,7 @@
 import getUser from "@/lib/user/getUser";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import HorizontalUserWidget from "@/app/components/User/HorizontalUserWidget/HorizontalUserWidget";
+import HorizontalUserWidget from "@/app/components/User/summaries/HorizontalUserWidget/HorizontalUserWidget";
 import getUserFollowed from "@/lib/user/getUserFollowed";
 import { FaArrowLeft } from "react-icons/fa6";
 

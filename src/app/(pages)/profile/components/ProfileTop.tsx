@@ -179,10 +179,10 @@ export default function ProfileTop() {
             </div>
         </div> }
 
-        {user.hireable && <div className='mb-4 widget green rounded flex justify-between items-center'> 
+        {/* {user.hireable && <div className='mb-4 widget green rounded flex justify-between items-center'> 
             <p className='font-semibold py-[6px] ml-2'> You're open for work </p>
             <Link href='' className='text-primary-green font-semibold mr-2 text-sm'> 0 requests </Link>
-        </div>}
+        </div>} */}
 
         <div className="grid md:grid-cols-[35%_65%]">
             <div>

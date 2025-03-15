@@ -9,7 +9,7 @@ import { User } from "@/types/auth";
 import getUserFollowers from "@/lib/user/getUserFollowers";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
-import HorizontalUserWidget from "@/app/components/User/HorizontalUserWidget/HorizontalUserWidget";
+import HorizontalUserWidget from "@/app/components/User/summaries/HorizontalUserWidget/HorizontalUserWidget";
 
 interface Props {
     params: Promise<{ user: string }>

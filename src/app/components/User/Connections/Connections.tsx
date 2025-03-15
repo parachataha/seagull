@@ -10,7 +10,7 @@ interface Props {
 export default function Connections({user} : Props) {
     
     return ( 
-        <div className="flex gap-3 font-medium ml-1">
+        <div className="flex gap-3 font-medium">
             <Link href={`/user/${user.slug}/following`} className="cursor-pointer hover:underline"> 
                 {user.followingCount} following 
             </Link>

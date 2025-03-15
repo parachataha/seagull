@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import HorizontalAdd from "@/app/components/AddButtons/HorizontalAdd/HorizontalAdd";
+import HorizontalAdd from "@/app/components/buttons/AddButtons/HorizontalAdd/HorizontalAdd";
 import Connections from "@/app/components/User/Connections/Connections";
 import EditTags from "@/app/components/Tags/EditTags"
 

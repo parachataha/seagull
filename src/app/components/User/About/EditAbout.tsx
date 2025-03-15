@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from "react"
-import HorizontalAdd from "../../AddButtons/HorizontalAdd/HorizontalAdd"
+import HorizontalAdd from "../../buttons/AddButtons/HorizontalAdd/HorizontalAdd"
 
 interface Props {
     about: string,

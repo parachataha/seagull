@@ -1,9 +1,9 @@
 import "./styles/globals.css";
 import "./styles/typography.css";
-import TopLoadingBar from "./components/Loading/TopLoadingBar";
+import TopLoadingBar from "./components/ui/Loading/TopLoadingBar";
 import ReduxProvider from "./redux/ReduxProvider";
 import GetUser from "./redux/GetUser";
-import Nav from "./components/Nav/Nav";
+import Nav from "./components/ui/Nav/Nav";
 
 // Types
 import type { Metadata } from "next";

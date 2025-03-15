@@ -2,7 +2,7 @@
 import styles from './TopLoadingBar.module.css'
 
 import { useSelector } from "react-redux"
-import { RootState } from "../../redux/store"
+import { RootState } from '@/app/redux/store'
 
 export default function TopLoadingBar() {
 

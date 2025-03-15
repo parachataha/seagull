@@ -1,6 +1,6 @@
 import Link from "next/link"
 import styles from "./HorizontalUserWidget.module.css"
-import Avatar from "../Avatar/Avatar"
+import Avatar from "../../Avatar/Avatar"
 
 interface Props {
     index: number,

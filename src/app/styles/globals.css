@@ -80,7 +80,9 @@ body {
 .widget.rounded-none {
   border-radius: 0px;
 }
-
+.widget.no-border {
+  border: none;
+}
 .widget.no-border-x {
   border-left: none;
   border-right: none;

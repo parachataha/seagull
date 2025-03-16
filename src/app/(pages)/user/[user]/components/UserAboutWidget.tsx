@@ -1,7 +1,7 @@
 import React from "react"
 
 interface Props { 
-    about: string
+    about: string | null
 }
 
 export default function UserAboutWidget( {about} : Props ) {

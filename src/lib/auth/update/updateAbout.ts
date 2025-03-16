@@ -10,7 +10,7 @@ interface Result {
     data?: string // returns the new about text
 }
 
-export default async function updateAbout(text : string, oldText: string) : Promise<Result> {
+export default async function updateAbout(text : string | null, oldText: string | null) : Promise<Result> {
 
     if (!text || text.length > 500) return { success: false, msg: "Invalid text", status: 400 }
 

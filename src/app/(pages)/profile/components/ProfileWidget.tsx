@@ -47,8 +47,8 @@ interface Props {
     newSkillTags: UserTag[];
     setNewSkillTags: React.Dispatch<React.SetStateAction<UserTag[]>>,
 
-    about: string,
-    setAbout: (about: string) => void;
+    about: string | null,
+    setAbout: (about: string | null) => void;
 }
 
 
@@ -232,7 +232,7 @@ export default function ProfileWidget({
             {/* ABOUT DATA */}
             <span className="flex items-center justify-between gap-2 mb-1 mt-3">
                 <h3 className="subtitle grey"> About </h3> 
-                {about?.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "about" ? null : "about")} className='cursor-pointer text-sm grey hover:text-white'> <FaPen /> </button>}
+                {(about && about.length > 0) && <button onClick={() => setEditInfoMode(editInfoMode === "about" ? null : "about")} className='cursor-pointer text-sm grey hover:text-white'> <FaPen /> </button>}
             </span>
             <EditAbout 
                 about={about}

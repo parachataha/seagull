@@ -8,7 +8,8 @@ const initialState: User = {
     email: "",
     slug: "",
     createdAt: null,
-    avatar: "/images/public/avatars/orange.png",
+    avatar: 6,
+    avatar_url: "/images/public/avatars/orange.png",
     tags: [],
     hireable: null,
     onboarding: null,
@@ -16,7 +17,8 @@ const initialState: User = {
     followersCount: 0,
     followingCount: 0,
     followers: [],
-    followed: []
+    followed: [],
+    experience: [],
 };
 
 const userSlice = createSlice({

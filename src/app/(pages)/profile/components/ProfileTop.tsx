@@ -45,7 +45,7 @@ export default function ProfileTop() {
     const [newSkillTags, setNewSkillTags] = useState<UserTag[]>( tagSkills )
 
     // Edit About
-    const [about, setAbout] = useState<string>(user.about)
+    const [about, setAbout] = useState<string | null>(user.about)
 
     const [error, setError] = useState<{isError: Boolean, msg: string}>({isError: false, msg: ""})
 

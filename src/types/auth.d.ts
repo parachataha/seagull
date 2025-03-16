@@ -37,6 +37,6 @@ export interface User {
 
     experience: Experience[],
 
-    organizations: Organization[] | undefined,
+    organizations?: Organization[] | undefined,
 }
 

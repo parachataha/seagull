@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import HorizontalAdd from "../../buttons/AddButtons/HorizontalAdd/HorizontalAdd"
 
 interface Props {
-    about: string,
+    about: string | null,
     setAbout: (arg: string) => void,
     editMode?: boolean,
     onRevert: () => void,

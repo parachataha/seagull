@@ -18,8 +18,7 @@ export default async function getUserFollowed(id: number): Promise<Result> {
     }
 
     try {
-        const rows = await query(
-            `
+        const rows = await query(`
             SELECT 
                 f.id, 
                 f.followed, 
@@ -28,10 +27,13 @@ export default async function getUserFollowed(id: number): Promise<Result> {
                 u.first_name as followed_first_name, 
                 u.last_name as followed_last_name, 
                 u.avatar as followed_avatar,
+                i.url AS followed_avatar_url,
                 f.created_at
             FROM followers f
             INNER JOIN users u
-            ON f.followed = u.id
+                ON f.followed = u.id
+            INNER JOIN images i
+                ON i.id = u.avatar
             WHERE f.follower = $1
             ORDER BY f.created_at
             LIMIT 30`,
@@ -52,12 +54,13 @@ export default async function getUserFollowed(id: number): Promise<Result> {
                 return {
                     id: follower.id, 
                     follower: follower.follower,
-                    followedId: follower.followed,
-                    followedSlug: follower.followed_slug,
-                    followedFirstName: follower.followed_first_name,
-                    followedLastName: follower.followed_last_name,
-                    followedAvatar: follower.followed_avatar,
-                    createdAt: follower.created_at ? new Date(follower.created_at).toISOString() : null
+                    followed_id: follower.followed,
+                    followed_slug: follower.followed_slug,
+                    followed_first_name: follower.followed_first_name,
+                    followed_last_name: follower.followed_last_name,
+                    followed_avatar: follower.followed_avatar,
+                    followed_avatar_url: follower.followed_avatar_url,
+                    created_at: follower.created_at ? new Date(follower.created_at).toISOString() : null
                 }
             }),
         };

@@ -24,7 +24,7 @@ export default async function UserWidget( {user} : Props ) {
             <div className="flex justify-between items-end">
                 
                 <div className='flex items-center gap-3'>
-                    <Avatar avatar={user.avatar} size={110}/>
+                    <Avatar avatar_url={user.avatar_url} avatar={user.avatar} size={110}/>
 
                     <div>
                         <h1 className='capitalize text-[24px]'> {user.firstName} {user.lastName} </h1>

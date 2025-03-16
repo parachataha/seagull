@@ -1,4 +1,5 @@
 import { Experience } from "./experience";
+import { Organization } from "./organization/organization";
 import { UserFollowed } from "./user_followed";
 import { UserFollower } from "./user_follower";
 import { UserTag } from "./user_tag";
@@ -21,16 +22,21 @@ export interface User {
     email?: string,
     slug: string,
     createdAt?: string | null | Date,
-    avatar: string,
+    avatar: number,
+    avatar_url,
     onboarding: number | null,
     hireable: boolean | null,
-    about: string,
+    about: string | null,
+
+    tags: UserTag[] | [],
+
     followingCount: number | 0,
     followersCount: number | 0,
-    tags: UserTag[] | [],
     followers: UserFollower[] | [],
     followed: UserFollowed[] | []
 
-    experience: Experience[]
+    experience: Experience[],
+
+    organizations: Organization[] | undefined,
 }
 

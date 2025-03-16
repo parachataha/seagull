@@ -9,7 +9,8 @@ interface Props {
         slug: string,
         firstName: string,
         lastName: string,
-        avatar: string
+        avatar: number,
+        avatar_url: string
     }
 }
 
@@ -18,7 +19,7 @@ export default function HorizontalUserWidget( {index, user} : Props ) {
 
     return ( <Link className={`flex gap-3 items-center ${styles.horizontalUserWidget} ${index == 0 ? styles.first : ""}`} href={`/user/${user.slug}/`}>
         
-        <Avatar avatar={user.avatar} size={50}/>
+        <Avatar avatar_url={user.avatar_url} avatar={user.avatar} size={50}/>
 
         <div>
             <h3 className={`capitalize font-semibold ${styles.name}`}> {user.firstName} {user.lastName} </h3>

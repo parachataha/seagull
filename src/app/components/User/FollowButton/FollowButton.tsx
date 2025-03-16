@@ -26,7 +26,7 @@ export default function FollowButton( {followingId} : Props ) {
         if (followingId === user.id) { return; }
 
         // Ensure user is not already following them
-        if (user.followed.filter(followed => followed.followedId == followingId).length > 0)  {
+        if (user.followed.filter(followed => followed.followed_id == followingId).length > 0)  {
             return;
         }
 
@@ -38,13 +38,14 @@ export default function FollowButton( {followingId} : Props ) {
 
         const newFollowedList = [...user.followed, {
             follower: user.id,
-            followedId: followingId,
+            followed_id: followingId,
             id: followingId, 
-            followedFirstName: "", 
-            followedLastName: "", 
-            followedSlug: "",
-            followedAvatar: "",
-            createdAt: new Date().toISOString(),
+            followed_first_name: "", 
+            followed_last_name: "", 
+            followed_slug: "",
+            followed_avatar: 1,
+            followed_avatar_url: "",
+            created_at: new Date().toISOString(),
         }]
 
         dispatch(updateUser( { followed: newFollowedList } ))
@@ -57,7 +58,7 @@ export default function FollowButton( {followingId} : Props ) {
         if (followingId === user.id) { return; }
 
         // Ensure user is already following them
-        if (user.followed.filter(following => following.followedId === followingId).length <= 0) {
+        if (user.followed.filter(following => following.followed_id === followingId).length <= 0) {
             return;
         }
 
@@ -75,7 +76,7 @@ export default function FollowButton( {followingId} : Props ) {
 
     if (user.id !== followingId) return ( <> 
 
-        {!user.followed.filter((follower) => follower.followedId === followingId).length ? 
+        {!user.followed.filter((follower) => follower.followed_id === followingId).length ? 
             <button onClick={handleFollow} className='button white pill'> Follow </button> 
         :
             <button onClick={handleUnfollow} className='button red border pill'> Unfollow </button> 

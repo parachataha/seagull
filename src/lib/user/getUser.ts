@@ -40,16 +40,19 @@ export default async function getUser(slug : string, isUser?: boolean) : Promise
         const cols = [slug]
         const basicRows = await query(`
             SELECT 
-                id, 
-                slug, 
-                first_name, 
-                last_name, 
-                created_at,
-                avatar,
-                onboarding,
-                hireable,
-                about
-            FROM users
+                u.id, 
+                u.slug, 
+                u.first_name, 
+                u.last_name, 
+                u.created_at,
+                u.avatar,
+                i.url AS avatar_url,
+                u.onboarding,
+                u.hireable,
+                u.about
+            FROM users u
+            INNER JOIN images i
+                ON i.id = u.avatar
             WHERE slug = $1`,
             cols
         )
@@ -128,6 +131,7 @@ export default async function getUser(slug : string, isUser?: boolean) : Promise
                 id: basic.id,
                 createdAt: basic.created_at,
                 avatar: basic.avatar,
+                avatar_url: basic.avatar_url,
                 onboarding: basic.onboarding,
                 hireable: basic.hireable,
                 about: basic.about,
@@ -141,6 +145,9 @@ export default async function getUser(slug : string, isUser?: boolean) : Promise
         }
 
     } catch (error) {
+
+        console.log("[SERVER ACTION] getUser()", error)
+
         return { 
             success: false, 
             status: 400, 

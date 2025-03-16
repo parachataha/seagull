@@ -15,6 +15,7 @@ import { User } from "@/types/auth";
 import { UserTag } from "@/types/user_tag";
 import EditAbout from "@/app/components/User/About/EditAbout";
 import Link from "next/link";
+import Avatar from "@/app/components/User/Avatar/Avatar";
 
 interface Props {
     user: User;
@@ -85,20 +86,6 @@ export default function ProfileWidget({
     about, setAbout
 
 } : Props) {
-
-    function getAvatar() : string {
-
-        let avatar = user.avatar
-        const pattern = /^seagull\//;
-
-        if (pattern.test(user.avatar)) {
-            const file = avatar.split("seagull/")[1]
-            avatar = `/images/public/avatars/${file}`;
-        }
-
-        return avatar;
-
-    }
 
     useEffect(() => {
         setTagLabels(user.tags.filter((tag) => tag.type === "label"));
@@ -172,11 +159,7 @@ export default function ProfileWidget({
 
             {/* BASIC USER DATA */}
             <div className="flex gap-3 items-center">
-                <img 
-                    src={getAvatar()} alt="Avatar" 
-                    className={`${styles.avatar}`}
-                    width={110} height={110}
-                />
+                <Avatar size={110} avatar={user.avatar} avatar_url={user.avatar_url}/>
 
                 <div className='flex flex-col flex-grow'>
                     <Link href={`/user/${user.slug}/`}>
@@ -249,7 +232,7 @@ export default function ProfileWidget({
             {/* ABOUT DATA */}
             <span className="flex items-center justify-between gap-2 mb-1 mt-3">
                 <h3 className="subtitle grey"> About </h3> 
-                {about.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "about" ? null : "about")} className='cursor-pointer text-sm grey hover:text-white'> <FaPen /> </button>}
+                {about?.length > 0 && <button onClick={() => setEditInfoMode(editInfoMode === "about" ? null : "about")} className='cursor-pointer text-sm grey hover:text-white'> <FaPen /> </button>}
             </span>
             <EditAbout 
                 about={about}

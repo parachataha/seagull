@@ -46,11 +46,12 @@ export default async function FollowersPage( {params} : Props ) {
                         
                         {followers.map((follower, index) => {
                             return <HorizontalUserWidget key={index} index={index} user={{
-                                id: follower.followerId,
-                                firstName: follower.followerFirstName,
-                                lastName: follower.followerLastName,
-                                slug: follower.followerSlug,
-                                avatar: follower.followerAvatar
+                                id: follower.follower_id,
+                                firstName: follower.follower_first_name,
+                                lastName: follower.follower_last_name,
+                                slug: follower.follower_slug,
+                                avatar: follower.follower_avatar,
+                                avatar_url: follower.follower_avatar_url
                             }}/>
                         })}
 

@@ -31,6 +31,7 @@ export default function Form() {
 
         if (ui.loading) { setError({isError: true, msg: "Please wait, loading"}); return; }
         
+        let ogState = uploadState.state;
         setUploadState({state: "locked", msg: "Uploading"})
         dispatch(startLoading())
         
@@ -39,7 +40,7 @@ export default function Form() {
             // Validate form values
             if (!name || name.trim().length < 2) throw "Please enter a valid organization name" 
             if (name.length > 99)  throw "Organization name is too long"
-            if (!slug || slug.trim().length < 2) throw "Please enter a valid organization slug"
+            if (!slug || slug.trim().length < 2 || slug.trim().toLowerCase() === "new") throw "Please enter a valid organization slug"
             if (slug.trim().length > 99) throw "Organization slug is too long"
     
             if (logo && logo.size > 5 * 1024 * 1024) throw "Logo file size too large"
@@ -51,18 +52,17 @@ export default function Form() {
                 logo: logo
             })
     
-            console.log(result)
             if (!result) throw "Could not create organization"
             if (result.status === 403) { router.push("/login"); throw "Not authenticated"; }
             if (!result.success) throw result.msg
 
-            router.push(`organization/${result.data?.slug}`)
+            router.push(`/organization/${result.data?.slug}`)
             
         } catch(error) {
             setError({isError: true, msg: `${error}`})
         } finally {
             dispatch(stopLoading())
-            setUploadState({state: "selected", msg: ""})
+            setUploadState({state: ogState, msg: ""})
         }
     }
 

@@ -44,18 +44,21 @@ export default async function loginUser(data : Data) : Promise<Result> {
         const cols = [ data.email.trim().toLowerCase() ]
         const rows = await query(`
             SELECT 
-                id, 
-                slug, 
-                first_name, 
-                last_name, 
-                email, 
-                password, 
-                created_at, 
-                avatar, 
-                onboarding, 
-                hireable,
-                about
-            FROM users 
+                u.id, 
+                u.slug, 
+                u.first_name, 
+                u.last_name, 
+                u.email, 
+                u.password, 
+                u.created_at, 
+                u.avatar, 
+                i.id AS avatar_url,
+                u.onboarding, 
+                u.hireable,
+                u.about
+            FROM users u
+            INNER JOIN images i
+                ON i.id = u.avatar
             WHERE email = $1`, 
             cols
         )
@@ -100,7 +103,8 @@ export default async function loginUser(data : Data) : Promise<Result> {
             followingCount: 0,
             followers: [],
             followed: [],
-            avatar: "",
+            avatar: 1,
+            avatar_url: "/images/public/orange.svg",
             onboarding: 0,
             hireable: false,
             about: "",

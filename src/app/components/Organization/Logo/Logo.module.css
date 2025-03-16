@@ -1,0 +1,6 @@
+.logo {
+    background-color: var(--secondary-bg);
+    border: 2px solid var(--tertiary-bg);
+    border-radius: 10px;
+    object-fit: cover;
+}

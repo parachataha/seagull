@@ -1,10 +1,11 @@
 export type UserFollowed = {
     id: number,
     follower: number,
-    followedId: number,
-    followedSlug: string,
-    followedFirstName: string,
-    followedLastName: string,
-    followedAvatar: string,
-    createdAt: Date | null | string,
+    followed_id: number,
+    followed_slug: string,
+    followed_first_name: string,
+    followed_last_name: string,
+    followed_avatar: number,
+    followed_avatar_url: string,
+    created_at: Date | null | string,
 }

@@ -13,7 +13,7 @@ interface Props {
 export default function EditAbout({about, setAbout, editMode, onRevert, onSubmit} : Props) {
 
     return ( <>
-        {about.length > 0 ? <div> 
+        {about && about.length > 0 ? <div> 
             {editMode ? <form className='flex flex-col' onSubmit={onSubmit}>
 
                 <textarea 

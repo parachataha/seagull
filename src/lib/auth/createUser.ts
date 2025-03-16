@@ -86,14 +86,16 @@ export default async function createUser(data : Data) : Promise<Result> {
                 email: data.email.trim(),
                 slug: slug.trim(),
                 tags: [],
-                avatar: "/images/public/avatars/orange.png",
-                onboarding: 0,
-                hireable: null,
+                avatar: 1,
+                avatar_url: "/public/images/orange.svg",
                 about: "",
-                followersCount: 0,
-                followingCount: 0,
+                onboarding: 0,
+                hireable: false,
+                experience: [],
                 followed: [],
-                followers: []
+                followers: [],
+                followersCount: 0,
+                followingCount: 0
             }, 
             session: session
         }

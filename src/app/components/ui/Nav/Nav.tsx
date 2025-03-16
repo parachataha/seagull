@@ -25,7 +25,6 @@ export default function Nav() {
 
     return ( <nav className='wrapper pt-6'>
 
-
         <div className={`container flex justify-between items-center relative`}>
             {showProfileWidget && <>
                 <Overlay invisible className="z-[5]" onClick={() => setShowProfileWidget(showProfileWidget ? false : true)} />
@@ -40,14 +39,19 @@ export default function Nav() {
                 
                 <ul className='flex gap-3 items-center h-[30px]'>
                     <NavSearchBar/>
-                    <Dropdown 
-                        parentButton={ {text: "+", className: "text-[20px] rounded-[7px] py-[0.5px] px-[10px] bg-secondary-bg border-2 border-tertiary-bg grey"} }
-                        items={ [ 
-                            { text: "New Organization", link: true, href:"/organization/new" },
-                            { text: "New Team", link: true, href:"/" } 
-                        ] }
-                    />
-                    <button onClick={() => setShowProfileWidget(showProfileWidget ? false : true)}> <Avatar className='border-2 border-tertiary-bg' size={35} avatar={user.avatar}/> </button>
+                    {user.id !== 0 ? <>
+                        <Dropdown 
+                            parentButton={ {text: "+", className: "text-[20px] rounded-[7px] py-[0.5px] px-[10px] bg-secondary-bg border-2 border-tertiary-bg grey"} }
+                            items={ [ 
+                                { text: "New Organization", link: true, href:"/organization/new" },
+                                { text: "New Team", link: true, href:"/" } 
+                            ] }
+                        />
+                        <button onClick={() => setShowProfileWidget(showProfileWidget ? false : true)}> <Avatar className='border-2 border-tertiary-bg' size={35} avatar_url={user.avatar_url} avatar={user.avatar}/> </button>
+                    </> : <>
+                        <Link className='p-1 bg-red-500 rounded-md' href='/login'>Login</Link>
+                        <Link className='p-1 border border-red-500 text-red-500 rounded-md' href='/signup'>Signup</Link>
+                    </>}
                 </ul>
 
             </div>

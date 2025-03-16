@@ -15,14 +15,15 @@ export async function validateSession(token: string): Promise<SessionValidationR
     const cols = [sessionId];
     const rows = await query(`
         SELECT 
-            user_sessions.id AS session_id, 
-            user_sessions.user_id, 
-            user_sessions.created_at AS session_created_at, 
-            user_sessions.expires_at,
-            users.slug  -- Fetch slug instead of full user data (getUser() will handle that)
-        FROM user_sessions 
-        INNER JOIN users ON users.id = user_sessions.user_id 
-        WHERE user_sessions.id = $1`, 
+            s.id AS session_id, 
+            s.user_id, 
+            s.created_at AS session_created_at, 
+            s.expires_at,
+            u.slug
+        FROM user_sessions s
+        INNER JOIN users u
+            ON u.id = s.user_id 
+        WHERE s.id = $1`, 
         cols
     );
 
@@ -33,9 +34,9 @@ export async function validateSession(token: string): Promise<SessionValidationR
     const userSessionData = rows.rows[0];
 
     // Fetch full user details via getUser()
-    const userResult = await getUser(userSessionData.slug);
+    const userResult = await getUser(userSessionData.slug, true);
     if (!userResult.success || !userResult.user) {
-        return { session: null, user: null };  // Fail-safe: Return null if user retrieval fails
+        return { session: null, user: null };
     }
 
     let session: Session = {

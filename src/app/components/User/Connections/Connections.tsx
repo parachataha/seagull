@@ -17,7 +17,7 @@ export default function Connections({user} : Props) {
 
             <Link href={`/user/${user.slug}/followers`} className="cursor-pointer hover:underline"> 
                 {user.followersCount} follower
-                {user.followersCount > 1 ? "s" : ""} 
+                {user.followersCount !== 1 ? "s" : ""} 
             </Link>
         </div>    
     )

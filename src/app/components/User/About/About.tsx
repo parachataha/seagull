@@ -10,7 +10,7 @@ export default function About({about} : Props) {
 
     return ( <>
         {about && <p> 
-            {about.split("\n").map((line, index) => {
+            {about?.split("\n").map((line, index) => {
                 return <React.Fragment key={index}> 
                     {line.trim()} <br/>
                 </React.Fragment>

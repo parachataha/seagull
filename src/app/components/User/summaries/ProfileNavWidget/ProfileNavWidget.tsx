@@ -22,7 +22,7 @@ export default function ProfileNavWidget( { user, className } : Props ) {
 
         {/* Top */}
         <div className="flex items-center gap-2">
-            <Avatar size={60} avatar={user.avatar}/>
+            <Avatar avatar_url={user.avatar_url} size={60} avatar={user.avatar}/>
             <div>
                 <Link href="/profile/"> <h3 className="text-lg font-semibold hover:underline"> {capitalize(user.firstName)} {capitalize(user.lastName)} </h3> </Link>
                 <Connections user={user} />

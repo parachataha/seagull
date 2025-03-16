@@ -43,7 +43,7 @@ export default function Nav() {
                     <Dropdown 
                         parentButton={ {text: "+", className: "text-[20px] rounded-[7px] py-[0.5px] px-[10px] bg-secondary-bg border-2 border-tertiary-bg grey"} }
                         items={ [ 
-                            { text: "New Organization", link: true, href:"/" },
+                            { text: "New Organization", link: true, href:"/organization/new" },
                             { text: "New Team", link: true, href:"/" } 
                         ] }
                     />

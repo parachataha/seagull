@@ -1,0 +1,21 @@
+svg.error {
+    animation: image-shake 0.5s forwards;
+}   
+
+@keyframes image-shake {
+    0% {
+        transform: rotateZ(0deg);
+    }
+    20% {
+        transform: rotateZ(-5deg);
+    }
+    40% {
+        transform: rotateZ(0deg);
+    }
+    60% {
+        transform: rotateZ(5deg);
+    }
+    100% {
+        transform: rotateZ(0deg);
+    }
+}

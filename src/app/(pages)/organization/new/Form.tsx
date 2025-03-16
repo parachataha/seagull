@@ -10,6 +10,7 @@ import { startLoading, stopLoading } from "@/app/redux/slices/uiSlice"
 
 // Types
 import { RootState } from "@/app/redux/store"
+import { useRouter } from "next/navigation"
 
 export default function Form() {
 
@@ -19,38 +20,50 @@ export default function Form() {
     const [logo, setLogo] = useState<{ src: any, type: string, size: number, name: string } | null>(null)
     const [uploadState, setUploadState] = useState<{state: null | "loading" | "error" | "dragging" | "selected" | "locked", msg: string}>({state: null, msg: ""})
 
+    const router = useRouter()
     const ui = useSelector((state: RootState) => state.ui)
     const dispatch = useDispatch()
     const [error, setError] = useState<{isError: Boolean, msg: string}>({isError: false, msg: "An error occurred"})
 
     async function handleSubmit(e : React.FormEvent) {
         e.preventDefault()
+        setError({isError: false, msg: "Loading"})
 
         if (ui.loading) { setError({isError: true, msg: "Please wait, loading"}); return; }
- 
+        
         setUploadState({state: "locked", msg: "Uploading"})
         dispatch(startLoading())
         
-        // Validate form values
-        if (!name || name.trim().length < 2) { setError({isError: true, msg: "Please enter a valid organization name"}); dispatch(stopLoading()); return; }
-        if (name.length > 99) { setError({isError: true, msg: "Organization name is too long"}); dispatch(stopLoading()); return; }
-        if (!slug || slug.trim().length < 2) { setError({isError: true, msg: "Please enter a valid organization slug"}); dispatch(stopLoading()); return; }
-        if (slug.trim().length > 99) { setError({isError: true, msg: "Organization slug is too long"}); dispatch(stopLoading()); return; }
+        try {
 
-        if (logo && logo.size > 5 * 1024 * 1024) { setError({isError: true, msg: "Logo file size too large"}); dispatch(stopLoading()); return; }
-        if (logo && logo.name.length > 99) { setError({isError: true, msg: "Logo file name too long"}); dispatch(stopLoading()); return; }
+            // Validate form values
+            if (!name || name.trim().length < 2) throw "Please enter a valid organization name" 
+            if (name.length > 99)  throw "Organization name is too long"
+            if (!slug || slug.trim().length < 2) throw "Please enter a valid organization slug"
+            if (slug.trim().length > 99) throw "Organization slug is too long"
+    
+            if (logo && logo.size > 5 * 1024 * 1024) throw "Logo file size too large"
+            if (logo && logo.name.length > 99) throw "Logo file name too long"
+    
+            const result = await createOrganization({ 
+                name: name, 
+                slug: slug, 
+                logo: logo
+            })
+    
+            console.log(result)
+            if (!result) throw "Could not create organization"
+            if (result.status === 403) { router.push("/login"); throw "Not authenticated"; }
+            if (!result.success) throw result.msg
 
-        const result = await createOrganization({ 
-            name: name, 
-            slug: slug, 
-            logo: logo
-        })
-
-        console.log(result)
-        if (!result) { setError({isError: true, msg: "Could not create organization"}); dispatch(stopLoading()); return; }
-        if (!result.success) { setError({isError: true, msg: result.msg}); dispatch(stopLoading()); return; }
-        
-        dispatch(stopLoading())
+            router.push(`organization/${result.data?.slug}`)
+            
+        } catch(error) {
+            setError({isError: true, msg: `${error}`})
+        } finally {
+            dispatch(stopLoading())
+            setUploadState({state: "selected", msg: ""})
+        }
     }
 
     return ( <div> 
@@ -58,7 +71,7 @@ export default function Form() {
         <form onSubmit={handleSubmit} className='flex flex-col my-10 w-full'>
 
             <label htmlFor="name" className="font-semibold mb-1"> Name <span className='text-red-500'>*</span> </label>
-            <input required value={name} onChange={(e) => { setName(e.target.value); setSlug(e.target.value.toLowerCase().trim()); }} type="text" name="name" placeholder="My New Organization"/>
+            <input required value={name} onChange={(e) => { setName(e.target.value); setSlug(e.target.value.toLowerCase().replaceAll(" ", "")); }} type="text" name="name" placeholder="My New Organization"/>
 
             <label htmlFor="name" className="font-semibold mb-1 mt-5"> Vanity URL <span className='text-red-500'>*</span> </label>
             <div className="flex w-full">

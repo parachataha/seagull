@@ -14,7 +14,7 @@ export default function Avatar( {avatar, size, className} : Props ) {
 
         if (pattern.test(avatar)) {
             const file = avatar.split("seagull/")[1]
-            userAvatar = `/images/public/avatars/${file}`;
+            userAvatar = `/images/public/${file}`;
         }
 
         return userAvatar;

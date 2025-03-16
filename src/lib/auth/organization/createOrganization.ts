@@ -18,7 +18,11 @@ interface Props {
 interface Result {
     success: boolean, 
     msg: string,
-    status: number
+    status: number,
+    data?: {
+        slug: string,
+        id: number
+    }
 }
 
 export default async function createOrganization(data : Props) : Promise<Result> {
@@ -37,27 +41,66 @@ export default async function createOrganization(data : Props) : Promise<Result>
 
     try {
 
-        const cols = [currentUser.user.id, data.name, data.slug,  ,new Date()]
+        const cols = [currentUser.user.id, data.name.trim(), data.slug.trim().toLowerCase() ,new Date()]
         const result = await query(`
-            INSERT INTO organizations (owner_id, name, slug, logo_id, created_at)
-            VALUES ($1, $2, $3, $4, $5)
+            INSERT INTO organizations (owner_id, name, slug, created_at)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id
         `, cols)
 
         if (!result) throw "A database error occurred"
 
         if (result.rowCount === 0) return { success: false, msg: "Could not create organization", status: 500 }
+        
+        const organization_id = result.rows[0].id
+
+        // UPLOAD LOGO
+        let logo_id = 1
+        if (data.logo) {
+            const uploadLogoResult = await uploadFile({ 
+                    src: data.logo.src,
+                    name: data.logo.name,
+                    size: data.logo.size,
+                    type: data.logo.type
+                },
+                {
+                    maxSize: 5 * 1024 * 1024,
+                    formats: ["image"],
+                    types: ["png", "jpg", "jpeg", "gif", "webp", "bmp", "svg", "apng", "ico", "tiff", "avif"]
+                },
+                "organization-logo"
+            )
+
+            if (uploadLogoResult.success) { logo_id = uploadLogoResult.file.id }
+            else return { success: true, msg: uploadLogoResult.msg, status: 400 } 
+
+        }
+
+        if (logo_id !== 1) {
+            const updateLogoCols = [logo_id, organization_id]
+            const updateLogoResult = await query(`
+                UPDATE organizations SET logo_id = $1 WHERE id = $2
+            `, updateLogoCols)
+
+            if (!updateLogoResult) return { success: true, msg: "Organization created but could not update logo", status: 500 }
+            if (updateLogoResult.rowCount !== 1) return { success: true, msg: "Organization created but could not update logo", status: 500 }
+        }
 
         return { 
             success: true,
-            msg: "User about information updated successfully",
+            msg: "Organization created successfully",
             status: 200,
+            data: {
+                id: organization_id,
+                slug: data.slug.trim().toLowerCase()
+            }
         }
 
     } catch (error : any) {
 
         if (error.code === '23505') return {
             success: false,
-            msg: "Slug already used",
+            msg: "Vanity URL is already in use",
             status: 400
         }
 

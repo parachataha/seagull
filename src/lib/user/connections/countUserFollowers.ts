@@ -1,15 +1,15 @@
 "use server"
 
-import { query } from "../database"
+import { query } from "../../database"
 
 interface Result {
     success: boolean,
     msg: string,
     status: number,
-    data?: number // the no. of following
+    data?: number // the no. of followers
 }
 
-export default async function countUserFollowing(id : number) : Promise<Result> {
+export default async function countUserFollowers(id : number) : Promise<Result> {
 
     if (!id) return { success: false, msg: "Invalid id", status: 400 }
 
@@ -17,18 +17,18 @@ export default async function countUserFollowing(id : number) : Promise<Result> 
 
         const cols = [id]
         const count = await query(`
-            SELECT COUNT(follower) 
+            SELECT COUNT(followed) 
             FROM followers 
-            WHERE follower = $1`,
+            WHERE followed = $1`,
             cols
         )
 
         if (!count) throw "A database error occurred";
 
-        const following : number = parseInt(count.rows[0].count)
+        const followers : number = parseInt(count.rows[0].count)
 
-        if (!following) return { success: true, msg: "No following", status: 200, data: 0 }
-        return { success: true, msg: "Count found", status: 200, data: following } 
+        if (!followers) return { success: true, msg: "No followers", status: 200, data: 0 }
+        return { success: true, msg: "Count found", status: 200, data: followers } 
 
     } catch (error) {
 

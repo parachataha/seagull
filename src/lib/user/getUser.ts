@@ -2,10 +2,10 @@
 
 import { query } from "../database"
 import getUserTags from "./getUserTags"
-import countUserFollowers from "./countUserFollowers"
-import countUserFollowing from "./countUserFollowing"
-import getUserFollowed from "./getUserFollowed"
-import getUserFollowers from "./getUserFollowers"
+import countUserFollowers from "./connections/countUserFollowers"
+import countUserFollowing from "./connections/countUserFollowing"
+import getUserFollowed from "./connections/getUserFollowed"
+import getUserFollowers from "./connections/getUserFollowers"
 
 // Types
 import { User } from "@/types/auth"

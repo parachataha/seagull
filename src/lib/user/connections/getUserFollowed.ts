@@ -1,5 +1,5 @@
 "use server";
-import { query } from "../database";
+import { query } from "../../database";
 
 // Types
 import { UserFollowed } from "@/types/user_followed";

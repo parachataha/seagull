@@ -6,7 +6,7 @@ import styles from "./page.module.css"
 
 // Types
 import { User } from "@/types/auth";
-import getUserFollowers from "@/lib/user/getUserFollowers";
+import getUserFollowers from "@/lib/user/connections/getUserFollowers";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 import HorizontalUserWidget from "@/app/components/User/summaries/HorizontalUserWidget/HorizontalUserWidget";

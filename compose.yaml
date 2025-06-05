@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:17
+    restart: always
+    environment:
+      - POSTGRES_USER=seagull_user
+      - POSTGRES_PASSWORD=sd9cj923fndghnidsnf3
+      - POSTGRES_DB=seagull
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  next-app:
+    build: .
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://seagull_user:sd9cj923fndghnidsnf3@localhost:5432/seagull
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    command: npm run dev
+
+volumes:
+  postgres_data:

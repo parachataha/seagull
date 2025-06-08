@@ -3,11 +3,11 @@
 import { RootState } from "@/app/redux/store";
 
 // 
-import createUser from "@/api/user/createUser";
+import login from "@/api/user/login";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export function SignupForm() {
+export function LoginForm() {
 
     const [error, setError] = useState({isError: false, msg: ""})
     const router = useRouter()
@@ -18,20 +18,18 @@ export function SignupForm() {
         const formData = new FormData(e.currentTarget);
         const formValues = Object.fromEntries(formData);
 
-        const data : {firstName: string, lastName: string, password: string, email: string, userAgent: string} = {
-            firstName: `${formValues.firstName}`.trim(), 
-            lastName: `${formValues.lastName}`.trim(),
+        const data : {password: string, email: string, userAgent: string} = {
             password: `${formValues.password}`.trim(), 
             email: `${formValues.email}`.trim(),
             userAgent: navigator.userAgent
         }
         
-        const result = await createUser(data)
+        const result = await login(data)
         console.log(result)
 
         if (result.success) {
             setError({isError: false, msg: result.msg})
-            router.push("/profile")
+            router.push(`/user/${result.user?.username}`)
         } else {
             setError({isError: true, msg: result.msg})
         }
@@ -39,17 +37,6 @@ export function SignupForm() {
     }
 
     return ( <form onSubmit={handleSubmit} className='flex flex-col gap-4 py-4'>
-
-        <div className="grid grid-cols-2 w-full gap-4">
-            <div className='flex flex-col'>
-                <label className='pb-1' htmlFor="first_name">First Name</label>
-                <input required name='firstName' className="grow " type="text" placeholder="John"/>
-            </div>
-            <div className='flex flex-col'>
-                <label className='pb-1' htmlFor="last_name">Last Name</label>
-                <input required name='lastName' className="grow " type="text" placeholder="Doe"/>
-            </div>
-        </div>
 
         <div className="flex flex-col">
             <label htmlFor="email">Email</label>

@@ -19,7 +19,7 @@ model User {
   lastName  String
   password  String
   username  String     @unique
-  bio       String?    @default("Hey I'm new here")
+  bio       String?
   label     String?
   tags      User_Tag[]
   sessions  Session[]

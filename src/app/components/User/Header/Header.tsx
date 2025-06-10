@@ -24,7 +24,7 @@ export default function Header({user} : UserType) {
 
             </div>
 
-            <p className='pt-3'> {user.bio && user.bio} </p>
+            {user.bio && <p className='pt-3'> user.bio </p>}
 
         </Widget>
 

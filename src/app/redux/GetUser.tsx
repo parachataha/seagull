@@ -37,7 +37,6 @@ export default function GetUser() {
         getUser();
 
         // USER PREFERENCES
-        
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         const theme = prefersDark ? 'dark' : 'light';
         localStorage.setItem('theme', theme);

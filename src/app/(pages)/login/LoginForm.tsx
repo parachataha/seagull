@@ -51,7 +51,7 @@ export function LoginForm() {
         {error.isError && <div>
             <p className="text-red-500"> {error.msg} </p>    
         </div>}
-        <button type='submit' className='mt-2 button !bg-white text-black'> Signup </button>
+        <button type='submit' className='mt-2 button !bg-foreground text-background'> Signup </button>
 
     </form> )
 }

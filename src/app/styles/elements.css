@@ -4,7 +4,7 @@ label {
 
 input {
     padding: 5px 10px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-secondary);
     border-radius: 10px;
 }
 

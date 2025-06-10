@@ -12,7 +12,7 @@ export default async function SignupPage() {
 
     return ( <div className=''>
 
-        <div className="grid grid-cols-2 min-h-[100vh]">
+        <div className="grid grid-cols-2 min-h-[100vh] items-center">
 
             <div className="py-10 px-5 flex flex-col max-w-[500px] m-auto">
                 <h1 className="text-3xl font-bold pt-4 pb-4">Login to Seagull</h1>

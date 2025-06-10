@@ -1,4 +1,6 @@
 import getUser from "@/api/user/get/getUser";
+import Header from "@/app/components/User/Header/Header";
+import { User } from "@/generated/prisma";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -19,13 +21,13 @@ export default async function UserLayout( {params, children} : Props ) {
 
     const user = result.user
 
-    return ( <div>
+    return ( <div className='wrapper'>
 
-        <header>
+        <div className="container h-full">
 
-            
+            <Header user={user}/>
 
-        </header>
+        </div>
 
     </div> )
 

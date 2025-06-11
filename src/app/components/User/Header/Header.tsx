@@ -9,9 +9,9 @@ interface UserType {
 
 export default function Header({user} : UserType) {
 
-    return ( <div>
+    return ( <div className='pt-7'>
 
-        <Widget>
+        <Widget className='!rounded-3xl'>
 
             <div className="flex gap-3 items-center">
 
@@ -19,13 +19,13 @@ export default function Header({user} : UserType) {
 
                 <div className="flex flex-col justify-center">
                     <h1 className='text-xl font-bold'> {user.firstName} {user.lastName} </h1>
-                    {user.label && <p className='text-lg text-grey'> {user.label} </p>}
+                    <p className='text-lg text-grey'> {user.label ? user.label : "Hey i'm new here"} </p>
                 </div>
 
             </div>
 
             {user.bio && <p className='pt-3'> user.bio </p>}
-
+        
         </Widget>
 
     </div> )

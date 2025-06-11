@@ -35,6 +35,14 @@ export default async function validateSession(token : string) : Promise<Validate
                     bio: true,
                     label: true,
                     createdAt: true,
+                    tags: {
+                        select: {
+                            userId: true,
+                            type: true,
+                            value: true,
+                            link: true
+                        }
+                    }
                 }
             }
         }

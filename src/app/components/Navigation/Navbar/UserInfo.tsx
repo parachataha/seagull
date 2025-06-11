@@ -5,7 +5,7 @@ import { RootState } from "@/app/redux/store"
 // 
 import { useSelector } from "react-redux"
 import UserToast from "../../User/UserToast/UserToast"
-import { FaAngleDown } from "react-icons/fa6";
+import { FaAngleDown, FaGear } from "react-icons/fa6";
 import Link from "next/link";
 
 export default function UserInfo() {
@@ -14,9 +14,14 @@ export default function UserInfo() {
 
     return ( <div className='flex justify-between items-center'>
 
-        <UserToast user={user}/>
+        {user.email !== "" ? <>
+            <UserToast user={user}/>
 
-        <Link href='/'> <FaAngleDown className='ml-9 text-xl' /> </Link>
+            <Link href='/settings'> <FaGear className='ml-9 text-xl' /> </Link>
+        </> : <div className='flex items-center gap-1'>
+            <Link href='/' className='p-1 bg-secondary rounded-sm text-[16px]'> Login </Link>
+            <Link href='/' className='p-1 bg-tertiary rounded-sm text-[16px]'> Sign up </Link>
+        </div>}
         
     </div>  )
 

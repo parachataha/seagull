@@ -3,8 +3,8 @@
 
 :root {
   --background: #ffffff;
-  --bg-secondary: #fbfbfb;
-  --bg-tertiary: #f3f3f3f3;
+  --bg-secondary: #f9f9f9;
+  --bg-tertiary: #f1f1f1;
 
   --foreground: #181818;
   --grey: #c7c7c7;
@@ -19,13 +19,14 @@
   
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --background-image-purple-blur-1: url("/images/vectors/purple-blur-1.svg")
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #131313;
     --bg-secondary: #1c1c1c;
-    --bg-tertiary: #202020;
+    --bg-tertiary: #252525;
 
     --foreground: #ededed;
     --grey: #575757;
@@ -53,4 +54,12 @@ body {
   margin: 0 auto;
   padding-left: 20px;
   padding-right: 20px;
+}
+
+.page {
+  padding-top: 20px;
+}
+
+button {
+  cursor: pointer;
 }

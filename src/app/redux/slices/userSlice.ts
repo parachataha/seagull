@@ -1,10 +1,11 @@
-import { User } from "@/generated/prisma";
+import { User, User_Tag } from "@/generated/prisma";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type UserType = Omit<User, 'password' | 'createdAt'> & {
   createdAt: string | Date
   password?: string | null,
-  userAgent?: string | null
+  userAgent?: string | null,
+  tags?: User_Tag[]
 };
 
 const initialState: UserType = {
@@ -16,7 +17,8 @@ const initialState: UserType = {
   createdAt: "",
   bio: "",
   label: "",
-  userAgent: "null"
+  userAgent: "null",
+  tags: []
 };
 
 

@@ -6,7 +6,7 @@ interface PropsTypes {
 
 export default function Widget( {children, className} : PropsTypes ) {
 
-    return ( <div className={`bg-secondary border-2 border-tertiary rounded-3xl p-3 m-5 ${className}`}>
+    return ( <div className={`bg-secondary border-2 border-tertiary rounded-lg p-3 ${className}`}>
 
         {children}
 

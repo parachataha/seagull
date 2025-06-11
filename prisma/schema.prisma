@@ -26,11 +26,13 @@ model User {
 }
 
 model User_Tag {
-  id     Int     @id @default(autoincrement())
   user   User    @relation(fields: [userId], references: [id])
   userId Int
   value  String
+  type   String?
   link   String?
+
+  @@id([userId, value])
 }
 
 model Session {

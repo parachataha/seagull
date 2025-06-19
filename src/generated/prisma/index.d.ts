@@ -3375,26 +3375,29 @@ export namespace Prisma {
 
   export type SessionMinAggregateOutputType = {
     id: string | null
+    userId: number | null
+    userAgent: string | null
+    secretHash: Uint8Array | null
     createdAt: Date | null
     expiresAt: Date | null
-    userAgent: string | null
-    userId: number | null
   }
 
   export type SessionMaxAggregateOutputType = {
     id: string | null
+    userId: number | null
+    userAgent: string | null
+    secretHash: Uint8Array | null
     createdAt: Date | null
     expiresAt: Date | null
-    userAgent: string | null
-    userId: number | null
   }
 
   export type SessionCountAggregateOutputType = {
     id: number
+    userId: number
+    userAgent: number
+    secretHash: number
     createdAt: number
     expiresAt: number
-    userAgent: number
-    userId: number
     _all: number
   }
 
@@ -3409,26 +3412,29 @@ export namespace Prisma {
 
   export type SessionMinAggregateInputType = {
     id?: true
+    userId?: true
+    userAgent?: true
+    secretHash?: true
     createdAt?: true
     expiresAt?: true
-    userAgent?: true
-    userId?: true
   }
 
   export type SessionMaxAggregateInputType = {
     id?: true
+    userId?: true
+    userAgent?: true
+    secretHash?: true
     createdAt?: true
     expiresAt?: true
-    userAgent?: true
-    userId?: true
   }
 
   export type SessionCountAggregateInputType = {
     id?: true
+    userId?: true
+    userAgent?: true
+    secretHash?: true
     createdAt?: true
     expiresAt?: true
-    userAgent?: true
-    userId?: true
     _all?: true
   }
 
@@ -3520,10 +3526,11 @@ export namespace Prisma {
 
   export type SessionGroupByOutputType = {
     id: string
+    userId: number
+    userAgent: string
+    secretHash: Uint8Array
     createdAt: Date
     expiresAt: Date
-    userAgent: string | null
-    userId: number | null
     _count: SessionCountAggregateOutputType | null
     _avg: SessionAvgAggregateOutputType | null
     _sum: SessionSumAggregateOutputType | null
@@ -3547,61 +3554,66 @@ export namespace Prisma {
 
   export type SessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    userAgent?: boolean
+    secretHash?: boolean
     createdAt?: boolean
     expiresAt?: boolean
-    userAgent?: boolean
-    userId?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    userAgent?: boolean
+    secretHash?: boolean
     createdAt?: boolean
     expiresAt?: boolean
-    userAgent?: boolean
-    userId?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    userAgent?: boolean
+    secretHash?: boolean
     createdAt?: boolean
     expiresAt?: boolean
-    userAgent?: boolean
-    userId?: boolean
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["session"]>
 
   export type SessionSelectScalar = {
     id?: boolean
+    userId?: boolean
+    userAgent?: boolean
+    secretHash?: boolean
     createdAt?: boolean
     expiresAt?: boolean
-    userAgent?: boolean
-    userId?: boolean
   }
 
-  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "expiresAt" | "userAgent" | "userId", ExtArgs["result"]["session"]>
+  export type SessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "userAgent" | "secretHash" | "createdAt" | "expiresAt", ExtArgs["result"]["session"]>
   export type SessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type SessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | Session$userArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $SessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Session"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: number
+      userAgent: string
+      secretHash: Uint8Array
       createdAt: Date
       expiresAt: Date
-      userAgent: string | null
-      userId: number | null
     }, ExtArgs["result"]["session"]>
     composites: {}
   }
@@ -3996,7 +4008,7 @@ export namespace Prisma {
    */
   export interface Prisma__SessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends Session$userArgs<ExtArgs> = {}>(args?: Subset<T, Session$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4027,10 +4039,11 @@ export namespace Prisma {
    */
   interface SessionFieldRefs {
     readonly id: FieldRef<"Session", 'String'>
+    readonly userId: FieldRef<"Session", 'Int'>
+    readonly userAgent: FieldRef<"Session", 'String'>
+    readonly secretHash: FieldRef<"Session", 'Bytes'>
     readonly createdAt: FieldRef<"Session", 'DateTime'>
     readonly expiresAt: FieldRef<"Session", 'DateTime'>
-    readonly userAgent: FieldRef<"Session", 'String'>
-    readonly userId: FieldRef<"Session", 'Int'>
   }
     
 
@@ -4427,25 +4440,6 @@ export namespace Prisma {
   }
 
   /**
-   * Session.user
-   */
-  export type Session$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
    * Session without action
    */
   export type SessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4505,10 +4499,11 @@ export namespace Prisma {
 
   export const SessionScalarFieldEnum: {
     id: 'id',
-    createdAt: 'createdAt',
-    expiresAt: 'expiresAt',
+    userId: 'userId',
     userAgent: 'userAgent',
-    userId: 'userId'
+    secretHash: 'secretHash',
+    createdAt: 'createdAt',
+    expiresAt: 'expiresAt'
   };
 
   export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
@@ -4582,6 +4577,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
     
 
 
@@ -4740,19 +4749,21 @@ export namespace Prisma {
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
     id?: StringFilter<"Session"> | string
+    userId?: IntFilter<"Session"> | number
+    userAgent?: StringFilter<"Session"> | string
+    secretHash?: BytesFilter<"Session"> | Uint8Array
     createdAt?: DateTimeFilter<"Session"> | Date | string
     expiresAt?: DateTimeFilter<"Session"> | Date | string
-    userAgent?: StringNullableFilter<"Session"> | string | null
-    userId?: IntNullableFilter<"Session"> | number | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type SessionOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
+    userAgent?: SortOrder
+    secretHash?: SortOrder
     createdAt?: SortOrder
     expiresAt?: SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
   }
 
@@ -4761,19 +4772,21 @@ export namespace Prisma {
     AND?: SessionWhereInput | SessionWhereInput[]
     OR?: SessionWhereInput[]
     NOT?: SessionWhereInput | SessionWhereInput[]
+    userId?: IntFilter<"Session"> | number
+    userAgent?: StringFilter<"Session"> | string
+    secretHash?: BytesFilter<"Session"> | Uint8Array
     createdAt?: DateTimeFilter<"Session"> | Date | string
     expiresAt?: DateTimeFilter<"Session"> | Date | string
-    userAgent?: StringNullableFilter<"Session"> | string | null
-    userId?: IntNullableFilter<"Session"> | number | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type SessionOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
+    userAgent?: SortOrder
+    secretHash?: SortOrder
     createdAt?: SortOrder
     expiresAt?: SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
     _count?: SessionCountOrderByAggregateInput
     _avg?: SessionAvgOrderByAggregateInput
     _max?: SessionMaxOrderByAggregateInput
@@ -4786,10 +4799,11 @@ export namespace Prisma {
     OR?: SessionScalarWhereWithAggregatesInput[]
     NOT?: SessionScalarWhereWithAggregatesInput | SessionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Session"> | string
+    userId?: IntWithAggregatesFilter<"Session"> | number
+    userAgent?: StringWithAggregatesFilter<"Session"> | string
+    secretHash?: BytesWithAggregatesFilter<"Session"> | Uint8Array
     createdAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
     expiresAt?: DateTimeWithAggregatesFilter<"Session"> | Date | string
-    userAgent?: StringNullableWithAggregatesFilter<"Session"> | string | null
-    userId?: IntNullableWithAggregatesFilter<"Session"> | number | null
   }
 
   export type UserCreateInput = {
@@ -4931,57 +4945,64 @@ export namespace Prisma {
 
   export type SessionCreateInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
-    user?: UserCreateNestedOneWithoutSessionsInput
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
+    user: UserCreateNestedOneWithoutSessionsInput
   }
 
   export type SessionUncheckedCreateInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
-    userId?: number | null
+    userId: number
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type SessionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    user?: UserUpdateOneWithoutSessionsNestedInput
+    user?: UserUpdateOneRequiredWithoutSessionsNestedInput
   }
 
   export type SessionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SessionCreateManyInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
-    userId?: number | null
+    userId: number
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type SessionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -5210,28 +5231,20 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
+  export type BytesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Uint8Array
   }
 
   export type SessionCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    userAgent?: SortOrder
+    secretHash?: SortOrder
     createdAt?: SortOrder
     expiresAt?: SortOrder
-    userAgent?: SortOrder
-    userId?: SortOrder
   }
 
   export type SessionAvgOrderByAggregateInput = {
@@ -5240,38 +5253,34 @@ export namespace Prisma {
 
   export type SessionMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    userAgent?: SortOrder
+    secretHash?: SortOrder
     createdAt?: SortOrder
     expiresAt?: SortOrder
-    userAgent?: SortOrder
-    userId?: SortOrder
   }
 
   export type SessionMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    userAgent?: SortOrder
+    secretHash?: SortOrder
     createdAt?: SortOrder
     expiresAt?: SortOrder
-    userAgent?: SortOrder
-    userId?: SortOrder
   }
 
   export type SessionSumOrderByAggregateInput = {
     userId?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type BytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Uint8Array
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type User_TagCreateNestedManyWithoutUserInput = {
@@ -5398,22 +5407,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneWithoutSessionsNestedInput = {
+  export type BytesFieldUpdateOperationsInput = {
+    set?: Uint8Array
+  }
+
+  export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
     upsert?: UserUpsertWithoutSessionsInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5552,31 +5555,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type NestedBytesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Uint8Array
   }
 
-  export type NestedFloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  export type NestedBytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Uint8Array
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
   }
 
   export type User_TagCreateWithoutUserInput = {
@@ -5603,16 +5596,18 @@ export namespace Prisma {
 
   export type SessionCreateWithoutUserInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type SessionUncheckedCreateWithoutUserInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type SessionCreateOrConnectWithoutUserInput = {
@@ -5672,10 +5667,11 @@ export namespace Prisma {
     OR?: SessionScalarWhereInput[]
     NOT?: SessionScalarWhereInput | SessionScalarWhereInput[]
     id?: StringFilter<"Session"> | string
+    userId?: IntFilter<"Session"> | number
+    userAgent?: StringFilter<"Session"> | string
+    secretHash?: BytesFilter<"Session"> | Uint8Array
     createdAt?: DateTimeFilter<"Session"> | Date | string
     expiresAt?: DateTimeFilter<"Session"> | Date | string
-    userAgent?: StringNullableFilter<"Session"> | string | null
-    userId?: IntNullableFilter<"Session"> | number | null
   }
 
   export type UserCreateWithoutTagsInput = {
@@ -5818,9 +5814,10 @@ export namespace Prisma {
 
   export type SessionCreateManyUserInput = {
     id: string
-    createdAt: Date | string
-    expiresAt?: Date | string
-    userAgent?: string | null
+    userAgent: string
+    secretHash: Uint8Array
+    createdAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type User_TagUpdateWithoutUserInput = {
@@ -5843,23 +5840,26 @@ export namespace Prisma {
 
   export type SessionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userAgent?: StringFieldUpdateOperationsInput | string
+    secretHash?: BytesFieldUpdateOperationsInput | Uint8Array
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

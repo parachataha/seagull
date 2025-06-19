@@ -141,10 +141,11 @@ exports.Prisma.User_TagScalarFieldEnum = {
 
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
-  createdAt: 'createdAt',
-  expiresAt: 'expiresAt',
+  userId: 'userId',
   userAgent: 'userAgent',
-  userId: 'userId'
+  secretHash: 'secretHash',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt'
 };
 
 exports.Prisma.SortOrder = {

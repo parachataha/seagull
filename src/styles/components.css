@@ -1,0 +1,28 @@
+.wrapper {
+  /*
+   * Used on every page to ensure content is centralized
+  */
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  /*
+   * Wraps all content to ensure content is centralized
+  */
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 20px;
+}
+
+.page {
+  /*
+   * Ensures pages are all the correct height with the correct amount of padding from Navbar
+  */
+  min-height: 80vh;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

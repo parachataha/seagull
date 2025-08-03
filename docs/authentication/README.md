@@ -15,10 +15,10 @@ parsed (signified by the dot) to easily return both the `id` and `secret`. The
 `id` is used to query the database and the client's `session` value is hashed
 and compared to the `hashedSecret` stored in the database. If the comparison is
 successful, the cookie is validated and the user can perform tasks.
-<br> In order for no timing attacks to take place, we use a constantTime hash
-comparison validation check to ensure attackers cannot guess the session
-hashedSecret_
-<br> Both `id` and `secret` are generate by the same
+<br> <br> _In order for no timing attacks to take place, we use a constant-time
+hash comparison validation check to ensure attackers cannot guess the session
+`hashedSecret`._
+<br> <br> Both `id` and `secret` are generate by the same
 [generateSecureString function](https://github.com/parachataha/seagull/blob/main/src/lib/sessions/generateSecureString.ts).
 This generates a long string made up of a-z, 1-9 (excluding o, 0, i, l and 1 for
 clarity).

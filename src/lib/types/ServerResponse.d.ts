@@ -1,6 +1,8 @@
 
 /**
  * All server actions returns a Promise of @type ServerResponse. (Although may extend the type to include user/other data)
+ * To customize the @type `data`, use the prop T. 
+ * @example SuccessResponse<{user: User, session: Session}>
  */
 
 import { User } from "@/generated/prisma"

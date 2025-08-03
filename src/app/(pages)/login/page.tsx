@@ -11,7 +11,9 @@ export default function LoginPage() {
 
     return ( <Page>
 
-        <form>
+        <form className="flex flex-col gap-2">
+
+            <h1 className="text-2xl">Login</h1>
 
             <Input
                 placeholder="Enter name"

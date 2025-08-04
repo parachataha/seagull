@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default async function useCurrentUser() : Promise<null> {
+export default function useCurrentUser() : null {
 
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);

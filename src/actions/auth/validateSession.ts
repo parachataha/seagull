@@ -18,6 +18,7 @@ import invalidateSession, { deleteClientSession } from "./invalidateSession";
 
 // Next.js and misc
 import { cookies } from "next/headers";
+import constantTimeEqual from "@/lib/sessions/constantTimeEqual";
 
 export interface SuccessDataType {
     user: SafeUser;
@@ -105,7 +106,6 @@ export default async function validateSession( userAgent: string | null ) : Prom
          * Check if session is expired or not.
          * If so: invalidate the session
          */
-        const now = new Date();
         const nowSeconds = Math.floor(Date.now() / 1000)
         if (nowSeconds > result.expiresAt) {
             // Delete session from db and client
@@ -131,6 +131,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
 
     } catch (error : any) {
 
+        console.log(error)
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 
     }

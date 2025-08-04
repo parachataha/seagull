@@ -9,11 +9,11 @@ import generateSecureRandomString from "@/lib/sessions/generateSecureString";
 import hashSecret from "@/lib/sessions/hashSecret";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { SessionWithToken } from "@/lib/types/Session";
-import { SafeSession, SafeUser } from "@/lib/types/User";
+import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
 import { idSchema, userAgentSchema } from "@/schemas/user";
 import { cookies } from "next/headers";
 
-export type SuccessDataType = SafeSession
+export type SuccessDataType = SafeSessionWithToken
 
 export default async function createSession( userId: number, userAgent: string | null ) : Promise<ServerResponse<SuccessDataType>> {
 

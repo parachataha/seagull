@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import Container from "@/components/layout/Container";
 import Navbar from "@/components/layout/Navbar";
 import ReduxProvider from "./redux/ReduxProvider";
+import UserProvider from "@/components/providers/UserProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,11 @@ export default function RootLayout({
       >
 
         <ReduxProvider>
+
+          {/* PROVIDERS */}
+          {/* Used to fetch data on page-load */}
+          <UserProvider />
+
           <Container>
             <Navbar />
           </Container>

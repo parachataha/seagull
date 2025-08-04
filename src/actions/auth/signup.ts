@@ -10,11 +10,11 @@ import hashPass from "@/lib/password/hashPass";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { emailSchema, nameSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
 import createSession from "./createSession";
-import { SafeSession, SafeUser } from "@/lib/types/User";
+import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
 
 export interface SuccessDataType {
     user: Partial<SafeUser>,
-    session: SafeSession
+    session: SafeSessionWithToken
 }
 
 export default async function signup( { name, email, password, userAgent } : { name: string, email: string, password: string, userAgent: string | null } ) : Promise<ServerResponse<SuccessDataType>> {

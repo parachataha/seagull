@@ -15,5 +15,5 @@ const userAgentSchema = z
     .regex(/^[\x20-\x7E]+$/, {
         message: "User agent contains invalid characters",
     })
-s
+
 export { nameSchema, emailSchema, passwordSchema, userAgentSchema, idSchema }

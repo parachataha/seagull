@@ -35,7 +35,7 @@ export default async function useCurrentUser() : Promise<null> {
     async function handleValidateSession() {
 
         await handleServerAction(
-            validateSession(),
+            validateSession( navigator.userAgent || null ),
             {
                 setLoading,
                 setError,

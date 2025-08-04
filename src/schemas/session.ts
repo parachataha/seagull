@@ -21,4 +21,4 @@ const tokenPartSchema = z
         message: "Session id contains invalid characters",
 })
 
-export { tokenSchema }
+export { tokenSchema, tokenPartSchema }

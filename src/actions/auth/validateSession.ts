@@ -3,20 +3,34 @@
  * Check if a user has a `session` cookie, and validate it to ensure if the user is not fraudulent
  */
 
-import { ServerResponse } from "@/lib/types/ServerResponse";
-import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
+// Zod schemas
 import { tokenSchema } from "@/schemas/session";
-import { cookies } from "next/headers";
-import { deleteClientSession } from "./invalidateSession";
+import { userAgentSchema } from "@/schemas/user";
+
+// Lib
 import prisma from "@/lib/db";
+import hashSecret from "@/lib/sessions/hashSecret";
+import { ServerResponse } from "@/lib/types/ServerResponse";
+import { SafeUser } from "@/lib/types/User";
+
+// Server actions
+import invalidateSession, { deleteClientSession } from "./invalidateSession";
+
+// Next.js and misc
+import { cookies } from "next/headers";
 
 export interface SuccessDataType {
     user: SafeUser;
 } 
 
-export default async function validateSession() : Promise<ServerResponse<SuccessDataType>> {
+export default async function validateSession( userAgent: string | null ) : Promise<ServerResponse<SuccessDataType>> {
 
     try {
+
+        /**
+         * Validate userAgent if any
+         */
+        if (userAgent && !userAgentSchema.safeParse(userAgent).success) return { success: false, msg: "Invalid user agent", status: 400 }
 
         const cookieStore = await cookies()
 
@@ -49,8 +63,8 @@ export default async function validateSession() : Promise<ServerResponse<Success
             return { success: false, msg: "Invalid token", status: 400 } 
         }
 
-        const sessionId = tokenParts[0]
-        const sessionSecret = tokenParts[1]
+        const sessionId = tokenParts[0] // Used to query DB
+        const sessionSecret = tokenParts[1] // Hashed to compare against DB hashedSecret
 
         /**
          * Fetch the session from the database
@@ -60,14 +74,49 @@ export default async function validateSession() : Promise<ServerResponse<Success
                 id: sessionId
             },
             select: {
+                userAgent: true,
+                secretHash: true,
+                expiresAt: true,
                 user: true
             }
         })
         
         if (!result) throw new Error("Database internal error")
 
-        // Remove password
-        delete (result.user as any).password;
+        /** 
+         * For added security, check if userAgent is the same to prevent session-stealing
+         */
+        if (userAgent !== result.userAgent) {
+            deleteClientSession()
+            return { success: false, msg: "Session devices do not match", status: 403 };
+        }
+
+        /**
+         * Check if session is valid
+         */
+        const tokenSecretHash = await hashSecret(sessionSecret); // Hash client token's secret
+        const validSecret = constantTimeEqual(tokenSecretHash, result.secretHash);
+        if (!validSecret) {
+            deleteClientSession()
+            return { success: false, msg: "Invalid session", status: 403 };
+        }
+
+        /**
+         * Check if session is expired or not.
+         * If so: invalidate the session
+         */
+        const now = new Date();
+        const nowSeconds = Math.floor(Date.now() / 1000)
+        if (nowSeconds > result.expiresAt) {
+            // Delete session from db and client
+
+            const result = await invalidateSession(sessionId); 
+            if (!result.success) return { success: false, msg: result.msg, status: result.status }
+
+            return { success: false, msg: "Session expired", status: 401 };
+        }
+
+        delete (result.user as any).password; // Remove password to return to client
 
         return {
             success: true, 

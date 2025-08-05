@@ -68,6 +68,7 @@ export default function SignupPage() {
                 {loading && <p> Loading </p>}
 
                 <Input
+                    name="name"
                     placeholder="Enter name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -93,8 +94,6 @@ export default function SignupPage() {
             </form>
             
         </Container>
-
-
 
     </Page> )
 }

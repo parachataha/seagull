@@ -82,13 +82,15 @@ export default async function validateSession( userAgent: string | null ) : Prom
             }
         })
         
-        if (!result) throw new Error("Database internal error")
+        if (!result) {
+            deleteClientSession()
+            return { success: false, msg: "Invalid session", status: 400 }
+        }
 
         /** 
          * For added security, check if userAgent is the same to prevent session-stealing
          */
         if (userAgent !== result.userAgent) {
-            console.log(userAgent, result.userAgent)
             deleteClientSession()
             return { success: false, msg: "Session devices do not match", status: 403 };
         }
@@ -132,7 +134,6 @@ export default async function validateSession( userAgent: string | null ) : Prom
 
     } catch (error : any) {
 
-        console.log(error)
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 
     }

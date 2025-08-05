@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -14,6 +8,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// USER PROFILE DATA
 model User {
   id        Int     @id @default(autoincrement())
   name      String
@@ -21,13 +16,44 @@ model User {
   slug      String? @unique
   password  String
   bio       String?
-  avatarUrl String?
+  label     String?
+  avatarId  Int     @default(1)
   createdAt Int
   updatedAt Int?
 
   sessions Session[]
+  avatar   Image?      @relation(fields: [avatarId], references: [id])
+  images   Image[]     @relation("UserImages")
+  Skill    UserSkill[]
 }
 
+model UserSkill {
+  id       Int         @id @default(autoincrement())
+  name     String
+  userId   Int
+  parentId Int?
+  color    String      @default("255, 255, 255")
+  parent   UserSkill?  @relation("SkillHierarchy", fields: [parentId], references: [id])
+  children UserSkill[] @relation("SkillHierarchy")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([name, userId, parentId]) // Prevents duplicate skills per user under same parent
+}
+
+model Image {
+  id        Int    @id @default(autoincrement())
+  name      String
+  url       String
+  size      Int
+  userId    Int?
+  createdAt Int
+
+  user User?  @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
+  User User[]
+}
+
+// AUTHENTICATION
 model Session {
   user       User    @relation(fields: [userId], references: [id])
   id         String  @id

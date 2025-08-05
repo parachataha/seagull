@@ -1,10 +1,9 @@
 "use server"
 
-import invalidateSession, { deleteClientSession } from "@/actions/auth/invalidateSession"
+import invalidateSession from "@/actions/auth/invalidateSession"
 import validateSession from "@/actions/auth/validateSession"
 import prisma from "@/lib/db"
 import { slugSchema } from "@/schemas/user"
-import { success } from "zod"
 
 /**
  * First validates the user cookie, and updates the authenticated user's slug
@@ -39,7 +38,7 @@ export default async function updateSlug( { oldSlug, newSlug, userAgent } : { ol
         if (user.slug?.trim().toLowerCase() === newSlug.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304 }
         if (user.slug && user.slug?.trim().toLowerCase() !== oldSlug?.trim().toLowerCase()) { 
             invalidateSession()
-            return { success: false, msg: "Not modified", status: 304 }
+            return { success: false, msg: "User provided slug does not match database", status: 400 }
         }
 
         /**

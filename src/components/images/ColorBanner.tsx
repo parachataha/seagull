@@ -53,14 +53,16 @@ const getDominantHexColorFromURL = async (imageUrl: string): Promise<string> => 
     })
 }
 
-export default function ColorBanner( {imageURL, className, children} : {imageURL: string, className?: string, children?: React.ReactNode} ) {
+const defaultAvatar = "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MWkJFTETqQ9siFb6I2MDh07RmWVynLSBzdeX3q"
 
-    const [color, setColor] = useState<string>("#FFFFFF")
+export default function ColorBanner( {imageURL = defaultAvatar, className, children} : {imageURL: string, className?: string, children?: React.ReactNode} ) {
+
+    const [color, setColor] = useState<string>("#332700")
 
     useEffect(() => {
         const run = async () => {
             const colorValue = await getDominantHexColorFromURL(imageURL)
-            console.log("Dominant hex:", colorValue)
+
             setColor(colorValue)
         }
         run()

@@ -15,11 +15,17 @@ model User {
   email     String  @unique
   slug      String? @unique
   password  String
-  bio       String?
+  about     String?
   label     String?
   avatarId  Int     @default(1)
   createdAt Int
   updatedAt Int?
+
+  // Optional information to provide more public details
+  location  String?
+  timezone  String?
+  startWork Int?
+  endWork   Int?
 
   sessions Session[]
   avatar   Image?      @relation(fields: [avatarId], references: [id])

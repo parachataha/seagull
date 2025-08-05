@@ -26,6 +26,8 @@ export default async function handleServerAction<T> (
         // Run the server action
         const result = await action
 
+        console.log(result)
+
         // The server action had no response
         if (!result) {
             options.setError( { isError: true, msg: "An internal server error occurred" } );

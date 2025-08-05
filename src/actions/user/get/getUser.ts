@@ -27,12 +27,18 @@ export default async function getUser({slug, userAgent} : { slug: string, userAg
             select: {
                 id: true,
                 name: true,
-                bio: true, 
+                about: true, 
                 label: true,
                 avatarId: true,
                 slug: true,
                 createdAt: true,
                 updatedAt: true,
+
+                location: true,
+                timezone: true,
+                startWork: true,
+                endWork: true,
+
                 avatar: {
                     select: {
                         id: true,
@@ -45,6 +51,8 @@ export default async function getUser({slug, userAgent} : { slug: string, userAg
 
         if (!user) return { success: false, msg: "No user found", status: 404 }
         
+        console.log(user)
+
         return {
             success: true,
             msg: "User found",

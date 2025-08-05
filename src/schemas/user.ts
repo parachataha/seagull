@@ -4,6 +4,8 @@ const idSchema = z.number().min(0)
 
 const nameSchema = z.string().min(2).max(50)
 
+const labelSchema = z.string().max(250)
+
 const slugSchema = z
   .string()
   .min(1, { message: "Cannot be empty" })
@@ -25,4 +27,4 @@ const userAgentSchema = z
         message: "User agent contains invalid characters",
     })
 
-export { nameSchema, slugSchema, emailSchema, passwordSchema, userAgentSchema, idSchema }
+export { nameSchema, labelSchema, slugSchema, emailSchema, passwordSchema, userAgentSchema, idSchema }

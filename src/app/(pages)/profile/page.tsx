@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 
 import Container from "@/components/layout/Container";
 import { useRouter } from "next/navigation";
+import { Card, CardContent } from "@/components/ui/card";
+import BasicDetails from "./components/BasicDetails";
 
 export default function page() {
 
@@ -20,16 +22,28 @@ export default function page() {
          */
         if (user.slug === null) {
             router.push("/profile/slug")
-        } else if (user.avatarUrl === null) {
-            router.push("/profile/avatar")
         }
         
     }, [user])
     
-    return ( <Container>
-        
-        <h1 className="text-2xl font-semibold"> Profile </h1>
+    return ( <div className="flex flex-col lg:flex-row gap-4">
 
-    </Container>
+        <Card className="px-5 grow">
+
+            <h3 className="text-lg font-medium"> Edit Details </h3>
+
+        <BasicDetails />
+
+
+        </Card>
+
+
+        <Card className="px-5">
+
+            <h3 className="font-medium"> Profile Completion </h3>
+
+        </Card>
+
+    </div>
     );
 }

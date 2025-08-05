@@ -74,9 +74,9 @@ export default async function signup( { name, email, password, userAgent } : { n
                     name: result.name,
                     email: result.email,
                     createdAt: result.createdAt,
-                    slug: result.slug,
-                    bio: result.bio,
-                    avatarUrl: result.avatarUrl
+                    slug: null,
+                    about: null,
+                    avatarId: 1,
                 },
                 session: {
                     id: createSessionResult.data.id,

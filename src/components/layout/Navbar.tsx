@@ -13,7 +13,7 @@ export default function Navbar( { className } : { className?: string } ) {
             <div className="flex gap-4">
                 <Link href='/profile'> Profile </Link>
                 <Link href='/signup'> Signup </Link>
-                <Link href='/'> People </Link>
+                <Link href='/login'> Login </Link>
             </div>
 
             <div className="flex items-center gap-2 border-l border-l-foreground/10 pl-3">

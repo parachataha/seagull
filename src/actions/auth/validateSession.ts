@@ -38,15 +38,15 @@ export default async function validateSession( userAgent: string | null ) : Prom
         /**
          * Check if cookie exists
          */
-        if (!cookieStore.get("session")) return { success: false, msg: "Not authenticated", status: 400 } // Using status 400 because we do not want to redirect the user to /login
-        if (!cookieStore.get("session")?.value) return { success: false, msg: "Not authenticated", status: 400 } // Using status 400 because we do not want to redirect the user to /login
+        if (!cookieStore.get("session")) return { success: false, msg: "Not authenticated", status: 401 } // Using status 400 because we do not want to redirect the user to /login
+        if (!cookieStore.get("session")?.value) return { success: false, msg: "Not authenticated", status: 401 } // Using status 400 because we do not want to redirect the user to /login
 
         /**
          * Check if the cookie is formatted correctly 
          */
         if (!tokenSchema.safeParse(cookieStore.get("session")?.value).success) { 
             deleteClientSession()
-            return { success: false, msg: "Invalid token", status: 400 }
+            return { success: false, msg: "Invalid token", status: 401 }
         }
         
         /**
@@ -61,7 +61,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
          */
         if (tokenParts?.length !== 2) { 
             deleteClientSession()
-            return { success: false, msg: "Invalid token", status: 400 } 
+            return { success: false, msg: "Invalid token", status: 401 } 
         }
 
         const sessionId = tokenParts[0] // Used to query DB
@@ -78,13 +78,38 @@ export default async function validateSession( userAgent: string | null ) : Prom
                 userAgent: true,
                 secretHash: true,
                 expiresAt: true,
-                user: true
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        about: true,
+                        label: true,
+                        avatarId: true,
+                        slug: true,
+                        createdAt: true,
+                        updatedAt: true,
+
+                        location: true,
+                        timezone: true,
+                        startWork: true,
+                        endWork: true,
+                        avatar: {
+                            select: {
+                                url: true,
+                                id: true,
+                                size: true, 
+                                createdAt: true,
+                            }
+                        }
+                    }
+                }
             }
         })
         
         if (!result) {
             deleteClientSession()
-            return { success: false, msg: "Invalid session", status: 400 }
+            return { success: false, msg: "Invalid session", status: 401 }
         }
 
         /** 

@@ -8,3 +8,9 @@
     background-size: cover;
     background-position: 50%;
 }
+
+.bg-gradient-glow { 
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), white, rgba(255, 255, 255, 0));
+    background-repeat: no-repeat;
+    background-size: contain;
+}

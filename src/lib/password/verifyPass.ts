@@ -11,7 +11,8 @@ export default async function verifyPass(hash : string, password : string) : Pro
         if (await argon2.verify(hash, password)) {
             return { success: true, status: 200, msg: "Correct password" }
         } else {
-            return { success: false, status: 401, msg: "Incorrect password" }
+            // Return an ambiguous message to prevent attackers from identifying who has an account
+            return { success: false, status: 400, msg: "Email or password is incorrect" }
         }
 
     } catch (error) {

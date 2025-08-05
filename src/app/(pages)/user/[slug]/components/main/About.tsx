@@ -8,7 +8,7 @@ export default function About( { user, className } : { user: PublicSafeUser, cla
         <CardContent>
             <article>
                 <h3 className="text-foreground/30 font-semibold"> About </h3>
-                {user.bio || "👋 Hey, im new here"}
+                {user.about || "👋 Hey, im new here"}
             </article>
         </CardContent>
 

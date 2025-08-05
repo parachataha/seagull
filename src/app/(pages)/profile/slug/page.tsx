@@ -101,10 +101,10 @@ export default function page() {
                         </div>
 
                         {/* SUCCESS/ERROR MESSAGES */}
-                        {error.isError && <p className="text-red-500"> {error.msg} </p>}
+                        {error.isError && <p className="text-red-400"> {error.msg} </p>}
                         {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
 
-                        <Button disabled={loading} type="submit" className="mt-3"> {success.isSuccess ? "Saving..." : "Check Availability"} </Button>
+                        <Button variant="secondary" disabled={loading} type="submit" className="mt-3"> {success.isSuccess ? "Saving..." : "Check Availability"} </Button>
                     </form>
                 </CardContent>
 

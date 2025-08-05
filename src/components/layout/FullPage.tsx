@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export default function FullPage( { children, className } : { children: React.ReactNode, className?: string } ) {
     
-    return ( <div className={`wrapper page absolute top-0 left-0 w-full h-full bg-background ${className}`}>
+    return ( <div className={`wrapper page fixed z-10 top-0 left-0 w-full h-full bg-background ${className}`}>
         
         {children}
 

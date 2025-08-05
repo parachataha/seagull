@@ -7,7 +7,7 @@ export default function Qualifications( { user, className } : { user: PublicSafe
 
         <CardContent>
             <h3 className="text-foreground/30 font-semibold"> Qualifications </h3>
-            {user.bio || "Coming soon"}
+            {/* {user.about || "Coming soon"} */}
         </CardContent>
 
     </Card>

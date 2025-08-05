@@ -59,18 +59,25 @@ All return values follow the convention of
 <br> `401` - `Not authenticated` - If a user has no `session` cookie value
 <br> `401` - `Invalid token` - If the provided session value does not match the
 token schema. This also deletes the client session as a basic security measure
-`<br>`401`-`Invalid
-token`- If the token is valid but does not contain exactly 2 parts (id and secret)
-<br>`401`-`Invalid
-session`- If the token is valid but does not exist in the database
-<br>`403`-`Session
+<br> `401`-`Invalid
+token`- If the token is valid but does not contain exactly 2
+parts (id and secret)
+<br> `401`-`Invalid
+session`- If the token is valid but does not exist in the
+database
+<br> `403`-`Session
 devices do not
-match`- If the userAgent value in the database does not match the client provided one. This helps prevent session-stealing. This also deletes the client session as a basic security measure
-<br>`403`-`Invalid
-session`- if the hashed client secret does not match the database stored hashedSecret. This also deletes the client session as a basic security measure
-<br>`401`-`Session
-expired` - The session has reached its expiry date and will thus be deleted from
-the database and client
+match`- If the userAgent value in the
+database does not match the client provided one. This helps prevent
+session-stealing. This also deletes the client session as a basic security
+measure
+<br> `403`-`Invalid
+session`- if the hashed client secret does not match the
+database stored hashedSecret. This also deletes the client session as a basic
+security measure
+<br> `401`-`Session
+expired` - The session has reached its expiry date and will
+thus be deleted from the database and client
 
 ### Success message
 

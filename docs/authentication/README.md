@@ -59,9 +59,9 @@ All return values follow the convention of
 <br> `401` - `Not authenticated` - If a user has no `session` cookie value
 <br> `401` - `Invalid token` - If the provided session value does not match the
 token schema. This also deletes the client session as a basic security measure
-<br> `401`-`Invalid token` - If the token is valid but does not contain exactly
-2 parts (id and secret)
-<br> `401`-`Invalid session` - If the token is valid but does not exist in the
+<br> `401` - `Invalid token` - If the token is valid but does not contain
+exactly 2 parts (id and secret)
+<br> `401` - `Invalid session` - If the token is valid but does not exist in the
 database
 <br> `403` - `Session devices do not match` - If the userAgent value in the
 database does not match the client provided one. This helps prevent

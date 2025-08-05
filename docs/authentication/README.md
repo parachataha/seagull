@@ -25,3 +25,53 @@ hash comparison validation check to ensure attackers cannot guess the session
 [generateSecureString function](https://github.com/parachataha/seagull/blob/main/src/lib/sessions/generateSecureString.ts).
 This generates a long string made up of a-z, 1-9 (excluding o, 0, i, l and 1 for
 clarity).
+
+## Usage
+
+This server action automatically runs on the client on page-load and thus should
+not be used again in components in the future. In **server actions**, this
+function should be used to authenticate users.
+
+```js
+/**
+ * @param navigator.userAgent - Should be passed in from the parent server action from the client
+ */
+const result = await validateUser(navigator.userAgent);
+```
+
+## Return values
+
+All return values follow the convention of
+
+```js
+{
+    success: boolean,
+    msg: string,
+    status: number,
+    data?: { /* ... */ }
+}
+```
+
+### Potential error messages
+
+`400` - `Invalid user agent` - When a provided user agent is not valid
+<br> `400` - `Not authenticated` - If a user has no `session` cookie
+<br> `400` - `Not authenticated` - If a user has no `session` cookie value
+<br> `400` - `Invalid token` - If the provided session value does not match the
+token schema. This also deletes the client session as a basic security measure
+`<br>`400`-`Invalid
+token`- If the token is valid but does not contain exactly 2 parts (id and secret)
+<br>`400`-`Invalid
+session`- If the token is valid but does not exist in the database
+<br>`403`-`Session
+devices do not
+match`- If the userAgent value in the database does not match the client provided one. This helps prevent session-stealing. This also deletes the client session as a basic security measure
+<br>`403`-`Invalid
+session`- if the hashed client secret does not match the database stored hashedSecret. This also deletes the client session as a basic security measure
+<br>`401`-`Session
+expired` - The session has reached its expiry date and will thus be deleted from
+the database and client
+
+### Success message
+
+`200` - `Session validated` - User data is provided in a `data.user` object.

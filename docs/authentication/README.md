@@ -55,13 +55,13 @@ All return values follow the convention of
 ### Potential error messages
 
 `400` - `Invalid user agent` - When a provided user agent is not valid
-<br> `400` - `Not authenticated` - If a user has no `session` cookie
-<br> `400` - `Not authenticated` - If a user has no `session` cookie value
-<br> `400` - `Invalid token` - If the provided session value does not match the
+<br> `401` - `Not authenticated` - If a user has no `session` cookie
+<br> `401` - `Not authenticated` - If a user has no `session` cookie value
+<br> `401` - `Invalid token` - If the provided session value does not match the
 token schema. This also deletes the client session as a basic security measure
-`<br>`400`-`Invalid
+`<br>`401`-`Invalid
 token`- If the token is valid but does not contain exactly 2 parts (id and secret)
-<br>`400`-`Invalid
+<br>`401`-`Invalid
 session`- If the token is valid but does not exist in the database
 <br>`403`-`Session
 devices do not

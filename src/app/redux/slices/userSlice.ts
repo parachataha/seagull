@@ -1,15 +1,23 @@
-import { User } from "@/generated/prisma";
-import { SafeUser } from "@/lib/types/User";
+import { PublicSafeUser, SafeUser } from "@/lib/types/User";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: SafeUser = {
+interface ReduxPublicSafeUser extends PublicSafeUser {
+    email: string
+}
+
+const initialState: ReduxPublicSafeUser = {
   id: 0,
   name: "",
   email: "",
   slug: "",
-  avatarUrl: null,
-  bio: "",
+  about: "",
+  label: "",
+  location: null,
+  timezone: null,
+  startWork: null,
+  endWork: null,
   createdAt: 0,
+  avatarId: 1,
   updatedAt: null
 };
 

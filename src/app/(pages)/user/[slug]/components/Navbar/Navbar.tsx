@@ -1,10 +1,8 @@
-import { Card } from "@/components/ui/card";
+
 import { PublicSafeUser } from "@/lib/types/User";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 import NavbarButton from "./NavbarButton";
-import { Button, LinkButton } from "@/components/ui/button";
 import StickyCard from "@/components/ui/StickyCard";
+import { LinkButton } from "@/components/ui/button";
 
 export default function Navbar( { className, user } : { className?: string, user: PublicSafeUser } ) {
     

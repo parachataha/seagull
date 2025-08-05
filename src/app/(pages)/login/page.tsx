@@ -43,7 +43,9 @@ export default function LoginPage() {
                 setLoading,
                 router,
                 onSuccess: (data) => {
-                    dispatch( updateUser( { ...data } ) );
+                    if (data?.user) {
+                        dispatch( updateUser( { ...data.user } ) );
+                    }
                 }
             }
         )

@@ -58,4 +58,26 @@ function Button({
   )
 }
 
-export { Button, buttonVariants }
+function LinkButton({
+  className,
+  variant,
+  size,
+  asChild = false,
+  href = "/",
+  ...props
+}: React.ComponentProps<"a"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
+
+  return (
+    <a
+      href={href}
+      data-slot="button"
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+}
+
+export { Button, LinkButton, buttonVariants }

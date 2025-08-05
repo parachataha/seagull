@@ -39,7 +39,7 @@ function should be used to authenticate users.
 const result = await validateUser(navigator.userAgent);
 ```
 
-## Return values
+## Return values of validateSession()
 
 All return values follow the convention of
 

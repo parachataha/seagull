@@ -6,11 +6,9 @@ import { cn } from "@/lib/utils";
 
 export default function Page( { children, className } : { children: React.ReactNode, className?: string } ) {
     
-    return ( <div className={"wrapper page"}>
+    return ( <div className={`wrapper page`}>
         
-        <div className={cn("container", className)}>
-            {children}
-        </div>
+        {children}
 
     </div>
     );

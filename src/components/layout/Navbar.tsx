@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Name from "../auth/Name";
 
 export default function Navbar( { className } : { className?: string } ) {
     
@@ -10,14 +11,14 @@ export default function Navbar( { className } : { className?: string } ) {
         <div className="flex gap-6">
 
             <div className="flex gap-4">
-                <Link href='/'> Profile </Link>
-                <Link href='/'> Users </Link>
+                <Link href='/profile'> Profile </Link>
+                <Link href='/signup'> Signup </Link>
                 <Link href='/'> People </Link>
             </div>
 
             <div className="flex items-center gap-2 border-l border-l-foreground/10 pl-3">
                 <div className="w-6 h-6 rounded-full bg-foreground/20"> { /* Profile Picture */ } </div>
-                <p> Taha Paracha </p>
+                <Name />
             </div>
             
         </div>

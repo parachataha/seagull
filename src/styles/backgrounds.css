@@ -1,0 +1,10 @@
+/*
+ * This file is used to display background images/gradients/patterns on specific classes
+*/
+
+.bg-plane-wing {
+    background-image: url("/images/backgrounds/plane-wing.jpg") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50%;
+}

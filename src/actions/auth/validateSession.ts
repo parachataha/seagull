@@ -88,6 +88,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
          * For added security, check if userAgent is the same to prevent session-stealing
          */
         if (userAgent !== result.userAgent) {
+            console.log(userAgent, result.userAgent)
             deleteClientSession()
             return { success: false, msg: "Session devices do not match", status: 403 };
         }

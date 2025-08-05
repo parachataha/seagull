@@ -9,6 +9,7 @@ import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { useDispatch } from "react-redux";
 import { updateUser } from "@/app/redux/slices/userSlice";
+import Container from "@/components/layout/Container";
 
 export default function SignupPage() {
 
@@ -57,37 +58,42 @@ export default function SignupPage() {
 
     return ( <Page>
 
-        <form onSubmit={handleSignup} className="flex flex-col gap-3">
+        <Container>
 
-            <h1 className="text-2xl">Signup</h1>
+            <form onSubmit={handleSignup} className="flex flex-col gap-3">
 
-            {error.isError && <p> {error.msg} </p>}
-            {loading && <p> Loading </p>}
+                <h1 className="text-2xl">Signup</h1>
 
-            <Input
-                placeholder="Enter name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                type="text"
-            />
+                {error.isError && <p> {error.msg} </p>}
+                {loading && <p> Loading </p>}
 
-            <Input
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-            />
+                <Input
+                    placeholder="Enter name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    type="text"
+                />
 
-            <Input
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-            />
+                <Input
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                />
 
-            <Button type="submit" variant="default">Signup</Button>
+                <Input
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                />
 
-        </form>
+                <Button type="submit" variant="default">Signup</Button>
+
+            </form>
+            
+        </Container>
+
 
 
     </Page> )

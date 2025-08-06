@@ -18,7 +18,10 @@ const initialState: ReduxPublicSafeUser = {
   endWork: null,
   createdAt: 0,
   avatarId: 1,
-  updatedAt: null
+  updatedAt: null,
+  avatar: {
+    url: ""
+  }
 };
 
 const userSlice = createSlice({

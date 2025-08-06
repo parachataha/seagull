@@ -37,10 +37,11 @@ export default function RootLayout({
           {/* PROVIDERS */}
           {/* Used to fetch data on page-load */}
           <UserProvider />
-
-          <Container>
-            <Navbar />
-          </Container>
+          <div className="wrapper">
+            <Container className="w-full">
+              <Navbar />
+            </Container>
+          </div>
           {children}
         </ReduxProvider>
 

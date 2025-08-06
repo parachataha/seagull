@@ -9,47 +9,47 @@
 
 import { useEffect, useState } from "react"
 
-const getDominantHexColorFromURL = async (imageUrl: string): Promise<string> => {
+const getDominantHexColorFromURL = (imageUrl: string): Promise<string> => {
     return new Promise((resolve, reject) => {
-    const img = new Image()
-    img.crossOrigin = "anonymous"
-    img.src = imageUrl
+        const img = new Image()
+        img.crossOrigin = "anonymous"
+        img.src = imageUrl
 
-    img.onload = () => {
-        const canvas = document.createElement("canvas")
-        canvas.width = img.width
-        canvas.height = img.height
+        img.onload = () => {
+            const canvas = document.createElement("canvas")
+            canvas.width = img.width
+            canvas.height = img.height
 
-        const ctx = canvas.getContext("2d")
-        if (!ctx) return reject("No 2D context found")
+            const ctx = canvas.getContext("2d")
+            if (!ctx) return reject(new Error("No 2D context found"))
 
-        ctx.drawImage(img, 0, 0)
-        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+            ctx.drawImage(img, 0, 0)
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data
 
-        const colorCounts: Record<string, number> = {}
-        let maxCount = 0
-        let dominantColor = "#000000"
+            const colorCounts: Record<string, number> = {}
+            let maxCount = 0
+            let dominantColor = "#000000"
 
-        for (let i = 0; i < data.length; i += 4) {
-        const r = data[i]
-        const g = data[i + 1]
-        const b = data[i + 2]
-        const hex = `#${r.toString(16).padStart(2, "0")}${g
-            .toString(16)
-            .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i]
+                const g = data[i + 1]
+                const b = data[i + 2]
+                const hex = `#${r.toString(16).padStart(2, "0")}${g
+                    .toString(16)
+                    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
 
-        colorCounts[hex] = (colorCounts[hex] || 0) + 1
+                colorCounts[hex] = (colorCounts[hex] || 0) + 1
 
-        if (colorCounts[hex] > maxCount) {
-            maxCount = colorCounts[hex]
-            dominantColor = hex
+                if (colorCounts[hex] > maxCount) {
+                    maxCount = colorCounts[hex]
+                    dominantColor = hex
+                }
+            }
+
+            resolve(dominantColor)
         }
-        }
 
-        resolve(dominantColor)
-    }
-
-    img.onerror = (err) => reject(err)
+        img.onerror = () => reject(new Error("Failed to load image"))
     })
 }
 
@@ -61,12 +61,16 @@ export default function ColorBanner( {imageURL = defaultAvatar, className, child
 
     useEffect(() => {
         const run = async () => {
-            const colorValue = await getDominantHexColorFromURL(imageURL)
-
-            setColor(colorValue)
+            try {
+                const colorValue = await getDominantHexColorFromURL(imageURL)
+                setColor(colorValue || "#332700")
+            } catch (err) {
+                console.error("Failed to extract dominant color:", err)
+                setColor("#332700") // fallback
+            }
         }
         run()
-    }, [])
+    }, [imageURL])
 
     return ( <div className={`w-full h-20 ${className ?? ""}`} style={{ backgroundColor: color }}> 
         {children}

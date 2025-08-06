@@ -1,20 +1,25 @@
-import { Calendar, PenBox, Search, Settings, Wallpaper, type LucideIcon } from "lucide-react"
+import { BookOpen, Calendar, PenBox, Search, Settings, Wallpaper, type LucideIcon } from "lucide-react"
 
 export const sidebarItems : { title: string, url: string, icon: LucideIcon }[] = [
     {
-        title: "Edit Details",
+        title: "Profile",
         url: "/profile",
         icon: PenBox,
     },
     {
-        title: "Projects",
-        url: "#",
-        icon: Wallpaper,
+        title: "Skills",
+        url: "/profile/skills",
+        icon: BookOpen,
     },
     {
         title: "Qualifications",
         url: "#",
         icon: Calendar,
+    },
+    {
+        title: "Projects",
+        url: "#",
+        icon: Wallpaper,
     },
     {
         title: "Freelancing",

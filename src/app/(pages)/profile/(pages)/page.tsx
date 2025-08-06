@@ -30,18 +30,22 @@ export default function page() {
     
     return ( 
 
-        <Card className="px-5 grow">
+        <Card className="grow">
 
-            <div>
-                <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
-                <p className="text-foreground/50"> Update people on what you do and who you are </p>
-            </div>
+            <CardContent className="flex flex-col gap-4">
 
-            <BasicDetails className="!bg-popover" />
+                <div>
+                    <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
+                    <p className="text-foreground/50"> Update people who you are and what you do </p>
+                </div>
 
-            <PersonalData />
+                <BasicDetails className="!bg-popover" />
 
-            <EditAbout />
+                <PersonalData />
+
+                <EditAbout />
+
+            </CardContent>
 
         </Card>
 

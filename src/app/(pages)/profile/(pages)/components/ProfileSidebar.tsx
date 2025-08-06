@@ -1,9 +1,11 @@
 "use client"
- 
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarSeparator } from "@/components/ui/sidebar";
+// Hooks 
+import { usePathname } from "next/navigation";
+
+// Components
+import { Sidebar, SidebarContent, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { sidebarItems } from "@/lib/data/profileSidebar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default function ProfileSidebar() {
 

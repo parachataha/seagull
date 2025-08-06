@@ -70,7 +70,7 @@ export default function UpdateLocationDialog() {
         <DialogHeader>
             <DialogTitle>Edit Location</DialogTitle>
             <DialogDescription>
-                Let people know where you're base. You can change this as much at anytime or just keep it blank.
+                Let people know where you're based. You can change this as much at anytime or just keep it blank.
             </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>

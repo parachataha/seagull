@@ -50,7 +50,7 @@ export default function UserHeader({
                                 name={user.name}
                             />
                         </div>
-                        <div className="mt-20 px-3">
+                        <div className="mt-21 px-3">
                             {/* EDIT NAME */}
                             <div className="flex justify-between items-center">
                                 <h1 className="text-2xl capitalize font-semibold"> {user.name ? user.name : "John Doe"} </h1>

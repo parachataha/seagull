@@ -2,6 +2,9 @@ import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
 import ProfileSidebar from "./components/ProfileSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { EyeIcon } from "lucide-react";
+import { LinkButton } from "@/components/ui/button";
+import ViewProfileButton from "@/components/buttons/ViewProfileButton";
 
 
 export default function ProfileLayout( { children } : { children: React.ReactNode } ) {
@@ -10,7 +13,10 @@ export default function ProfileLayout( { children } : { children: React.ReactNod
         
         <Container>
 
-            <h1 className="text-2xl font-semibold"> Your Profile </h1>
+            <div className="flex gap-2 justify-between">
+                <h1 className="text-2xl font-semibold"> Your Profile </h1>
+                <ViewProfileButton /> { /* View button linking to own profile */ }
+            </div>
 
             <SidebarProvider>
                 <div className="flex gap-1 relative flex-grow pt-6">

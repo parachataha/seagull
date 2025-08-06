@@ -34,7 +34,7 @@ export default function UserHeader({
     
     return ( 
         
-        <Card className={`bg-popover p-0 overflow-hidden relative pb-4 border-0 shadow-none ${className}`}>
+        <Card className={`bg-card p-0 overflow-hidden relative pb-4 border-0 shadow-none ${className}`}>
             <div className="flex flex-col gap-4">
 
                 {/* COLOR BANNER */}
@@ -42,7 +42,7 @@ export default function UserHeader({
 
                 <CardContent className="px-5">
                     <CardHeader className="relative gap-3 px-0">
-                        <div className="absolute top-[-28%] rounded-full border-popover border-3">
+                        <div className={`absolute top-[-28%] rounded-full border-card border-3 ${className.includes("bg-popover") && "!border-popover"}`}>
                             {/* USER AVATAR */}
                             <UserAvatar
                                 className="h-28 w-28"
@@ -69,14 +69,14 @@ export default function UserHeader({
                                     <DialogTrigger asChild>
                                         <Button variant="ghost"> <PenBoxIcon size="8px"/> </Button>
                                     </DialogTrigger>
-                                    <UpdateLabelDialog />
+                                    <UpdateLabelDialog /> { /* Update label dialog */ }
                                 </Dialog>}
                             </div>
                         </div>
                     </CardHeader>
                     
                     {/* EXTRA INFORMATION - LOCATION, TIMEZONE AND OFFICE HOURS */}
-                    <Card className="card bg-background/20 px-1 py-1 text-foreground/50">
+                    <Card className="card bg-background/60 px-1 py-1 text-foreground/50">
                     <div className="flex gap-4">
                         {isOwner ? 
                             <>

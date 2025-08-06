@@ -18,12 +18,11 @@ import { Globe, MapPin, PenBoxIcon, TimerReset } from "lucide-react";
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
 
-export default function BasicDetails() {
+export default function BasicDetails( { className = "" } : { className?: string } ) {
 
-    const dispatch = useDispatch()
     const user = useSelector((state : RootState) => state.user);
     
     return (
-        <UserHeader isOwner user={user}/>
+        <UserHeader isOwner className={`!bg-popover ${className}`} user={user}/>
     );
 }

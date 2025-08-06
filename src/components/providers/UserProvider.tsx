@@ -19,21 +19,30 @@ export default function UserProvider() {
 
     const pathname = usePathname()
     const router = useRouter();
-
-    useCurrentUser()
+    
     const user = useSelector((state : RootState) => state.user);
     
+    const { loading, success } = useCurrentUser()
+
+    /**
+     * Automatically handle unauthorized users' redirection
+     */
     useEffect(() => {
 
-        if (user.email === "") {
-            authPages.forEach(page => {
-                if (pathname.startsWith(page)) {
-                    router.push("/login")
-                }
-            })
+        // Make sure data isn't still fetching
+        if (!loading && user.email === "") { 
+            // Check if user is authenticated
+            if (!success.isSuccess) {
+                authPages.forEach(page => {
+                    // Automatically redirect unauthorized users away from page
+                    if (pathname.startsWith(page)) {
+                        router.push("/login")
+                    }
+                })
+            }
         }
 
-    }, [pathname, user])
+    }, [loading, user, pathname])
 
     return null
 }

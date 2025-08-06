@@ -31,6 +31,7 @@ export default function StickyCard({ children, scrollY = 350, className } : { ch
         className={`
             ${className}
             border-0 backdrop-blur-3xl
+            shadow-none
             p-0
             sticky z-50 transition-colors duration-300 ease-in-out ${
             isStuck ? "!bg-card/20" : "!bg-card"

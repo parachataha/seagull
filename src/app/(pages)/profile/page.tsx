@@ -9,6 +9,8 @@ import Container from "@/components/layout/Container";
 import { useRouter } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import BasicDetails from "./components/BasicDetails";
+import PersonalData from "./components/PersonalDetails";
+import EditAbout from "./components/EditAbout";
 
 export default function page() {
 
@@ -30,13 +32,16 @@ export default function page() {
 
         <Card className="px-5 grow">
 
-        <div>
-            <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
-            <p className="text-foreground/50"> Update people on what you do and who you are </p>
-        </div>
+            <div>
+                <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
+                <p className="text-foreground/50"> Update people on what you do and who you are </p>
+            </div>
 
-        <BasicDetails />
+            <BasicDetails className="!bg-popover" />
 
+            <PersonalData />
+
+            <EditAbout />
 
         </Card>
 

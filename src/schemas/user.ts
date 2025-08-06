@@ -19,6 +19,7 @@ const userAgentSchema = z
  */
 const nameSchema = z.string().min(2).max(50)
 const labelSchema = z.string().max(250)
+const aboutSchema = z.string().max(1000)
 const slugSchema = z
   .string()
   .min(1, { message: "Cannot be empty" })
@@ -39,7 +40,7 @@ const workEndSchema = z.number().min(0).max(24)
 
 export { 
   idSchema,
-  nameSchema, labelSchema, slugSchema, 
+  nameSchema, labelSchema, slugSchema, aboutSchema,
   emailSchema, passwordSchema, 
   userAgentSchema,
   // User extra information

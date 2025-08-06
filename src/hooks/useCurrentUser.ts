@@ -8,16 +8,25 @@ import validateSession from "@/actions/auth/validateSession";
 import { updateUser } from "@/app/redux/slices/userSlice";
 import handleServerAction from "@/lib/handleServerAction";
 import { ClientError, ClientSuccess } from "@/lib/types/Client";
+import { PublicSafeUser } from "@/lib/types/User";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function useCurrentUser() : null {
+export default function useCurrentUser() : { 
+    // Return values
+    loading : boolean, 
+    error : ClientError, 
+    success : ClientSuccess, 
+    user : PublicSafeUser | undefined 
+} {
 
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
     const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
+
+    const [user, setUser] = useState<PublicSafeUser | undefined>()
 
     const dispatch = useDispatch();
 
@@ -46,8 +55,9 @@ export default function useCurrentUser() : null {
                     console.log(data);
                     /**
                      * Update react redux state
-                     */
-                    if (data?.user) {
+                    */
+                   if (data?.user) {
+                        setUser(data.user)
                         dispatch( updateUser( data.user ) )
                     }
                 }
@@ -55,6 +65,11 @@ export default function useCurrentUser() : null {
         )
     }
 
-    return null;
+    return {
+        loading,
+        success,
+        user,
+        error
+    };
 
 }

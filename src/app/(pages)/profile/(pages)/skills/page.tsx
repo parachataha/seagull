@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import EditSkills from "./components/EditSkills";
 
 export default function SkillsPage() {
     
@@ -16,7 +17,7 @@ export default function SkillsPage() {
             <Card className="bg-popover">
                 <CardContent>
                     Skills can be categorized in either primary and child skills. Primary skills can be used to group child skills.
-                    <div className="bg-foreground/2.5 mt-2 rounded-lg p-2 w-fit">
+                    <div className="bg-foreground/2.5 mt-3 rounded-lg p-2 w-fit">
                         <img 
                             src="/images/assets/skills-vector.svg" 
                             alt="Help"
@@ -26,13 +27,7 @@ export default function SkillsPage() {
                 </CardContent>
             </Card>
 
-            <Card className="bg-popover">
-                <CardContent>
-                    
-                    <Button variant="neutral">Add First Skill</Button>
-
-                </CardContent>
-            </Card> 
+            <EditSkills />
 
         </CardContent>
         

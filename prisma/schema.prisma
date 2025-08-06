@@ -28,20 +28,22 @@ model User {
   startWork Int?
   endWork   Int?
 
-  sessions Session[]
   avatar   Image?      @relation(fields: [avatarId], references: [id])
-  images   Image[]     @relation("UserImages")
-  Skill    UserSkill[]
+  Sessions Session[]
+  Images   Image[]     @relation("UserImages")
+  Skills   UserSkill[]
 }
 
 model UserSkill {
-  id       Int         @id @default(autoincrement())
-  name     String
-  userId   Int
-  parentId Int?
-  color    String      @default("255, 255, 255")
-  parent   UserSkill?  @relation("SkillHierarchy", fields: [parentId], references: [id])
-  children UserSkill[] @relation("SkillHierarchy")
+  id        Int         @id @default(autoincrement())
+  name      String
+  userId    Int
+  parentId  Int?
+  order     Int?
+  color     String      @default("255, 255, 255")
+  parent    UserSkill?  @relation("SkillHierarchy", fields: [parentId], references: [id])
+  children  UserSkill[] @relation("SkillHierarchy")
+  createdAt Int
 
   user User @relation(fields: [userId], references: [id])
 

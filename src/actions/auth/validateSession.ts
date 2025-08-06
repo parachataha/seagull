@@ -94,6 +94,17 @@ export default async function validateSession( userAgent: string | null ) : Prom
                         timezone: true,
                         startWork: true,
                         endWork: true,
+                        Skills: {
+                            select: {
+                                userId: true,
+                                id: true,
+                                parentId: true,
+                                name: true,
+                                color: true,
+                                order: true,
+                                createdAt: true
+                            }
+                        },
                         avatar: {
                             select: {
                                 url: true,
@@ -158,6 +169,8 @@ export default async function validateSession( userAgent: string | null ) : Prom
         }
 
     } catch (error : any) {
+
+        console.log(error)
 
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 

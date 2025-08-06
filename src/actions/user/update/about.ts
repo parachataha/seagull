@@ -11,10 +11,12 @@ import validateSession from "@/actions/auth/validateSession"
 import { ServerResponse } from "@/lib/types/ServerResponse"
 import { PublicSafeUser } from "@/lib/types/User"
 
+type UserResult = { user: { about: string | null} }
+
 /**
  * First validates the user cookie, and updates the authenticated user's label
  */
-export default async function updateAbout( { oldAbout, newAbout, userAgent } : { oldAbout: string | null, newAbout: string | null, userAgent: string | null } ) : Promise<ServerResponse<Partial<PublicSafeUser>>> {
+export default async function updateAbout( { oldAbout, newAbout, userAgent } : { oldAbout: string | null, newAbout: string | null, userAgent: string | null } ) : Promise<ServerResponse<UserResult>> {
 
     try {
 

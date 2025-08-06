@@ -44,9 +44,6 @@ export default async function handleServerAction<T> (
             
             // Perform correct tasks
             switch (result.status) {
-                case 401: // Not authenticated
-                    options.router.push( options.unauthorizedRedirectUrl ?? "/login" );
-                    break;
                 case 403: // Forbidden to perform action
                     options.router.push( options.unauthorizedRedirectUrl ?? "/login" );
                     break;

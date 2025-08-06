@@ -24,7 +24,7 @@ export default function ProfileSidebar() {
               {sidebarItems.map(item => {
                 return ( 
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton variant="default" className={`${pathname === item.url && "bg-foreground/5"}`}>
+                    <SidebarMenuButton variant="default" className={`${pathname === item.url && "bg-card hover:bg-card"}`}>
                       <Link href={item.url} >
                         <div className="flex items-center gap-2 whitespace-nowrap break-keep ">
                           <item.icon width={20} className="pr-0.5" />

@@ -8,7 +8,7 @@ import { RootState } from "@/app/redux/store";
 import { UserSkill } from "@/generated/prisma";
 
 // Components
-import { DialogContent, DialogHeader, DialogTitle, DialogDescription, Dialog } from "@/components/ui/dialog";
+import { DialogContent, DialogHeader, DialogTitle, DialogDescription, Dialog, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -195,7 +195,7 @@ export function EditableSkill({
                 <div className="font-semibold">{skill.name}</div>
                 {/* MANAGE SKILL BUTTONS */}
                 <div className="flex gap-1">
-                    <Dialog open={openAddChildDialog}>
+                    <Dialog onOpenChange={setOpenAddChildDialog} open={openAddChildDialog}>
                         <DialogTrigger asChild onClick={() => setOpenAddChildDialog(true)}>
                             <Button
                                 className="!px-0.5"
@@ -270,6 +270,8 @@ export function AddChildSkillDialog({
     }
 
     return ( <DialogContent>
+
+        <DialogClose onClick={() => setOpen(false)} />
 
         <DialogHeader>
             <DialogTitle> Add child skill to {parentSkill.name} </DialogTitle>

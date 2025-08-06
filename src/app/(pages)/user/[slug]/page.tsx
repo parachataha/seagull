@@ -10,11 +10,7 @@ import { notFound } from "next/navigation";
 // Components
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import getDominantHexColorFromURL from "@/components/images/ColorBanner";
-import ColorBanner from "@/components/images/ColorBanner";
-import UserAvatar from "@/components/images/UserAvatar";
-import UserHeader from "./components/header/UserHeader";
+import UserHeader from "@/components/cards/user/UserHeader/UserHeader";
 import Navbar from "./components/Navbar/Navbar";
 import About from "./components/main/About";
 import Qualifications from "./components/main/Qualifications";

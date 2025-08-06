@@ -21,7 +21,7 @@ export default async function updateLabel( { oldLabel, newLabel, userAgent } : {
         /**
          * Return if no changes made
          */
-        if (oldLabel?.trim() === newLabel.trim()) return { success: true, msg: "Not modified", status: 304 }
+        if (oldLabel?.trim() === newLabel.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { label: newLabel.trim() } } }
 
         /**
          * Authenticate user

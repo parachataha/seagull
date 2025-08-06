@@ -6,7 +6,7 @@ import { LinkButton } from "@/components/ui/button";
 
 export default function Navbar( { className, user } : { className?: string, user: PublicSafeUser } ) {
     
-    return ( <StickyCard scrollY={350} className={`overflow-hidden shadow top-4 py-0 px-0 ${className}`}>
+    return ( <StickyCard scrollY={480} className={`overflow-hidden shadow top-4 py-0 px-0 ${className}`}>
         
         <div className="flex justify-between items-center gap-2 pr-2">
 

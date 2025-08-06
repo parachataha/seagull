@@ -4,12 +4,10 @@ import { RootState } from "@/app/redux/store";
 
 // Components
 import {
-    Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input, Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

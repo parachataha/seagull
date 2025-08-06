@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 // Types
-import { ClientError } from "@/lib/types/ClientError";
+import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { updateUser } from "@/app/redux/slices/userSlice";
 
 export default function LoginPage() {
@@ -28,6 +28,7 @@ export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
+    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
 
     async function handleLogin(e : React.FormEvent) {
         e.preventDefault()
@@ -39,6 +40,7 @@ export default function LoginPage() {
                 userAgent: navigator.userAgent
             }),
             {
+                setSuccess,
                 setError,
                 setLoading,
                 router,
@@ -59,8 +61,11 @@ export default function LoginPage() {
 
                 <h1 className="text-2xl">Login</h1>
 
-                {error.isError && <p> {error.msg} </p>}
-                {loading && <p> Loading </p>}
+                <div>
+                    {loading && <p> Loading </p>}
+                    {error.isError && <p className="text-red-400"> {error.msg} </p>}
+                    {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                </div>
 
                 <Input
                     placeholder="Enter email"

@@ -1,27 +1,31 @@
 "use server"
+// Lib
+import prisma from "@/lib/db"
 
+// Server actions
 import invalidateSession from "@/actions/auth/invalidateSession"
 import validateSession from "@/actions/auth/validateSession"
-import prisma from "@/lib/db"
-import { slugSchema } from "@/schemas/user"
+
+// Schemas
+import { locationSchema } from "@/schemas/user"
 
 /**
- * First validates the user cookie, and updates the authenticated user's slug
+ * First validates the user cookie, and updates the authenticated user's location
  */
-export default async function updateSlug( { oldSlug, newSlug, userAgent } : { oldSlug: string | null, newSlug: string, userAgent: string | null } ) {
+export default async function updateLocation( { oldLocation, newLocation, userAgent } : { oldLocation: string | null, newLocation: string | null, userAgent: string | null } ) {
 
     try {
 
         /**
          * Ensure both old and new slugs are valid data
          */
-        if (oldSlug && !slugSchema.safeParse(oldSlug).success) return { success: false, msg: "Invalid old slug", status: 400 }
-        if (!slugSchema.safeParse(newSlug).success) return { success: false, msg: "Invalid slug", status: 400 }
+        if (oldLocation && !locationSchema.safeParse(oldLocation.trim()).success) return { success: false, msg: "Invalid old location", status: 400 }
+        if (newLocation && !locationSchema.safeParse(newLocation.trim()).success) return { success: false, msg: "Invalid location", status: 400 }
 
         /**
          * Return if no changes made
          */
-        if (oldSlug?.trim().toLowerCase() === newSlug.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304, data: { user: { slug: newSlug.trim().toLowerCase() } } }
+        if (oldLocation?.trim() === newLocation?.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { location: newLocation?.trim() || null } } }
 
         /**
          * Authenticate user
@@ -35,8 +39,8 @@ export default async function updateSlug( { oldSlug, newSlug, userAgent } : { ol
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.slug?.trim().toLowerCase() === newSlug.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304 }
-        if (user.slug && user.slug?.trim().toLowerCase() !== oldSlug?.trim().toLowerCase()) { 
+        if (user.location?.trim() === newLocation?.trim()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.location && user.location?.trim() !== oldLocation?.trim()) { 
             invalidateSession()
             return { success: false, msg: "User provided slug does not match database", status: 400 }
         }
@@ -49,7 +53,7 @@ export default async function updateSlug( { oldSlug, newSlug, userAgent } : { ol
                 id: user.id
             },
             data: {
-                slug: newSlug.trim().toLowerCase()
+                location: newLocation?.trim() || null
             }
         })
 
@@ -61,21 +65,12 @@ export default async function updateSlug( { oldSlug, newSlug, userAgent } : { ol
             status: 200,
             data: {
                 user: {
-                    slug: newSlug.trim().toLowerCase()
+                    location: newLocation?.trim() || null
                 }
             }
         };
 
     } catch (error : any) {
-
-        /**
-         * Slug taken already
-         */
-         if (error.code === "P2002") return { 
-            success: false, 
-            msg: `Slug is taken already`,
-            status: 409,
-        }
 
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 

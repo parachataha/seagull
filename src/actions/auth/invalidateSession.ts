@@ -1,3 +1,4 @@
+"use server"
 import prisma from "@/lib/db";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { tokenPartSchema, tokenSchema } from "@/schemas/session";

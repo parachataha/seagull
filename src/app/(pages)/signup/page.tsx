@@ -4,7 +4,7 @@ import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import handleServerAction from "@/lib/handleServerAction";
-import { ClientError } from "@/lib/types/ClientError";
+import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { useDispatch } from "react-redux";
@@ -22,6 +22,7 @@ export default function SignupPage() {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ClientError>({ isError: false, msg: "" })
+    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: "" })
 
     async function handleSignup(e : any) {
 
@@ -39,6 +40,7 @@ export default function SignupPage() {
                 userAgent
             }), 
             {
+                setSuccess,
                 setError: setError,
                 setLoading: setLoading,
                 onSuccess: (data) => {
@@ -63,6 +65,12 @@ export default function SignupPage() {
             <form onSubmit={handleSignup} className="flex flex-col gap-3">
 
                 <h1 className="text-2xl">Signup</h1>
+
+                <div>
+                    {loading && <p> Loading </p>}
+                    {error.isError && <p className="text-red-400"> {error.msg} </p>}
+                    {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                </div>
 
                 {error.isError && <p> {error.msg} </p>}
                 {loading && <p> Loading </p>}

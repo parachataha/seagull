@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 // Types
-import { ClientError } from "@/lib/types/ClientError";
+import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { RootState } from "@/app/redux/store";
 import handleServerAction from "@/lib/handleServerAction";
 import updateSlug from "@/actions/user/update/slug";
@@ -36,7 +36,7 @@ export default function page() {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess]  = useState<{isSuccess: boolean, msg: string}>({ isSuccess: false, msg: '' });
+    const [success, setSuccess]  = useState<ClientSuccess>({ isSuccess: false, msg: '' });
 
     const [slug, setSlug] = useState<string>("")
 
@@ -53,6 +53,7 @@ export default function page() {
                 userAgent: navigator.userAgent 
             }),
             {
+                setSuccess,
                 setLoading,
                 setError,
                 router,

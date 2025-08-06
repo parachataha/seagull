@@ -1,50 +1,53 @@
 "use client"
 // Types
 import { RootState } from "@/app/redux/store";
+import { ClientError, ClientSuccess } from "@/lib/types/Client";
 
 // Components
 import {
+    Dialog,
     DialogContent,
     DialogDescription,
     DialogHeader,
     DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input, Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { updateUser } from "@/app/redux/slices/userSlice";
+
 // Hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { useRouter } from "next/navigation";
-import { updateUser } from "@/app/redux/slices/userSlice";
 
 // Server actions
 import handleServerAction from "@/lib/handleServerAction";
-import updateLabel from "@/actions/user/update/label";
+import updateLocation from "@/actions/user/update/location";
 
-export default function UpdateLabelDialog() {
+export default function UpdateLocationDialog() {
 
     const user = useSelector((state : RootState) => state.user);
     const dispatch = useDispatch();
-    const [newLabel, setNewLabel] = useState<string>(user.label || "")
+    const [newLocation, setNewLocation] = useState<string>(user.label || "")
 
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
+    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: true, msg: "" })
 
     useEffect(() => {
-        setNewLabel(user.label || "")
+        setNewLocation(user.location || "")
     }, [user])
 
     async function handleSubmit(e : React.FormEvent) {
         e.preventDefault()
 
-        await handleServerAction(
-            updateLabel({
-                oldLabel: user.label?.trim() || null,
-                newLabel: newLabel.trim(),
+        handleServerAction(
+            updateLocation({
+                oldLocation: user.location?.trim() || null,
+                newLocation: newLocation.trim() || null,
                 userAgent: navigator.userAgent,
             }),
             {
@@ -53,7 +56,9 @@ export default function UpdateLabelDialog() {
                 setLoading,
                 router,
                 onSuccess: (data) => {
-                    dispatch( updateUser({label : data?.user.label}) )
+                    if (data && data.user) {
+                        dispatch( updateUser({location : data?.user?.location}) )
+                    }
                 }
             }
         )
@@ -63,21 +68,21 @@ export default function UpdateLabelDialog() {
     return ( <DialogContent>
 
         <DialogHeader>
-            <DialogTitle>Edit label</DialogTitle>
+            <DialogTitle>Edit Location</DialogTitle>
             <DialogDescription>
-                Describe yourself and your roles. You can change this as much at anytime
+                Let people know where you're base. You can change this as much at anytime or just keep it blank.
             </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-            <Label> Update label </Label>
+            <Label> Update Location </Label>
             <Input
                 disabled={loading}
                 required
-                value={newLabel}
-                onChange={(e) => setNewLabel(e.target.value)}
+                value={newLocation}
+                onChange={(e) => setNewLocation(e.target.value)}
                 type="text"
-                name="name"
-                placeholder="A cool teacher"
+                name="location"
+                placeholder="London, UK"
             />
 
             <div className="mt-3">

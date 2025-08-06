@@ -26,24 +26,19 @@ export default function page() {
         
     }, [user])
     
-    return ( <div className="flex flex-col lg:flex-row gap-4">
+    return ( 
 
         <Card className="px-5 grow">
 
-            <h3 className="text-lg font-medium"> Edit Details </h3>
+        <div>
+            <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
+            <p className="text-foreground/50"> Update people on what you do and who you are </p>
+        </div>
 
         <BasicDetails />
 
 
         </Card>
 
-
-        <Card className="px-5">
-
-            <h3 className="font-medium"> Profile Completion </h3>
-
-        </Card>
-
-    </div>
     );
 }

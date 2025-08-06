@@ -29,7 +29,7 @@ export default async function updateAbout( { oldAbout, newAbout, userAgent } : {
         /**
          * Return if no changes made
          */
-        if (oldAbout?.trim() === newAbout?.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { about: newAbout?.trim() } } }
+        if (oldAbout?.trim() === newAbout?.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { about: newAbout?.trim() || null } } }
 
         /**
          * Authenticate user

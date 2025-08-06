@@ -1,4 +1,4 @@
-import { type User, type Avatar, UserSkill } from "@/generated/prisma"
+import { type User, type Avatar, UserSkill } from "@prisma/client"
 
 import { SessionWithToken } from "./Session"
 

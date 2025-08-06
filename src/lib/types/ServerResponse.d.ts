@@ -5,7 +5,7 @@
  * @example SuccessResponse<{user: User, session: Session}>
  */
 
-import { User } from "@/generated/prisma"
+import { User } from "@prisma/client"
 
 type SuccessResponse<T> = {
   success: true

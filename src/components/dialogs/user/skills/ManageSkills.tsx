@@ -5,7 +5,7 @@
 
 // Types
 import { RootState } from "@/app/redux/store";
-import { UserSkill } from "@/generated/prisma";
+import { UserSkill } from "@prisma/client";
 
 // Components
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, Dialog, DialogClose } from "@/components/ui/dialog";

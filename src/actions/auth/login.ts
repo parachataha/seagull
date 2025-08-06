@@ -1,14 +1,14 @@
 "use server"
 
-import prisma from "@/lib/db";
-import hashPass from "@/lib/password/hashPass";
 /**
  * @function signup() - Used to signup users and create session automatically
  * @param 
- */
+*/
+
+import prisma from "@/lib/db";
 
 import { ServerResponse } from "@/lib/types/ServerResponse";
-import { emailSchema, nameSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
+import { emailSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
 import createSession from "./createSession";
 import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
 import verifyPass from "@/lib/password/verifyPass";

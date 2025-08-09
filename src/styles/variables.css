@@ -2,9 +2,9 @@
 
 :root {
   /* Reds */
-  --red: #ef4444;
-  --light-red: #fecaca;
-  --dark-red: #991b1b;
+  --red: #ff2d2d;
+  --light-red: #ff9b9b;
+  --dark-red: #b72121;
 
   /* Oranges */
   --orange: #f97316;
@@ -12,27 +12,27 @@
   --dark-orange: #9a3412;
 
   /* Yellows */
-  --yellow: #eab308;
-  --light-yellow: #fef08a;
+  --yellow: #ffc823;
+  --light-yellow: #ffee6a;
   --dark-yellow: #854d0e;
 
   /* Greens */
-  --green: #22c55e;
-  --light-green: #bbf7d0;
-  --dark-green: #14532d;
+  --green: #16b52b;
+  --light-green: #93ffb9;
+  --dark-green: #084721;
 
   /* Teals */
-  --teal: #14b8a6;
-  --light-teal: #99f6e4;
-  --dark-teal: #134e4a;
+  --teal: #16d1bb;
+  --light-teal: #aaf9e9;
+  --dark-teal: #084844;
 
   /* Blues */
-  --blue: #3b82f6;
+  --blue: #1b73ff;
   --light-blue: #bfdbfe;
-  --dark-blue: #1e3a8a;
+  --dark-blue: #0c2c83;
 
   /* Indigos */
-  --indigo: #6366f1;
+  --indigo: #7b63f1;
   --light-indigo: #c7d2fe;
   --dark-indigo: #312e81;
 
@@ -42,7 +42,7 @@
   --dark-purple: #3b0764;
 
   /* Pinks */
-  --pink: #ec4899;
+  --pink: #ef3c96;
   --light-pink: #fbcfe8;
   --dark-pink: #831843;
 
@@ -60,12 +60,12 @@
 @media (prefers-color-scheme: dark) { 
   :root {
     /* Reds */
-    --red: #f87171;
+    --red: #fd3a3a;
     --light-red: #fecaca;
     --dark-red: #7f1d1d;
 
     /* Oranges */
-    --orange: #fb923c;
+    --orange: #ff7f16;
     --light-orange: #fed7aa;
     --dark-orange: #7c2d12;
 
@@ -75,7 +75,7 @@
     --dark-yellow: #713f12;
 
     /* Greens */
-    --green: #4ade80;
+    --green: #16b52b;
     --light-green: #bbf7d0;
     --dark-green: #064e3b;
 
@@ -85,27 +85,27 @@
     --dark-teal: #115e59;
 
     /* Blues */
-    --blue: #60a5fa;
+    --blue: #2f8dff;
     --light-blue: #bfdbfe;
     --dark-blue: #1e40af;
 
     /* Indigos */
-    --indigo: #818cf8;
+    --indigo: #5465ff;
     --light-indigo: #c7d2fe;
     --dark-indigo: #3730a3;
 
     /* Purples */
-    --purple: #a78bfa;
+    --purple: #875fff;
     --light-purple: #ddd6fe;
     --dark-purple: #4c1d95;
 
     /* Pinks */
-    --pink: #f472b6;
+    --pink: #ff5aaf;
     --light-pink: #fbcfe8;
     --dark-pink: #9d174d;
 
     /* Browns */
-    --brown: #b45309;
+    --brown: #944406;
     --light-brown: #fef3c7;
     --dark-brown: #451a03;
 

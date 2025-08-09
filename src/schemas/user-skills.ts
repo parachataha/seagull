@@ -23,8 +23,8 @@ export const UserSkillSchema = z.object({
 
   color: z.string({
     error: "Color must be a string",
-  }).max(7, {
-    error: "Invalid hex color"
+  }).max(30, {
+    error: "Invalid color"
   }),
 
   createdAt: z.number({

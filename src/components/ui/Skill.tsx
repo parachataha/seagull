@@ -15,7 +15,9 @@ export default function Skill( {
 } ) {
     
     return ( <div 
-        className={cn(className, `px-2 py-1 rounded-3xl text-sm border ${skill.parentId && "opacity-70"}`)}
+        className={cn(className, `
+            px-2 py-1 rounded-3xl text-sm border ${skill.parentId && "opacity-70"}
+        `)}
         style={{ color: skill.color, borderColor: skill.color }}
     >
         

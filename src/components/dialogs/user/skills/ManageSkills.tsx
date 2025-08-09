@@ -3,9 +3,11 @@
  * This component is very complex, allowing users to create parent skills
  */
 
+// Data
+import { colors, basicColors, ColorName } from "@/lib/data/colors"; // Used to map all color choices
+
 // Types
 import { RootState } from "@/app/redux/store";
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { UserSkill } from "@prisma/client";
 
 // Components
@@ -15,16 +17,25 @@ import { Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 import { Trash2, SquarePlus, CornerDownRight } from "lucide-react"; // Icons
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import Skill from "@/components/ui/Skill";
 
 // Hooks
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 // Server actions
 import updateSkills from "@/actions/user/update/skills/skills";
-import Skill from "@/components/ui/Skill";
 import useServerAction from "@/hooks/useServerAction";
 
 export default function ManageSkillsDialog({ 
@@ -54,8 +65,8 @@ export default function ManageSkillsDialog({
     /** @const newSkill - Handles new skill input */
     /** @const newColor - Handles color input */
     const [newSkill, setNewSkill] = useState(""); 
-    const [newSkillColor, setNewSkillColor] = useState(""); // Default grey
-    
+    const [newSkillColor, setNewSkillColor] = useState<ColorName>("foreground"); // Default foreground
+
     /** @const allSkills - Handles storing all skills  */
     const [allSkills, setAllSkills] = useState<UserSkill[]>([]);
 
@@ -120,6 +131,8 @@ export default function ManageSkillsDialog({
      * @function handleSubmit - handles updating the database 
     */
     async function handleSubmit(e : any) {
+        
+        e.preventDefault()
 
         run()
 
@@ -135,8 +148,8 @@ export default function ManageSkillsDialog({
 
             {/* ADD NEW PARENT SKILL */}
             <form onSubmit={addSkill}>
-                <div className="flex gap-2">
-                    <div className="grow">
+                <div className="flex flex-col gap-2 mb-4">
+                    <div>
                         <Label>New {advancedMode && "Parent"} Skill</Label>
                         <Input
                             required
@@ -149,12 +162,42 @@ export default function ManageSkillsDialog({
                     </div>
                     <div>
                         <Label>Skill color</Label>
-                        <Input
-                            value={newSkillColor}
-                            onChange={(e) => setNewSkillColor(e.target.value)}
-                            placeholder="UI Design"
-                            type="color"
-                        />
+                        <div className="flex items-stretch gap-1 mb-2">
+                            {basicColors.map((subColorItem, index) => (
+                                <Tooltip key={index}>
+                                    <TooltipTrigger asChild>
+                                        <Button 
+                                            onClick={() => setNewSkillColor(subColorItem.cssVar)}
+                                            type="button"  
+                                            variant="ghost"
+                                            className={`w-1 h-1 rounded-xs border-2 ${newSkillColor == subColorItem.cssVar && "border-blue-500"}`}
+                                            style={{ backgroundColor: subColorItem.cssVar }}
+                                        />
+                                    </TooltipTrigger>
+                                    <TooltipContent className="capitalize"> {subColorItem.name} </TooltipContent> 
+                                </Tooltip>
+                            ))}
+                        </div>
+                        <div className="flex flex-wrap gap-x-1 gap-y-2">
+                            {colors.map((colorItem, index) => (
+                                <div key={index} className="flex flex-col gap-1">
+                                    {colorItem.map((subColorItem, index) => (
+                                        <Tooltip key={index}>
+                                            <TooltipTrigger asChild>
+                                                <Button 
+                                                    onClick={() => setNewSkillColor(subColorItem.cssVar)}
+                                                    type="button"  
+                                                    variant="ghost"
+                                                    className={`w-1 h-1 rounded-xs border-2 ${newSkillColor == subColorItem.cssVar && "border-blue-500"}`}
+                                                    style={{ backgroundColor: subColorItem.cssVar }}
+                                                />
+                                            </TooltipTrigger>
+                                            <TooltipContent className="capitalize"> {subColorItem.name.replaceAll("-"," ")} </TooltipContent> 
+                                        </Tooltip>
+                                    ))}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <Button variant="neutral" type="submit">Add {advancedMode && "Parent"} Skill</Button>
@@ -345,7 +388,7 @@ export function AddChildSkillDialog({
         <DialogClose onClick={() => setOpen(false)} />
 
         <DialogHeader>
-            <DialogTitle> Add child skill to {parentSkill.name} </DialogTitle>
+            <DialogTitle> Add child skill to <span style={{ color: parentSkill.color }}> {parentSkill.name}  </span> </DialogTitle>
             <DialogDescription> This skill will adopt the color of its parent with a lower opacity </DialogDescription>
         </DialogHeader>
 

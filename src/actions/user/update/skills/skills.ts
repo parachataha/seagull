@@ -86,7 +86,7 @@ export default async function updateSkills({
                 ...parentSkills.map(skill => {
                     return {
                         name: skill.name.trim(),
-                        color: skill.color.trim().toUpperCase(),
+                        color: skill.color.trim(),
                         order: skill.order,
                         parentId: skill.parentId,
                         userId: user.id,
@@ -114,7 +114,7 @@ export default async function updateSkills({
         const createChildrenResult = await prisma.userSkill.createManyAndReturn({
             data: childSkills.map(skill => ({
                 name: skill.name.trim(),
-                color: skill.color.trim().toUpperCase(),
+                color: skill.color.trim(),
                 order: skill.order,
                 parentId: parentIdMap.get(skill.parentId as number) ?? null,
                 userId: user.id,

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Skill from "@/components/ui/Skill";
+import sortSkills from "@/lib/skills/sortSkills";
 import { PublicSafeUser } from "@/lib/types/User";
 
 export default function Skills( { user, className } : { user: PublicSafeUser, className?: string } ) {
@@ -11,7 +12,7 @@ export default function Skills( { user, className } : { user: PublicSafeUser, cl
                 <h3 className="text-foreground/30 font-semibold"> Skills </h3>
                 <div className="flex flex-wrap gap-2 mt-1">
                     {user.Skills?.length > 0 && <>
-                        {user.Skills.map(skill => (
+                        {sortSkills(user.Skills).map(skill => (
                             <Skill
                                 key={skill.id}
                                 skill={skill}

@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import Skill from "@/components/ui/Skill";
 import { PublicSafeUser } from "@/lib/types/User";
 
 export default function Skills( { user, className } : { user: PublicSafeUser, className?: string } ) {
@@ -8,7 +9,16 @@ export default function Skills( { user, className } : { user: PublicSafeUser, cl
         <CardContent>
             <article>
                 <h3 className="text-foreground/30 font-semibold"> Skills </h3>
-                {/* {user.bio || "👋 Hey, im new here"} */}
+                <div className="flex flex-wrap gap-2 mt-1">
+                    {user.Skills?.length > 0 && <>
+                        {user.Skills.map(skill => (
+                            <Skill
+                                key={skill.id}
+                                skill={skill}
+                            />
+                        ))}
+                    </>}
+                </div>
             </article>
         </CardContent>
 

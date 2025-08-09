@@ -26,8 +26,8 @@ export default function ProfileSidebar() {
               {sidebarItems.map(item => {
                 return ( 
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton variant="default" className={`${pathname === item.url && "bg-card hover:bg-card"}`}>
-                      <Link href={item.url} >
+                    <SidebarMenuButton variant="default" className={`p-0 ${pathname === item.url && "bg-card hover:bg-card"}`}>
+                      <Link href={item.url} className="w-full h-full px-2 py-1">
                         <div className="flex items-center gap-2 whitespace-nowrap break-keep ">
                           <item.icon width={20} className="pr-0.5" />
                           {item.title}

@@ -1,7 +1,7 @@
 "use client";
 // Server actions
 import login from "@/actions/auth/login";
-import handleServerAction from "@/lib/handleServerAction";
+import useServerAction from "@/hooks/useServerAction";
 
 // Components
 import Container from "@/components/layout/Container";
@@ -10,13 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 // Hooks
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-
-// Types
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
-import { updateUser } from "@/app/redux/slices/userSlice";
 
 export default function LoginPage() {
 
@@ -25,32 +20,19 @@ export default function LoginPage() {
 
     const dispatch = useDispatch();
 
-    const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
+    const { run, loading, error, success } = useServerAction(() => login({
+        email: email.trim().toLowerCase(),
+        password: password.trim(),
+        userAgent: navigator.userAgent
+    }), {
+        unauthorizedRedirectUrl: "/profile",
+    }
+    );
 
     async function handleLogin(e : React.FormEvent) {
         e.preventDefault()
 
-        await handleServerAction(
-            login({
-                email: email.trim().toLowerCase(),
-                password: password.trim(),
-                userAgent: navigator.userAgent
-            }),
-            {
-                setSuccess,
-                setError,
-                setLoading,
-                router,
-                onSuccess: (data) => {
-                    if (data?.user) {
-                        dispatch( updateUser( { ...data.user } ) );
-                    }
-                }
-            }
-        )
+        run()
     }
 
     return ( <Page>
@@ -63,8 +45,8 @@ export default function LoginPage() {
 
                 <div>
                     {loading && <p> Loading </p>}
-                    {error.isError && <p className="text-red-400"> {error.msg} </p>}
-                    {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                    {error && <p className="text-red-400"> {error} </p>}
+                    {success && <p className="text-green-600"> {success} </p>}
                 </div>
 
                 <Input

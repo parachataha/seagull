@@ -1,7 +1,6 @@
 "use client"
 // Types
 import { RootState } from "@/app/redux/store";
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
 
 // Components
 import {
@@ -15,27 +14,32 @@ import { Input, Label } from "@/components/ui/input";
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { updateUser } from "@/app/redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 // Server actions
-import handleServerAction from "@/lib/handleServerAction";
 import updateWorkHours from "@/actions/user/update/workHours";
+import useServerAction from "@/hooks/useServerAction";
 
 export default function UpdateWorkHoursDialog() {
 
     const user = useSelector((state : RootState) => state.user);
-    const dispatch = useDispatch();
     
     // New values
     const [newWorkStart, setNewWorkStart] = useState<number>(user.startWork || 9);
     const [newWorkEnd, setNewWorkEnd] = useState<number>(user.startWork || 17);
 
-    const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: "" })
+    const { run, loading, error, success } = useServerAction(() => updateWorkHours({
+        oldWorkStart: user.startWork,
+        oldWorkEnd: user.endWork,
+        newWorkStart: newWorkStart,
+        newWorkEnd: newWorkEnd,
+        userAgent: navigator.userAgent || null
+        }), 
+        {
+            unauthorizedRedirectUrl: "/login",
+            noSuccessToast: false,
+        }
+    );
 
     useEffect(() => {
         setNewWorkStart(user.startWork || 0);
@@ -45,24 +49,7 @@ export default function UpdateWorkHoursDialog() {
     async function handleSubmit(e : React.FormEvent) {
         e.preventDefault()
 
-        handleServerAction(
-            updateWorkHours({
-                oldWorkStart: user.startWork,
-                oldWorkEnd: user.endWork,
-                newWorkStart: newWorkStart,
-                newWorkEnd: newWorkEnd,
-                userAgent: navigator.userAgent || null
-            }),
-            {
-                setSuccess,
-                setError,
-                setLoading,
-                router,
-                onSuccess: (data) => {
-                    dispatch( updateUser({ startWork: data?.user.startWork, endWork: data?.user.endWork }) )
-                }
-            }
-        )
+        run()
         
     }
 
@@ -101,8 +88,8 @@ export default function UpdateWorkHoursDialog() {
                 </div>
 
                 <div className="mt-3">
-                    {error.isError && <p className="text-red-400"> {error.msg} </p>}
-                    {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                    {error && <p className="text-red-400"> {error} </p>}
+                    {success && <p className="text-green-600"> {success} </p>}
                 </div>
 
                 <div className="mt-4 flex gap-2">

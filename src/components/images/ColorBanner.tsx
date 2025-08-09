@@ -65,7 +65,7 @@ export default function ColorBanner( {imageURL = defaultAvatar, className, child
                 const colorValue = await getDominantHexColorFromURL(imageURL)
                 setColor(colorValue || "#332700")
             } catch (err) {
-                console.error("Failed to extract dominant color:", err)
+                console.log("Failed to extract dominant color:", err)
                 setColor("#332700") // fallback
             }
         }

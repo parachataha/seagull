@@ -14,9 +14,9 @@ import { Label, Textarea } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 // Server actions
-import handleServerAction from "@/lib/handleServerAction";
 import updateAbout from "@/actions/user/update/about";
 import { updateUser } from "@/app/redux/slices/userSlice";
+import useServerAction from "@/hooks/useServerAction";
 
 /**
  * A component allowing users to see their private data such as email, password
@@ -33,10 +33,17 @@ export default function EditAbout() {
     // Used to dynamically show the save button
     const [isChange, setIsChange] = useState<boolean>(false)
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
-    const router = useRouter();
+    const { run, loading, error, success } = useServerAction(() => updateAbout({
+            oldAbout: user.about?.trim() || null,
+            newAbout: about.trim() || null,
+            userAgent: navigator.userAgent || null
+        }),
+        {
+            onSuccess: (data) => {
+                setIsChange(false);
+            }
+        }
+    );
 
     useEffect(() => {
         setAbout(user.about || "")
@@ -48,25 +55,7 @@ export default function EditAbout() {
     async function handleUpdateAbout(e : React.FormEvent) {
         e.preventDefault()
 
-        setIsChange(false);
-
-        await handleServerAction(
-            updateAbout({
-                oldAbout: user.about?.trim() || null,
-                newAbout: about.trim() || null,
-                userAgent: navigator.userAgent || null
-            }), 
-            {
-                setSuccess,
-                setLoading,
-                setError, 
-                router,
-                onSuccess: (data) => {
-                    dispatch( updateUser( { about: about.trim() || null } ) )
-                    console.log(data)
-                }
-            }
-        )
+        run()
     }
     
     return ( <Card className="bg-popover">

@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import Navbar from "@/components/layout/Navbar";
 import ReduxProvider from "./redux/ReduxProvider";
 import UserProvider from "@/components/providers/UserProvider";
+import { Toaster as ToastProvider } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,21 @@ export default function RootLayout({
 
           {/* PROVIDERS */}
           {/* Used to fetch data on page-load */}
+
+          {/* Potential classNames
+            [&[data-type=success]]:!bg-green-600/10 [&[data-type=success]]:!text-green-600
+            [&[data-type=error]]:!bg-red-600/10 [&[data-type=error]]:!text-red-600/90
+          */}
           <UserProvider />
+          <ToastProvider 
+            toastOptions={{
+              className: `
+                !bg-background/60 !backdrop-blur-md !border-foreground/5
+                `
+            }}
+            duration={200000}
+            position="bottom-right"
+          />
           <div className="wrapper">
             <Container className="w-full">
               <Navbar />

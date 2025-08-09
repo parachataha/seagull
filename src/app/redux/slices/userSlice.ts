@@ -19,6 +19,7 @@ const initialState: ReduxPublicSafeUser = {
   createdAt: 0,
   avatarId: 1,
   updatedAt: null,
+  Skills: [],
   avatar: {
     url: ""
   }

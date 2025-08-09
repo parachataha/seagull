@@ -1,10 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UISlice {
-    loading: boolean,
+interface toast { 
+    id: string,
+    type: "success" | "error" | "warning",
+    title: string,
+    body: string,
+    icon: "check" | "cross" | "warning",
 }
 
-const initialState: UISlice = { loading: false } 
+interface UISlice {
+    loading: boolean,
+    toasts: toast[]
+}
+
+const initialState: UISlice = { 
+    loading: false ,
+    toasts: []
+} 
 
 const uiSlice = createSlice({
     name: "ui",
@@ -15,7 +27,24 @@ const uiSlice = createSlice({
         },
         stopLoading: (state) => {
             return { ...state, loading: false }
+        },
+
+        /**
+         * Creates a new toast to be displayed. Must have removeToast after a toast duration
+         */
+        createToast: (state, action : PayloadAction<toast>) => {
+            return { 
+                ...state, 
+                toasts: [ ...state.toasts, action.payload ]
+            }
+        }, 
+        /**
+         * Used to remove toasts after toast duration passes
+         */
+        removeToast: (state, action: PayloadAction<string>) => {
+            state.toasts = state.toasts.filter(t => t.id !== action.payload);
         }
+
     },
 });
 

@@ -5,13 +5,17 @@
  * @example SuccessResponse<{user: User, session: Session}>
  */
 
-import { User } from "@prisma/client"
+import { Session, User } from "@prisma/client"
+import { PublicSafeUser, SafeSessionWithToken, SafeUser } from "./User"
 
-type SuccessResponse<T> = {
+type SuccessResponse = {
   success: true
   msg: string
   status: number
-  data?: T
+  data: {
+    user?: PublicSafeUser | SafeSessionWithToken | SafeUser,
+    session?: SafeSessionWithToken
+  }
 }
 
 type ErrorResponse = {

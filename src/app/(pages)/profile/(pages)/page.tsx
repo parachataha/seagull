@@ -11,6 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import BasicDetails from "./components/BasicDetails";
 import PersonalData from "./components/PersonalDetails";
 import EditAbout from "./components/EditAbout";
+import { CardSpotlight } from "@/components/ui/card-spotlight";
 
 export default function page() {
 
@@ -34,10 +35,10 @@ export default function page() {
 
             <CardContent className="flex flex-col gap-4">
 
-                <div>
+                <CardSpotlight>
                     <h3 className="text-lg font-medium mb-0.5"> Edit Details </h3>
                     <p className="text-foreground/50"> Update people who you are and what you do </p>
-                </div>
+                </CardSpotlight>
 
                 <BasicDetails className="!bg-popover" />
 

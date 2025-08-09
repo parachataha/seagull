@@ -5,12 +5,7 @@ import Container from "@/components/layout/Container";
 
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card"
 
 import { Input } from "@/components/ui/input";
@@ -19,14 +14,15 @@ import { Button } from "@/components/ui/button";
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
-// Types
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
-import { RootState } from "@/app/redux/store";
-import handleServerAction from "@/lib/handleServerAction";
-import updateSlug from "@/actions/user/update/slug";
 import { useRouter } from "next/navigation";
 import { updateUser } from "@/app/redux/slices/userSlice";
+
+// Types
+import { RootState } from "@/app/redux/store";
+
+// Server actions
+import updateSlug from "@/actions/user/update/slug";
+import useServerAction from "@/hooks/useServerAction";
 
 export default function page() {
 
@@ -34,9 +30,31 @@ export default function page() {
     const router = useRouter();
     const user = useSelector((state : RootState) => state.user);
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess]  = useState<ClientSuccess>({ isSuccess: false, msg: '' });
+    const [successMsg, setSuccessMsg] = useState<string>("")
+ 
+    const { run, loading, error, success } = useServerAction(() => updateSlug({ 
+            oldSlug: user.slug, 
+            newSlug: slug.trim().toLowerCase(), 
+            userAgent: navigator.userAgent 
+        }),
+        {
+            unauthorizedRedirectUrl: "/login",
+            noSuccessToast: false,
+            onSuccess: () => {
+                // Update redux
+                dispatch( updateUser({slug: slug.trim().toLowerCase()}) )
+
+                // Indicate to user slug is available
+                setSuccessMsg("Slug is available...");
+                setTimeout(() => {
+                    // Indicate updated successfully
+                    setSuccessMsg("Slug updated successfully");
+                    // Redirect to profile
+                    setTimeout(() => { router.push("/profile") }, 200)
+                }, 1000)
+            }
+        }
+    );
 
     const [slug, setSlug] = useState<string>("")
 
@@ -46,33 +64,7 @@ export default function page() {
     async function handleSave(e : any) {
         e.preventDefault()
 
-        await handleServerAction(
-            updateSlug({ 
-                oldSlug: user.slug, 
-                newSlug: slug.trim().toLowerCase(), 
-                userAgent: navigator.userAgent 
-            }),
-            {
-                setSuccess,
-                setLoading,
-                setError,
-                router,
-                onSuccess: () => {
-                    // Update redux
-                    dispatch( updateUser({slug: slug.trim().toLowerCase()}) )
-
-                    // Indicate to user slug is available
-                    setSuccess({isSuccess: true, msg: "Slug is available..."});
-                    setTimeout(() => {
-                        // Indicate updated successfully
-                        setSuccess({isSuccess: true, msg: "Slug updated successfully"});
-                        // Redirect to profile
-                        setTimeout(() => { router.push("/profile") }, 200)
-                    }, 1000)
-
-                }
-            }
-        )
+        run()
     }
     
     return ( <FullPage className="items-center justify-center flex flex-col">
@@ -102,10 +94,10 @@ export default function page() {
                         </div>
 
                         {/* SUCCESS/ERROR MESSAGES */}
-                        {error.isError && <p className="text-red-400"> {error.msg} </p>}
-                        {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                        {error && <p className="text-red-400"> {error} </p>}
+                        {successMsg && <p className="text-green-600"> {successMsg} </p>}
 
-                        <Button variant="secondary" disabled={loading} type="submit" className="mt-3"> {success.isSuccess ? "Saving..." : "Check Availability"} </Button>
+                        <Button variant="secondary" disabled={loading} type="submit" className="mt-3"> {success ? "Saving..." : "Check Availability"} </Button>
                     </form>
                 </CardContent>
 

@@ -61,7 +61,7 @@ export default async function updateLocation( { oldLocation, newLocation, userAg
 
         return { 
             success: true, 
-            msg: "Slug updated successfully",
+            msg: "Location updated successfully",
             status: 200,
             data: {
                 user: {

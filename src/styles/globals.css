@@ -3,6 +3,7 @@
 
 @import "./components.css";
 @import "./custom.css";
+@import "./variables.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,6 +124,8 @@
     --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.553 0.013 58.071);
+
+    --sonner-bg: oklch(21.175% 0.00614 55.91 / 0.6);
   }
 }
 

@@ -5,6 +5,7 @@
 
 // Types
 import { RootState } from "@/app/redux/store";
+import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { UserSkill } from "@prisma/client";
 
 // Components
@@ -13,24 +14,48 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 import { Trash2, SquarePlus, CornerDownRight } from "lucide-react"; // Icons
 
 // Hooks
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 
-export default function ManageSkillsDialog({ className }: { className?: string }) {
-    
+// Server actions
+import updateSkills from "@/actions/user/update/skills/skills";
+import Skill from "@/components/ui/Skill";
+import useServerAction from "@/hooks/useServerAction";
+
+export default function ManageSkillsDialog({ 
+    className,
+    advancedMode,
+    setAdvancedMode,
+} : { 
+    className?: string,
+    advancedMode: boolean,
+    setAdvancedMode: (arg: boolean) => void,
+}) {
+
+    const { run, loading, error, success } = useServerAction(() => updateSkills({
+        oldValues: user.Skills,
+        newValues: allSkills,
+        userAgent: navigator.userAgent,
+        }), 
+        {
+            unauthorizedRedirectUrl: "/login",
+            noSuccessToast: false,
+        }
+    );
+
     /** @const user - Used to fetch user redux states */
     const user = useSelector((state: RootState) => state.user); 
     
     /** @const newSkill - Handles new skill input */
     /** @const newColor - Handles color input */
     const [newSkill, setNewSkill] = useState(""); 
-    const [newSkillColor, setNewSkillColor] = useState("#FFFFF"); // Default black
-
+    const [newSkillColor, setNewSkillColor] = useState(""); // Default grey
+    
     /** @const allSkills - Handles storing all skills  */
     const [allSkills, setAllSkills] = useState<UserSkill[]>([]);
 
@@ -52,7 +77,7 @@ export default function ManageSkillsDialog({ className }: { className?: string }
             name: newSkill,
             parentId: null,
             color: newSkillColor,
-            order: 0,
+            order: allSkills.length + 1,
             createdAt: Math.floor(new Date().getTime() / 1000),
         };
 
@@ -73,7 +98,7 @@ export default function ManageSkillsDialog({ className }: { className?: string }
         id: Math.random(), // temp id
         name: value,
         parentId,
-        color: "#555",
+        color: allSkills.find(skill => skill.id === parentId)?.color || "#FFF",
         order: 0,
         createdAt: Math.floor(new Date().getTime() / 1000),
         };
@@ -91,19 +116,28 @@ export default function ManageSkillsDialog({ className }: { className?: string }
     const childSkills = (parentId: number) =>
         allSkills.filter(skill => skill.parentId === parentId);
 
+    /** 
+     * @function handleSubmit - handles updating the database 
+    */
+    async function handleSubmit(e : any) {
+
+        run()
+
+    }
+
     return (
         <DialogContent className="max-h-150 overflow-scroll">
             {/* DIALOG HEADER */}
             <DialogHeader>
                 <DialogTitle>Manage your skills</DialogTitle>
-                <DialogDescription>Here you can add or remove skills, make children skills and more!</DialogDescription>
+                <DialogDescription className="mt-2">Here you can add or remove skills, make children skills and more!</DialogDescription>
             </DialogHeader>
 
             {/* ADD NEW PARENT SKILL */}
             <form onSubmit={addSkill}>
                 <div className="flex gap-2">
                     <div className="grow">
-                        <Label>New Parent Skill</Label>
+                        <Label>New {advancedMode && "Parent"} Skill</Label>
                         <Input
                             required
                             className="mb-2"
@@ -116,7 +150,6 @@ export default function ManageSkillsDialog({ className }: { className?: string }
                     <div>
                         <Label>Skill color</Label>
                         <Input
-                            className="mb-2"
                             value={newSkillColor}
                             onChange={(e) => setNewSkillColor(e.target.value)}
                             placeholder="UI Design"
@@ -124,47 +157,84 @@ export default function ManageSkillsDialog({ className }: { className?: string }
                         />
                     </div>
                 </div>
-                <Button variant="neutral" type="submit">Add Parent Skill</Button>
+                <Button variant="neutral" type="submit">Add {advancedMode && "Parent"} Skill</Button>
             </form>
 
-            {/* SKILLS EDITOR */}
+            {/* SKILLS EDITOR FOR ADVANCED AND NORMAL MODE */}
             <Separator className="my-2" />
-            <div className="flex flex-col gap-1">
-                {allSkills.length > 0 && <div> 
-                    <Label> Skills Editor </Label>
-                    <DialogDescription> You can add child skills and change the overall skill color </DialogDescription>    
-                </div>}
-                
-                <div className="mt-2 flex flex-wrap gap-2">
+            {advancedMode ? 
+                <div className="flex flex-col gap-1">
+                    {allSkills.length > 0 && <div> 
+                        <Label> Skills Editor </Label>
+                        <DialogDescription> You can add child skills and change the overall skill color </DialogDescription>    
+                     </div>}
+                    
+                    <div className="mt-2 flex flex-wrap gap-2">
 
-                    {/* LIST ALL PARENT SKILLS */}
-                    {topLevelSkills.length > 0 ? 
-                        <>
-                            {/* All skills */}
-                            {topLevelSkills.map((skill : UserSkill) => (
-                                <EditableSkill 
-                                    key={skill.id}
-                                    skill={skill}
-                                    childSkills={childSkills}
-                                    addChildSkill={addChildSkill}
-                                    deleteSkill={deleteSkill}
-                                />
-                            ))}
-                        </>
-                    :   
-                        <>
-                            {/* Display tip message if no tags */}
-                            <p> Added skills will appear here. Once added, you can customize the color and add child skills </p>    
-                        </>
-                    }
+                        {/* LIST ALL PARENT SKILLS */}
+                        {topLevelSkills.length > 0 ? 
+                            <>
+                                {/* All skills */}
+                                {topLevelSkills.map((skill : UserSkill) => (
+                                    <EditableSkill 
+                                        key={skill.id}
+                                        skill={skill}
+                                        childSkills={childSkills}
+                                        addChildSkill={addChildSkill}
+                                        deleteSkill={deleteSkill}
+                                    />
+                                ))}
+                            </>
+                        :   
+                            <>
+                                {/* Display tip message if no tags */}
+                                <p> Added skills will appear here. Once added, you can customize the color and add child skills </p>    
+                            </>
+                        }
+                    </div>
                 </div>
-            </div>
+            :
+                <div>
+                    <div className="flex flex-col gap-1">
+                        {allSkills.length > 0 && <div> 
+                            <Label> Skills Preview </Label>
+                            <DialogDescription> You can preview how skills will look over here. Click a skill to remove it </DialogDescription>    
+                     </div>}
+                    <div className="mt-2 flex flex-wrap gap-0.5">
+
+                        {/* LIST ALL PARENT SKILLS */}
+                        {allSkills.length > 0 ? 
+                            <>
+                                {/* All skills */}
+                                {allSkills.map((skill : UserSkill) => (
+                                    <Button 
+                                        variant="ghost" 
+                                        onClick={() => deleteSkill(skill.id)}
+                                        key={skill.id}
+                                        className="px-1 py-2"
+                                    > 
+                                        <Skill 
+                                            skill={skill}
+                                        />
+                                    </Button>
+                                ))}
+                            </>
+                        :   
+                            <>
+                                {/* Display tip message if no tags */}
+                                <p> Added skills will appear here. Once added, you can preview how they will look here </p>    
+                            </>
+                        }
+                    </div>
+                    </div>
+                </div>
+            }
 
             {/* SAVE BUTTON */}
             <Separator className="my-2" />
             
             <div className=""> 
-                <Button variant="neutral">Save changes</Button>
+                <Button type="button" onClick={handleSubmit} variant="neutral">Save changes</Button>
             </div>
 
         </DialogContent>
@@ -266,6 +336,7 @@ export function AddChildSkillDialog({
     function handleSubmit(e : React.FormEvent) {
         e.preventDefault()
         addChildSkill(newChild, parentSkill.id)
+        setNewChild("")
         setOpen(false)
     }
 

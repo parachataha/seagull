@@ -14,25 +14,23 @@ import { Button } from "@/components/ui/button";
 
 // Hooks
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
-import { useRouter } from "next/navigation";
-import { updateUser } from "@/app/redux/slices/userSlice";
+import { useSelector } from "react-redux";
 
 // Server actions
-import handleServerAction from "@/lib/handleServerAction";
 import updateLabel from "@/actions/user/update/label";
+import useServerAction from "@/hooks/useServerAction";
 
 export default function UpdateLabelDialog() {
 
     const user = useSelector((state : RootState) => state.user);
-    const dispatch = useDispatch();
     const [newLabel, setNewLabel] = useState<string>(user.label || "")
 
-    const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: '' });
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: '' });
+    const { run, loading, error, success } = useServerAction(() => updateLabel({
+            oldLabel: user.label?.trim() || null,
+            newLabel: newLabel.trim(),
+            userAgent: navigator.userAgent,
+        }), 
+    );
 
     useEffect(() => {
         setNewLabel(user.label || "")
@@ -41,22 +39,7 @@ export default function UpdateLabelDialog() {
     async function handleSubmit(e : React.FormEvent) {
         e.preventDefault()
 
-        await handleServerAction(
-            updateLabel({
-                oldLabel: user.label?.trim() || null,
-                newLabel: newLabel.trim(),
-                userAgent: navigator.userAgent,
-            }),
-            {
-                setSuccess,
-                setError,
-                setLoading,
-                router,
-                onSuccess: (data) => {
-                    dispatch( updateUser({label : data?.user.label}) )
-                }
-            }
-        )
+        run()
         
     }
     
@@ -81,8 +64,8 @@ export default function UpdateLabelDialog() {
             />
 
             <div className="mt-3">
-                {error.isError && <p className="text-red-400"> {error.msg} </p>}
-                {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                {error && <p className="text-red-400"> {error} </p>}
+                {success && <p className="text-green-600"> {success} </p>}
             </div>
 
             <div className="mt-4 flex gap-2">

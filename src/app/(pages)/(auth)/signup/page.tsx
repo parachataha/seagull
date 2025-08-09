@@ -3,26 +3,27 @@ import signup from "@/actions/auth/signup";
 import Page from "@/components/layout/Page";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import handleServerAction from "@/lib/handleServerAction";
-import { ClientError, ClientSuccess } from "@/lib/types/Client";
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
-import { useDispatch } from "react-redux";
-import { updateUser } from "@/app/redux/slices/userSlice";
 import Container from "@/components/layout/Container";
+import useServerAction from "@/hooks/useServerAction";
 
 export default function SignupPage() {
-
-    const router = useRouter()
-    const dispatch = useDispatch()
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<ClientError>({ isError: false, msg: "" })
-    const [success, setSuccess] = useState<ClientSuccess>({ isSuccess: false, msg: "" })
+    const { run, loading, error, success } = useServerAction(() => signup({
+            name: name.trim(),
+            email: email.trim().toLowerCase(),
+            password: password.trim(),
+            userAgent: navigator.userAgent
+        }), 
+        {
+            unauthorizedRedirectUrl: "/profile",
+            noSuccessToast: false,
+        }
+    );
 
     async function handleSignup(e : any) {
 
@@ -32,29 +33,7 @@ export default function SignupPage() {
         const userAgent = navigator.userAgent || null
 
         // Perform server action
-        await handleServerAction(
-            signup({
-                name: name.trim(),
-                email: email.trim().toLowerCase(),
-                password: password.trim(),
-                userAgent
-            }), 
-            {
-                setSuccess,
-                setError: setError,
-                setLoading: setLoading,
-                onSuccess: (data) => {
-
-                    console.log(data);
-                    if (data?.user) {
-                        dispatch( updateUser( data.user ) )
-                    }
-                    // router.push("/profile");
-                    
-                },
-                router
-            }
-        )
+        run()
         
     }
 
@@ -68,12 +47,9 @@ export default function SignupPage() {
 
                 <div>
                     {loading && <p> Loading </p>}
-                    {error.isError && <p className="text-red-400"> {error.msg} </p>}
-                    {success.isSuccess && <p className="text-green-600"> {success.msg} </p>}
+                    {error && <p className="text-red-400"> {error} </p>}
+                    {success && <p className="text-green-600"> {success} </p>}
                 </div>
-
-                {error.isError && <p> {error.msg} </p>}
-                {loading && <p> Loading </p>}
 
                 <Input
                     name="name"

@@ -1,12 +1,18 @@
 "use client"
-import { RootState } from "@/app/redux/store"
 /**
  * Fetches any user data and stores it in React Redux for universal use
  * Only to be used in /Layout.tsx
  * This function also redirects users from auth-only pages to /login
- */
+*/
 
-import useCurrentUser from "@/hooks/useCurrentUser"
+// Server actions
+import useServerAction from "@/hooks/useServerAction"
+import validateSession from "@/actions/auth/validateSession"
+
+// Types
+import { RootState } from "@/app/redux/store"
+
+// HHooks
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -22,7 +28,15 @@ export default function UserProvider() {
     
     const user = useSelector((state : RootState) => state.user);
     
-    const { loading, success } = useCurrentUser()
+    const { run, loading, error, success } = useServerAction(() => validateSession( navigator.userAgent ), 
+        {
+            noSuccessToast: true,
+        }
+    );
+
+    useEffect(() => {
+        run()
+    }, [])
 
     /**
      * Automatically handle unauthorized users' redirection
@@ -32,7 +46,7 @@ export default function UserProvider() {
         // Make sure data isn't still fetching
         if (!loading && user.email === "") { 
             // Check if user is authenticated
-            if (!success.isSuccess) {
+            if (error) {
                 authPages.forEach(page => {
                     // Automatically redirect unauthorized users away from page
                     if (pathname.startsWith(page)) {

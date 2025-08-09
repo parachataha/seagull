@@ -34,6 +34,8 @@ export default async function page( { params } : { params : Promise<{ slug: stri
 
     const user = result?.data;
     
+    console.log(result)
+    
     return ( <Page>
         
         <Container>

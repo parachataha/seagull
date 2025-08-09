@@ -4,7 +4,7 @@ import { PublicSafeUser } from "@/lib/types/User";
 
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema, userAgentSchema } from "@/schemas/user";
-import validateSession from "@/actions/auth/validateSession";
+
 import prisma from "@/lib/db";
 
 export default async function getUser({slug, userAgent} : { slug: string, userAgent: string | null }) : Promise<ServerResponse<PublicSafeUser>> {
@@ -38,6 +38,18 @@ export default async function getUser({slug, userAgent} : { slug: string, userAg
                 timezone: true,
                 startWork: true,
                 endWork: true,
+
+                Skills: {
+                    select: {
+                        userId: true,
+                        id: true,
+                        parentId: true,
+                        name: true,
+                        color: true,
+                        createdAt: true,
+                        order: true
+                    }
+                },
 
                 avatar: {
                     select: {

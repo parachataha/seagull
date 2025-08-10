@@ -8,7 +8,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//
 // USER PROFILE DATA
+//
 model User {
   id        Int     @id @default(autoincrement())
   name      String
@@ -31,6 +33,7 @@ model User {
   Sessions Session[]
   Images   Image[]     @relation("UserImages")
   Skills   UserSkill[]
+  Timeline Timeline[]
 }
 
 model UserSkill {
@@ -44,7 +47,8 @@ model UserSkill {
   children  UserSkill[] @relation("SkillHierarchy")
   createdAt Int
 
-  user User @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  ProjectSkill ProjectSkill[]
 
   @@unique([name, userId, parentId]) // Prevents duplicate skills per user under same parent
 }
@@ -57,11 +61,14 @@ model Image {
   userId    Int?
   createdAt Int
 
-  user User?  @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
-  User User[]
+  user         User?          @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
+  User         User[]
+  ProjectImage ProjectImage[]
 }
 
+//
 // AUTHENTICATION
+//
 model Session {
   user       User    @relation(fields: [userId], references: [id])
   id         String  @id
@@ -70,4 +77,61 @@ model Session {
   secretHash Bytes
   createdAt  Int
   expiresAt  Int
+}
+
+//
+// PROJECTS
+//
+model Timeline {
+  id        Int    @id @default(autoincrement())
+  name      String
+  userId    Int
+  createdAt Int
+  updatedAt Int?
+
+  user     User      @relation(fields: [userId], references: [id])
+  projects Project[]
+}
+
+model Project {
+  id          Int     @id @default(autoincrement())
+  timelineId  Int
+  title       String
+  description String?
+  client      String? // could store "@client" or "Personal"
+  startDate   Int
+  endDate     Int?
+  order       Int?
+
+  caseStudyUrl String?
+  projectUrl   String?
+
+  timeline Timeline @relation(fields: [timelineId], references: [id])
+
+  // Relation to skills
+  skills ProjectSkill[]
+  // Relation to images
+  images ProjectImage[]
+}
+
+model ProjectSkill {
+  id        Int @id @default(autoincrement())
+  projectId Int
+  skillId   Int
+
+  project Project   @relation(fields: [projectId], references: [id])
+  skill   UserSkill @relation(fields: [skillId], references: [id])
+
+  @@unique([projectId, skillId])
+}
+
+model ProjectImage {
+  id        Int @id @default(autoincrement())
+  projectId Int
+  imageId   Int
+
+  project Project @relation(fields: [projectId], references: [id])
+  image   Image   @relation(fields: [imageId], references: [id])
+
+  @@unique([projectId, imageId])
 }

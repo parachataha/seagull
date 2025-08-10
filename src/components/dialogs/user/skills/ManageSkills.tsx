@@ -49,7 +49,7 @@ export default function ManageSkillsDialog({
 }) {
 
     const { run, loading, error, success } = useServerAction(() => updateSkills({
-        oldValues: user.Skills,
+        oldValues: user.skills,
         newValues: allSkills,
         userAgent: navigator.userAgent,
         }), 
@@ -72,7 +72,7 @@ export default function ManageSkillsDialog({
 
     /** Updates @const user with initial redux user state */
     useEffect(() => {
-        setAllSkills(user.Skills || []);
+        setAllSkills(user.skills || []);
     }, [user]);
 
     /**

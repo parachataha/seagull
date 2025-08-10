@@ -10,9 +10,9 @@ export default function Skills( { user, className } : { user: PublicSafeUser, cl
         <CardContent>
             <article>
                 <h3 className="text-foreground/30 font-semibold"> Skills </h3>
-                <div className="flex flex-wrap gap-2 mt-1">
-                    {user.Skills?.length > 0 && <>
-                        {sortSkills(user.Skills).map(skill => (
+                <div className="flex flex-wrap gap-2 mt-2">
+                    {user.skills?.length > 0 && <>
+                        {sortSkills(user.skills).map(skill => (
                             <Skill
                                 key={skill.id}
                                 skill={skill}

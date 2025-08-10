@@ -1,6 +1,6 @@
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
-import ProfileSidebar from "./components/ProfileSidebar";
+import ProfileSidebar from "../components/ProfileSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { EyeIcon } from "lucide-react";
 import { LinkButton } from "@/components/ui/button";

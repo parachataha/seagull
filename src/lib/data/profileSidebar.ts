@@ -12,14 +12,14 @@ export const sidebarItems : { title: string, url: string, icon: LucideIcon }[] =
         icon: BookOpen,
     },
     {
+        title: "Projects",
+        url: "/profile/projects",
+        icon: Wallpaper,
+    },
+    {
         title: "Qualifications",
         url: "#",
         icon: Calendar,
-    },
-    {
-        title: "Projects",
-        url: "#",
-        icon: Wallpaper,
     },
     {
         title: "Freelancing",

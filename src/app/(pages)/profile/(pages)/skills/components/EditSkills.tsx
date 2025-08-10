@@ -35,7 +35,7 @@ export default function EditSkills( {
         /** 
          * Set @const skills to updated redux state
          */
-        setSkills( sortSkills(user?.Skills || []) )
+        setSkills( sortSkills(user?.skills || []) )
     }, [user])
 
     return ( <Card className={`bg-popover ${className}`}> 

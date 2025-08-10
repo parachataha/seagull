@@ -14,7 +14,7 @@ export default function Content() {
         /**
          * Check if advanced mode should be enabled
          */
-        (user?.Skills || []).forEach(skill => { if (skill.parentId) setAdvancedMode(true) })
+        (user?.skills || []).forEach(skill => { if (skill.parentId) setAdvancedMode(true) })
     }, [user])
     
     return ( <>

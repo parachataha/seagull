@@ -4,6 +4,7 @@
 // Components
 import { Card, CardContent } from "@/components/ui/card";
 import { CardSpotlight } from "@/components/ui/card-spotlight";
+import Content from "./components/Content";
 
 export default function page() {
 
@@ -21,7 +22,7 @@ export default function page() {
                     </p>
             </CardSpotlight>
 
-
+            <Content />
 
         </CardContent>
 

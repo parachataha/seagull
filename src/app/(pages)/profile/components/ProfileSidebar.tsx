@@ -16,7 +16,9 @@ export default function ProfileSidebar() {
     <Sidebar mobileTitle="Your Profile" collapsible="icon" className="absolute" variant="floating" side="left">
 
       <SidebarContent>
-    
+
+      <div className="flex flex-col justify-between !h-[75vh]">
+
         <SidebarMenu className="mt-4">
 
           <SidebarGroup>
@@ -42,6 +44,13 @@ export default function ProfileSidebar() {
           </SidebarGroup>
 
         </SidebarMenu>
+
+        <div>
+          User profile card here
+        </div>
+
+      </div>
+
 
       </SidebarContent>
 

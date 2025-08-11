@@ -3,20 +3,33 @@
  * @param - Depicts if the manage buttons should appear
  */
 
-import TimelineHeader from "./TimelineHeader";
+// Types
+import { Timeline as TimelineType } from "@prisma/client";
 
+// Components
+import TimelineHeader from "./TimelineHeader";
 
 export default function Timeline( { 
     className = "",
-    isOwner = false
+    timelines = [],
+
+    isOwner = false,
+    baseURL = "/profile/projects",
  } : { 
     className?: string,
-    isOwner?: boolean
+    timelines: TimelineType[],
+
+    isOwner?: boolean,
+    baseURL?: string
 } ) {
     
     return ( <div className={`${className}`}>
 
-        <TimelineHeader isOwner={isOwner}/>
+        <TimelineHeader 
+            baseURL={baseURL} 
+            timelines={timelines} 
+            isOwner={isOwner}
+        />
         
     </div>
     );

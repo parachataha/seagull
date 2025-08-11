@@ -36,7 +36,21 @@ function should be used to authenticate users.
 /**
  * @param navigator.userAgent - Should be passed in from the parent server action from the client
  */
-const result = await validateUser(navigator.userAgent);
+const sessionResult = await validateSession(navigator.userAgent);
+```
+
+## Example
+
+```ts
+const sessionResult = await validateSession(navigator.userAgent);
+if (!sessionResult.success || !sessionResult.data?.user) {
+    return {
+        success: false,
+        msg: sessionResult.msg,
+        status: sessionResult.status,
+    };
+}
+const user = sessionResult.data.user;
 ```
 
 ## Return values of validateSession()

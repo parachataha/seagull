@@ -72,6 +72,29 @@ export default async function login( { email, password, userAgent } : { email: s
                 timezone: true,
                 startWork: true,
                 endWork: true,
+
+                skills: {
+                    select: {
+                        userId: true,
+                        id: true,
+                        parentId: true,
+                        name: true,
+                        color: true,
+                        order: true,
+                        createdAt: true
+                    }
+                },
+
+                timelines: {
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        createdAt: true,
+                        updatedAt: true,
+                    }
+                },
+                
                 avatar: {
                     select: {
                         url: true,

@@ -29,11 +29,12 @@ model User {
   startWork Int?
   endWork   Int?
 
-  avatar   Image?      @relation(fields: [avatarId], references: [id])
-  Sessions Session[]
-  Images   Image[]     @relation("UserImages")
-  Skills   UserSkill[]
-  Timeline Timeline[]
+  avatar    Image?      @relation(fields: [avatarId], references: [id])
+  sessions  Session[]
+  images    Image[]     @relation("UserImages")
+  skills    UserSkill[]
+  timelines Timeline[]
+  Project   Project[]
 }
 
 model UserSkill {
@@ -54,12 +55,13 @@ model UserSkill {
 }
 
 model Image {
-  id        Int    @id @default(autoincrement())
-  name      String
-  url       String
-  size      Int
-  userId    Int?
-  createdAt Int
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  url         String
+  size        Int
+  userId      Int?
+  createdAt   Int
 
   user         User?          @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
   User         User[]
@@ -83,29 +85,37 @@ model Session {
 // PROJECTS
 //
 model Timeline {
-  id        Int    @id @default(autoincrement())
-  name      String
-  userId    Int
-  createdAt Int
-  updatedAt Int?
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  userId      Int
+  createdAt   Int
+  updatedAt   Int?
 
   user     User      @relation(fields: [userId], references: [id])
   projects Project[]
+
+  @@unique([userId, name])
 }
 
 model Project {
-  id          Int     @id @default(autoincrement())
-  timelineId  Int
-  title       String
-  description String?
-  client      String? // could store "@client" or "Personal"
-  startDate   Int
-  endDate     Int?
-  order       Int?
+  id             Int     @id @default(autoincrement())
+  timelineId     Int
+  title          String
+  description    String?
+  type           String?
+  locationType   String?
+  organizationId Int?
+  teamId         Int?
+  clientId       Int?
+  startDate      Int
+  endDate        Int?
+  order          Int?
 
   caseStudyUrl String?
   projectUrl   String?
 
+  client   User?    @relation(fields: [clientId], references: [id])
   timeline Timeline @relation(fields: [timelineId], references: [id])
 
   // Relation to skills

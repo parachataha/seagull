@@ -4,16 +4,26 @@ import { toast } from "sonner";
 import { ServerResponse } from "../lib/types/ServerResponse";
 import { updateUser } from "@/app/redux/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { Button, useToast } from "@once-ui-system/core";
+
+interface UseServerActionOptions<T> {
+    onSuccess?: (data?: T) => void; /* Allow data to pass into calling component */ 
+    unauthorizedRedirectUrl?: string;
+    noSuccessToast?: boolean;
+    noErrorToast?: boolean;
+}
 
 export default function useServerAction<T>(
     actionFn: () => Promise<ServerResponse<T>>, 
-    options?: { 
-        onSuccess?: (data?: T) => void; /* Allow data to pass into calling component */ 
-        unauthorizedRedirectUrl?: string;
-        noSuccessToast?: boolean;
-        noErrorToast?: boolean;
-    }
-) {
+    options?: UseServerActionOptions<T>
+) : { 
+    run: () => Promise<ServerResponse<T> | { success: false; msg: string; status: number, data: T } | void>;
+    loading: boolean;
+    error: string | null;
+    success: string | null;
+} {
+
+    const { addToast } = useToast();
 
     const dispatch = useDispatch()
     // Loading state for indicating action in progress
@@ -26,6 +36,27 @@ export default function useServerAction<T>(
     const router = useRouter();
 
     const run = useCallback(async () => {
+
+        addToast({
+            variant: "success",
+            message: "Successfully executed action!",
+            action: 
+                <Button size="s" onClick={() => addToast({ variant: 'success', message: 'Retry successful!' })}>
+                Retry
+                </Button>
+        });
+
+        setTimeout(() => {
+            addToast({
+                variant: "success",
+                message: "Successfully executed action!",
+                action: 
+                    <Button size="s" onClick={() => addToast({ variant: 'success', message: 'Retry successful!' })}>
+                    Retry
+                    </Button>
+            });
+        }, 2000)
+
 
         /**
          * Reset all states before running the action
@@ -46,7 +77,10 @@ export default function useServerAction<T>(
             // If server response indicates failure
             if (!result.success) {
                 setError(result.msg);
-                toast.error(result.msg);
+
+                if (!options?.noErrorToast) {
+                    toast.error(`${result.msg}`);
+                }
 
                 // Handle unauthorized access by redirecting
                 if (result.status === 403) {
@@ -59,10 +93,9 @@ export default function useServerAction<T>(
             // On success, update success state and optionally call onSuccess callback
             setSuccess(result.msg);
             options?.onSuccess?.(result.data);
-            if (result.data?.user) {
-                dispatch(updateUser(result.data.user));
+            if ((result.data as any)?.user) {
+                dispatch(updateUser((result.data as any).user));
             }
-
 
             // If no success toast option is set, skip the toast display
             if (options?.noSuccessToast) {
@@ -70,7 +103,7 @@ export default function useServerAction<T>(
             }
 
             // Show success toast notification
-            toast.success(result.msg);
+            toast.success(`${result.msg}`);
 
             // Return the full result for further handling if needed
             return result;
@@ -79,14 +112,17 @@ export default function useServerAction<T>(
             // Handle unexpected errors and update error state and toast
             const msg = err?.message ?? "Unexpected error";
             setError(msg);
-            toast.error(msg);
+
+            if (!options?.noErrorToast) {
+                toast.error(msg);
+            }
 
             return { success: false, msg, status: 500 };
         } finally {
             // Reset loading state after completion
             setLoading(false);
         }
-    }, [actionFn, options, router]);
+    }, [actionFn, options, router, dispatch]);
 
     // Return the run function and states for use in components
     return { run, loading, error, success };

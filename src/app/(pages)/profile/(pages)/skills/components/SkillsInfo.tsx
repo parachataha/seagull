@@ -4,7 +4,7 @@ export default function SkillsInfo( {advancedMode} : {advancedMode: boolean} ) {
 
 
     return (             
-        <CardSpotlight className="p-8">
+        <CardSpotlight  >
 
                 <h3 className="font-semibold"> Update your skills </h3>
                 <p className="text-foreground/60 mt-1">  

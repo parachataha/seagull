@@ -5,9 +5,8 @@ import { UserSkill } from "@prisma/client";
 
 // Components
 import Skill from "@/components/ui/Skill";
-import ManageSkillsDialog from "@/components/dialogs/user/skills/ManageSkills";
+import ManageSkillsDialog from "@/components/dialogs/skills/ManageSkills";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
 // Hooks
@@ -16,6 +15,7 @@ import { useSelector } from "react-redux";
 import sortSkills from "@/lib/skills/sortSkills";
 import { Label } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Card, CardContent } from "@/components/ui/card";
 
 export default function EditSkills( { 
     className = "", 

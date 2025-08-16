@@ -1,10 +1,10 @@
 "use client"
 /**
- * This component is very complex, allowing users to create parent skills
+ * This component is complex, allowing users to create parent skills
  */
 
 // Data
-import { colors, basicColors, ColorName } from "@/lib/data/colors"; // Used to map all color choices
+import { ColorName } from "@/lib/data/colors"; // Used to map all color choices
 
 // Types
 import { RootState } from "@/app/redux/store";
@@ -17,14 +17,6 @@ import { Label } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
 
 import { Trash2, SquarePlus, CornerDownRight } from "lucide-react"; // Icons
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
@@ -159,45 +151,6 @@ export default function ManageSkillsDialog({
                             placeholder="UI Design"
                             type="text"
                         />
-                    </div>
-                    <div>
-                        <Label>Skill color</Label>
-                        <div className="flex items-stretch gap-1 mb-2">
-                            {basicColors.map((subColorItem, index) => (
-                                <Tooltip key={index}>
-                                    <TooltipTrigger asChild>
-                                        <Button 
-                                            onClick={() => setNewSkillColor(subColorItem.cssVar)}
-                                            type="button"  
-                                            variant="ghost"
-                                            className={`w-1 h-1 rounded-xs border-2 ${newSkillColor == subColorItem.cssVar && "border-blue-500"}`}
-                                            style={{ backgroundColor: subColorItem.cssVar }}
-                                        />
-                                    </TooltipTrigger>
-                                    <TooltipContent className="capitalize"> {subColorItem.name} </TooltipContent> 
-                                </Tooltip>
-                            ))}
-                        </div>
-                        <div className="flex flex-wrap gap-x-1 gap-y-2">
-                            {colors.map((colorItem, index) => (
-                                <div key={index} className="flex flex-col gap-1">
-                                    {colorItem.map((subColorItem, index) => (
-                                        <Tooltip key={index}>
-                                            <TooltipTrigger asChild>
-                                                <Button 
-                                                    onClick={() => setNewSkillColor(subColorItem.cssVar)}
-                                                    type="button"  
-                                                    variant="ghost"
-                                                    className={`w-1 h-1 rounded-xs border-2 ${newSkillColor == subColorItem.cssVar && "border-blue-500"}`}
-                                                    style={{ backgroundColor: subColorItem.cssVar }}
-                                                />
-                                            </TooltipTrigger>
-                                            <TooltipContent className="capitalize"> {subColorItem.name.replaceAll("-"," ")} </TooltipContent> 
-                                        </Tooltip>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
                     </div>
                 </div>
                 <Button variant="neutral" type="submit">Add {advancedMode && "Parent"} Skill</Button>

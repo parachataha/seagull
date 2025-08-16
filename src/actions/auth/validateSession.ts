@@ -94,7 +94,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
                         timezone: true,
                         startWork: true,
                         endWork: true,
-                        Skills: {
+                        skills: {
                             select: {
                                 userId: true,
                                 id: true,
@@ -103,6 +103,15 @@ export default async function validateSession( userAgent: string | null ) : Prom
                                 color: true,
                                 order: true,
                                 createdAt: true
+                            }
+                        },
+                        timelines: {
+                            select: {
+                                id: true,
+                                name: true,
+                                description: true,
+                                createdAt: true,
+                                updatedAt: true,
                             }
                         },
                         avatar: {

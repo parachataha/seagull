@@ -7,7 +7,7 @@ export default function NavbarButton( {href, children, className} : {href: strin
 
     const pathname = usePathname()
     
-    return ( <Link href={href} className={`${pathname == href && ""} text-foreground/80 hover:bg-background/30 px-4 py-4 ${className ?? ""}`}>
+    return ( <Link href={href} className={`${pathname == href && ""} text-foreground/80 hover:bg-background/30 !px-4 !py-4 ${className ?? ""}`}>
 
         {children}
 

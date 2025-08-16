@@ -39,7 +39,7 @@ export default async function getUser({slug, userAgent} : { slug: string, userAg
                 startWork: true,
                 endWork: true,
 
-                Skills: {
+                skills: {
                     select: {
                         userId: true,
                         id: true,

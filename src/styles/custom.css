@@ -14,3 +14,14 @@
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+/* Used to use position absolute to move things to the center */
+.text-primary-highlighted {
+    background-image: linear-gradient(to right, var(--color-secondary), var(--color-primary));
+    background-repeat: no-repeat;
+    background-clip: text;
+    background-size: 400%;
+    background-position-x: 50%;
+    -webkit-background-clip: text;
+    color: transparent;
+}

@@ -16,7 +16,7 @@ ModalTrigger,
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
-import NewTimelineDialog from "@/components/dialogs/user/projects/NewTimelineDialog";
+import NewTimelineDialog from "@/components/dialogs/timelines/NewTimelineDialog";
 import { Input, Label } from "@/components/ui/input";
 
 export default function Content( { 

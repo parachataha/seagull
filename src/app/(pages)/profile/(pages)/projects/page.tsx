@@ -14,7 +14,7 @@ export default function page() {
         <CardContent>
 
             {/* INFORMATION ABOUT PROJECTS */}
-            <CardSpotlight className="p-8">
+            <CardSpotlight>
                     <h3 className="font-semibold"> Manage your projects </h3>
                     <p className="text-foreground/60 mt-1">  
                         Add, delete or update your projects. These projects let users view your working 

@@ -1,218 +1,205 @@
-"use client"
-
 import * as React from "react"
 import Link from "next/link"
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react"
 
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
-import NavbarUserLabel from "../auth/NavbarUserLabel"
-
-const components: { title: string; href: string; description: string }[] = [
-  {
-    title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-  },
-  {
-    title: "Hover Card",
-    href: "/docs/primitives/hover-card",
-    description:
-      "For sighted users to preview content available behind a link.",
-  },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
-]
+import { Column, MegaMenu, UserMenu, Option, Icon } from "@once-ui-system/core"
 
 export default function Navbar() {
   return (
-    <NavigationMenu className="w-full flex justify-between gap-3 py-4" viewport={false}>
-      <NavigationMenuList>
-        <Link href="/" className="text-xl font-semibold mr-3">Seagull</Link>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Discover</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <a
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                    href="/"
-                  >
-                    <div className="mt-4 mb-2 text-lg font-medium">
-                      Seagull
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-tight">
-                      Allowing you to showcase your work and passion to the world with ease
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-              </li>
-              <ListItem href="/" title="Payments">
-                Pay and get paid with safety and security
-              </ListItem>
-              <ListItem href="/" title="Portfolio">
-                Build your dream portfolio
-              </ListItem>
-              <ListItem href="/" title="Teams">
-                Build the perfect team of like-minded users
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link href="/docs">Docs</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>List</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[300px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Components</div>
-                    <div className="text-muted-foreground">
-                      Browse all components in the library.
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Documentation</div>
-                    <div className="text-muted-foreground">
-                      Learn how to use the library.
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">
-                    <div className="font-medium">Blog</div>
-                    <div className="text-muted-foreground">
-                      Read our latest blog posts.
-                    </div>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Components</Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Documentation</Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#">Blocks</Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleHelpIcon />
-                    Backlog
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleIcon />
-                    To Do
-                  </Link>
-                </NavigationMenuLink>
-                <NavigationMenuLink asChild>
-                  <Link href="#" className="flex-row items-center gap-2">
-                    <CircleCheckIcon />
-                    Done
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
+    <div className="flex gap-4 items-center justify-between">
 
-      <NavigationMenuList>
-        <NavbarUserLabel/>
-      </NavigationMenuList>
-    </NavigationMenu>
-  )
-}
-
-function ListItem({
-  title,
-  children,
-  href,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link href={href}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
+      <div className="flex gap-4 items-center">
+        <Link href="/">
+          <h1 className="text-lg font-semibold"> Seagull </h1>
         </Link>
-      </NavigationMenuLink>
-    </li>
+
+        <MegaMenu
+          className="z-10"
+          menuGroups={[
+            {
+              id: "products",
+              label: "Products",
+              suffixIcon: "chevronDown",
+              sections: [
+                {
+                  title: "Featured",
+                  links: [
+                    {
+                      label: "Analytics",
+                      href: "/analytics",
+                      icon: "HiOutlineDocumentChartBar",
+                      description: "Get insights into your data",
+                    },
+                    {
+                      label: "Security",
+                      href: "/security",
+                      icon: "HiOutlineShieldCheck",
+                      description: "Protect your assets",
+                    },
+                  ],
+                },
+                {
+                  title: "Tools",
+                  links: [
+                    {
+                      label: "Dashboard",
+                      href: "/dashboard",
+                      icon: "HiOutlineSquares2X2",
+                      description: "Monitor your metrics",
+                    },
+                    {
+                      label: "Settings",
+                      href: "/settings",
+                      icon: "HiCog8Tooth",
+                      description: "Configure your preferences",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: "solutions",
+              label: "Solutions",
+              suffixIcon: "chevronDown",
+              sections: [
+                {
+                  title: "By industry",
+                  links: [
+                    {
+                      label: "Enterprise",
+                      href: "/enterprise",
+                      icon: "cube",
+                      description: "Solutions for large organizations",
+                    },
+                    {
+                      label: "Startups",
+                      href: "/startups",
+                      icon: "rocket",
+                      description: "Perfect for growing companies",
+                    },
+                  ],
+                },
+                {
+                  title: "By team",
+                  links: [
+                    {
+                      label: "Developers",
+                      href: "/developers",
+                      icon: "code",
+                      description: "Tools and APIs",
+                    },
+                    {
+                      label: "Design teams",
+                      href: "/design",
+                      icon: "sparkle",
+                      description: "Creative solutions",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: "resources",
+              label: "Resources",
+              suffixIcon: "chevronDown",
+              sections: [
+                {
+                  title: "Documentation",
+                  links: [
+                    {
+                      label: "Guides",
+                      href: "/guides",
+                      icon: "book",
+                      description: "Learn how to use our platform",
+                    },
+                    {
+                      label: "API reference",
+                      href: "/api",
+                      icon: "code",
+                      description: "Technical documentation",
+                    },
+                  ],
+                },
+                {
+                  title: "Support",
+                  links: [
+                    {
+                      label: "Help center",
+                      href: "/help",
+                      icon: "infoCircle",
+                      description: "Get your questions answered",
+                    },
+                    {
+                      label: "Community",
+                      href: "/community",
+                      icon: "people",
+                      description: "Connect with other users",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: "company",
+              label: "Company",
+              suffixIcon: "chevronDown",
+              sections: [
+                {
+                  title: "About",
+                  links: [
+                    {
+                      label: "Our story",
+                      href: "/about",
+                      icon: "book",
+                      description: "Learn about our journey",
+                    },
+                    {
+                      label: "Careers",
+                      href: "/careers",
+                      icon: "rocket",
+                      description: "Join our team",
+                    },
+                  ],
+                },
+                {
+                  title: "Connect",
+                  links: [
+                    {
+                      label: "Blog",
+                      href: "/blog",
+                      icon: "document",
+                      description: "Latest updates and news",
+                    },
+                    {
+                      label: "Contact",
+                      href: "/contact",
+                      icon: "email",
+                      description: "Get in touch with us",
+                    },
+                  ],
+                },
+              ],
+            },
+          ]}
+        />
+      </div>
+
+      <UserMenu
+        name="Lorant One"
+        subline="Design Engineer"
+        placement="right-start"
+        avatarProps={{ src: "/images/assets/default-avatar-cyan.svg" }}
+        dropdown={
+          <Column gap="4" padding="4" minWidth={10}>
+            <Link href="/profile">
+              <Option value="" fillWidth hasPrefix={<Icon size="xs" onBackground="neutral-weak" name="settings" />} label="Settings" />
+            </Link>
+            <Option value="" fillWidth hasPrefix={<Icon size="xs" onBackground="neutral-weak" name="logout" />} label="Log out" />
+          </Column>
+        }
+      />
+
+
+    </div>
   )
 }
+

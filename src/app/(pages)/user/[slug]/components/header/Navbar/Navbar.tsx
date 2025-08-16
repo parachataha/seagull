@@ -3,10 +3,11 @@ import { PublicSafeUser } from "@/lib/types/User";
 import NavbarButton from "./NavbarButton";
 import StickyCard from "@/components/ui/StickyCard";
 import { LinkButton } from "@/components/ui/button";
+import { Button } from "@once-ui-system/core";
 
 export default function Navbar( { className, user } : { className?: string, user: PublicSafeUser } ) {
     
-    return ( <StickyCard scrollY={480} className={`overflow-hidden shadow top-4 py-0 px-0 ${className}`}>
+    return ( <StickyCard scrollY={480} className={`overflow-hidden shadow top-4 px-2 ${className}`}>
         
         <div className="flex justify-between items-center gap-2 pr-2">
 
@@ -18,8 +19,8 @@ export default function Navbar( { className, user } : { className?: string, user
                 <NavbarButton href={`/user/${user.slug}`}>Testimonials</NavbarButton>
             </div>
 
-            <div>
-                <LinkButton href="/" variant="default"> Check prices </LinkButton>
+            <div className="pr-4">
+                <Button href="/" variant="primary"> Check prices </Button>
             </div>
 
         </div>

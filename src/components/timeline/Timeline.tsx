@@ -8,6 +8,7 @@ import { Timeline as TimelineType } from "@prisma/client";
 
 // Components
 import TimelineHeader from "./TimelineHeader";
+import EditableTimeline from "./EditableTimeline";
 
 export default function Timeline( { 
     className = "",
@@ -30,6 +31,14 @@ export default function Timeline( {
             timelines={timelines} 
             isOwner={isOwner}
         />
+
+        {isOwner ? 
+            <EditableTimeline/>
+        : 
+            <>
+                tbc
+            </>
+        }
         
     </div>
     );

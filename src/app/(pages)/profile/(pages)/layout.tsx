@@ -19,7 +19,7 @@ export default function ProfileLayout( { children } : { children: React.ReactNod
             </div>
 
             <SidebarProvider>
-                <div className="flex gap-1 relative flex-grow pt-6">
+                <div className="flex gap-2 relative flex-grow pt-6">
 
                     <ProfileSidebar />
 

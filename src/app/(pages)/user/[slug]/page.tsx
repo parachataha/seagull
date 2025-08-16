@@ -10,8 +10,8 @@ import { notFound } from "next/navigation";
 // Components
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
-import UserHeader from "@/components/cards/user/UserHeader/UserHeader";
-import Navbar from "./components/Navbar/Navbar";
+import UserHeader from "./components/header/UserHeader";
+import Navbar from "./components/header/Navbar/Navbar";
 import About from "./components/main/About";
 import Qualifications from "./components/main/Qualifications";
 import Skills from "./components/main/Skills";
@@ -40,20 +40,24 @@ export default async function page( { params } : { params : Promise<{ slug: stri
         
         <Container>
 
-            <UserHeader user={user} />
-            <Navbar user={user} className="mt-4" />
+            <div className="flex flex-col gap-1">
 
-            {/* MAIN CONTENT */}
-            {/* About, qualifications, projects, clients, testimonials */}
-            <main className="mt-4 flex flex-col gap-3">
-                <About user={user}/>
-                <div className="grid md:grid-cols-[60%_39%] gap-3">
-                    <Skills user={user}/>
-                    <Qualifications user={user}/>
+                <UserHeader user={user} />
+                <Navbar user={user} className="mt-4" />
+
+                {/* MAIN CONTENT */}
+                {/* About, qualifications, projects, clients, testimonials */}
+                <main className="mt-4 flex flex-col gap-3">
+                    <About user={user}/>
+                    <div className="grid md:grid-cols-[60%_39%] gap-3">
+                        <Skills user={user}/>
+                        <Qualifications user={user}/>
+                    </div>
+                </main>
+
+                <div className="pb-3900">
                 </div>
-            </main>
 
-            <div className="pb-3900">
             </div>
 
         </Container>

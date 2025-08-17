@@ -37,27 +37,6 @@ export default function useServerAction<T>(
 
     const run = useCallback(async () => {
 
-        addToast({
-            variant: "success",
-            message: "Successfully executed action!",
-            action: 
-                <Button size="s" onClick={() => addToast({ variant: 'success', message: 'Retry successful!' })}>
-                Retry
-                </Button>
-        });
-
-        setTimeout(() => {
-            addToast({
-                variant: "success",
-                message: "Successfully executed action!",
-                action: 
-                    <Button size="s" onClick={() => addToast({ variant: 'success', message: 'Retry successful!' })}>
-                    Retry
-                    </Button>
-            });
-        }, 2000)
-
-
         /**
          * Reset all states before running the action
          */
@@ -103,7 +82,11 @@ export default function useServerAction<T>(
             }
 
             // Show success toast notification
-            toast.success(`${result.msg}`);
+            console.log("hello?")
+            addToast({
+                variant: "success",
+                message: result.msg,
+            });
 
             // Return the full result for further handling if needed
             return result;
@@ -114,7 +97,10 @@ export default function useServerAction<T>(
             setError(msg);
 
             if (!options?.noErrorToast) {
-                toast.error(msg);
+                addToast({
+                    variant: "danger",
+                    message: msg,
+                });
             }
 
             return { success: false, msg, status: 500 };

@@ -65,17 +65,18 @@ export function FileDropzone({
 
   return (
     <Card className={`
-      w-full bg-popover h-50 flex flex-col justify-center 
+      !p-0 !m-0
+      w-full bg-popover flex flex-col justify-center 
       ${isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/30"}
       ${className}
     `}>
-      <CardContent>
+      <CardContent className="!p-0 !m-0"> 
         <div
           {...getRootProps()}
           className={`p-6 text-center cursor-pointer transition mb-2 `}
         >
           <input {...getInputProps()} 
-            className="w-full h-full"
+            className="w-full h-full !py-8"
           />
           {isDragActive ? (
             <p className="text-primary font-medium">Drop the files here…</p>

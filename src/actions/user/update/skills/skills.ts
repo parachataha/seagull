@@ -20,6 +20,8 @@ export default async function updateSkills({
 }) : Promise<ServerResponse<{ user: { Skills: UserSkill[] } }>> {
 
     try {
+
+        console.log("a")
     
         /**
          * Return if no changes have been made
@@ -54,16 +56,30 @@ export default async function updateSkills({
             
         const user = sessionResult.data.user
 
+        console.log("b")
+
         /**
          * Check if the user provided `oldValues` is identical to the database
          */
 
-        user.Skills.forEach((skill : UserSkill, index : number) => {
-            if (oldValues && skill.name !== oldValues[index].name) return { success: false, msg: "Old value does not match database", status: 400 }
-            if (oldValues && skill.color !== oldValues[index].color) return { success: false, msg: "Old value does not match database", status: 400 }
-            if (oldValues && skill.parentId !== oldValues[index].parentId) return { success: false, msg: "Old value does not match database", status: 400 }
-            if (oldValues && skill.order !== oldValues[index].order) return { success: false, msg: "Old value does not match database", status: 400 }
-        })
+        for (let index = 0; index < user.Skills.length; index++) {
+            const skill = user.Skills[index];
+            if (!oldValues) break;
+
+            if (skill.name !== oldValues[index].name) {
+                return { success: false, msg: "Old value does not match database", status: 400 };
+            }
+            if (skill.color !== oldValues[index].color) {
+                return { success: false, msg: "Old value does not match database", status: 400 };
+            }
+            if (skill.parentId !== oldValues[index].parentId) {
+                return { success: false, msg: "Old value does not match database", status: 400 };
+            }
+            if (skill.order !== oldValues[index].order) {
+                return { success: false, msg: "Old value does not match database", status: 400 };
+            }
+        }
+
 
         /**
          * Delete all UserSkills
@@ -73,6 +89,8 @@ export default async function updateSkills({
                 userId: user.id
             }
        })
+
+       console.log("c")
 
         // Store createdAt
        const createdAt = Math.floor(new Date().getTime() / 1000)
@@ -95,6 +113,8 @@ export default async function updateSkills({
                 })
             ]
        })
+
+       console.log("mama")
 
         if (!createParentsResult) throw new Error(`Database internal error`)
         
@@ -130,7 +150,7 @@ export default async function updateSkills({
             status: 200,
             data: {
                 user: {
-                    Skills: [...createParentsResult, ...createChildrenResult].map(skill => { return {
+                    skills: [...createParentsResult, ...createChildrenResult].map(skill => { return {
                         id: skill.id,
                         name: skill.name,
                         createdAt: skill.createdAt,

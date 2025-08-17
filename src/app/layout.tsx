@@ -47,12 +47,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <DataThemeProvider>
               <ThemeProvider
                 theme="system" // system | dark | light
-                accent="indigo" // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
+                accent="green" // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
                 neutral="gray" // sand | gray | slate
                 solid="contrast" // color | contrast
                 solidStyle="flat" // flat | plastic
                 surface="translucent" // filled | translucent
                 transition="all"
+                border="conservative"
               >
                 <ToastProvider>
 

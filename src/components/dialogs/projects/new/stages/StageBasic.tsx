@@ -1,24 +1,25 @@
 "use client"
 
 // Components
-import { Button } from "@/components/ui/button";
 import { FileDropzone } from "@/components/ui/files/FileDropzone";
-import { Input, Label, Textarea } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { Label } from "@/components/ui/input";
 import { PublicSafeUser } from "@/lib/types/User";
+import { Button, Input, Textarea } from "@once-ui-system/core";
 import { Timeline } from "@prisma/client";
-import { ArrowLeft, PlusIcon, Settings2Icon, Trash2Icon } from "lucide-react";
+import { ArrowLeft, Heading1Icon, PlusIcon, Settings2Icon, TextIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";;
 
-export default function StageBasicDetails ( {
+export default function StageBasic ( {
     user,
 
     timeline,
-    setTimeline,
 
     title, 
     setTitle,
+
+    locationType,
+    setLocationType,
 
     description,
     setDescription,
@@ -35,13 +36,15 @@ export default function StageBasicDetails ( {
     user: PublicSafeUser,
 
     timeline: Timeline | undefined,
-    setTimeline: (arg: Timeline) => void,
 
     title: string,
-    setTitle: (arg: string) => void,
+    setTitle: React.Dispatch<React.SetStateAction<string>>,
+
+    locationType: string,
+    setLocationType: React.Dispatch<React.SetStateAction<string>>,
 
     description: string,
-    setDescription: (arg: string) => void,
+    setDescription: React.Dispatch<React.SetStateAction<string>>,
 
     files: File[],
     setFiles: React.Dispatch<React.SetStateAction<File[]>>,
@@ -80,55 +83,28 @@ export default function StageBasicDetails ( {
     }
 
     const [inputErrors, setInputErrors] = useState<string[]>([]);
+
+    const [selectedCountry, setSelectedCountry] = useState("");
     
     return ( <>
         
     <div className="flex gap-2">
-        <div>
-            <Label> Timeline* </Label>
-            <Select 
-                value={timeline?.name}
-                onValueChange={(value) => {
-                    const selectedTimeline = user.timelines.find(t => t.name === value);
-                    if (selectedTimeline) {
-                        setTimeline(selectedTimeline);
-                        setInputErrors((prev) => prev.filter(err => err !== "timeline"));
-                    } else {
-                        setInputErrors((prev) => [...prev, "timeline"]);
-                    }
-                }}
-            >
-                <SelectTrigger> {timeline ? <span className="text-foreground"> {timeline.name} </span> : "You have no timelines yet"} </SelectTrigger>
-                <SelectContent>
-                    {user.timelines.map((timeline : Timeline) => {
-                        return ( 
-                            <SelectItem
-                                onClick={() => setTimeline(timeline)}
-                                key={timeline.id}
-                                value={timeline.name}
-                                className="capitalize"
-                            >  
-                                {timeline.name}
-                            </SelectItem>
-                        )
-                    })}
-                </SelectContent>
-            </Select>
-        </div>
         <div className="grow">
-            <Label> Project Title* </Label>
-            <Input 
+            <Label> Title </Label>
+            <Input
+                id="title"
                 aria-invalid={inputErrors.includes("title") ? "true" : "false"}
                 placeholder="My cool sunglasses"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)} 
             />
         </div>
     </div>
 
     <div>
-        <Label> Project Description* </Label>
+        <Label> Description </Label>
         <Textarea
+            id="description"
             aria-invalid={inputErrors.includes("description") ? "true" : "false"}
             placeholder="My cool sunglasses"
             value={description}
@@ -150,25 +126,28 @@ export default function StageBasicDetails ( {
                     className="object-contain w-full h-full"
                 />
                 {/* BACK BUTTON */}
-                <button 
+                <Button 
+                    variant="secondary"
                     type="button"
                     onClick={() => setSelectedImage(null)}
-                    className="cursor-pointer absolute top-3 left-3 bg-background/50 p-2 rounded-md hover:bg-background/80 backdrop-blur-md transition-all duration-300"
+                    className="!absolute top-3 left-3"
                 >
                     <ArrowLeft className="text-muted-foreground" size="18px"/>
-                </button>
+                </Button>
                 {/* DELETE BUTTON */}
-                <button 
+                <Button 
+                    variant="danger"
                     type="button"
                     onClick={() => handleImageDelete(selectedImage)}
-                    className="cursor-pointer absolute top-3 right-3 bg-red-500/30 p-2 rounded-md hover:bg-red-500/50 backdrop-blur-md transition-all duration-300"
+                    className="!absolute top-3 right-3 !bg-red-500/10"
                 >
                     <Trash2Icon className="text-red-500" size="18px"/>
-                </button>
+                </Button>
                 {/* IMAGE DESCRIPTION */}
                 <Input
-                    className="absolute bottom-0 left-0 w-full bg-background/80 backdrop-blur-md border-none py-1 px-2 rounded-b-lg rounded-t-none"
-                    placeholder="Describe this image here if you want to"
+                    id="img-description"
+                    className="!absolute bottom-0 left-0 w-full !rounded-b-lg !rounded-t-none"
+                    label="Optional description"
                     onChange={(e) => handleImageDescriptionChange(e, files.indexOf(selectedImage))}
                     value={imageDescriptions[files.indexOf(selectedImage)] || ""}
                 />
@@ -184,7 +163,7 @@ export default function StageBasicDetails ( {
         }
 
         {files.length > 0 && 
-            <div className="rounded-lg flex items-center flex-wrap gap-0 mt-3 bg-popover p-2"> 
+            <div className="rounded-lg flex items-center flex-wrap gap-1 mt-3 bg-popover p-2"> 
                 {files.map((file, index) => {
 
                     return (
@@ -211,13 +190,14 @@ export default function StageBasicDetails ( {
                 })} 
                 
                 {selectedImage && 
-                <Button 
-                    className="flex items-center justify-center bg-foreground/5 hover:bg-foreground/10 transition-all duration-300 m-1 h-13 px-2"
-                    variant="ghost"
+                <Button
+                    className="h-full !py-7"
+                    variant="secondary"
                     onClick={() => setSelectedImage(null)}
                     type="button"
-                >
+                >   
                     <PlusIcon className="mr-1" size={16} />
+                    
                 </Button> 
                 }
 

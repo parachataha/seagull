@@ -8,11 +8,20 @@ import validateSession from "@/actions/auth/validateSession"
 
 // Schemas
 import { locationSchema } from "@/schemas/user"
+import { ServerResponse } from "@/lib/types/ServerResponse"
 
 /**
  * First validates the user cookie, and updates the authenticated user's timezone
  */
-export default async function updateTimezone( { oldTimezone, newTimezone, userAgent } : { oldTimezone: string | null, newTimezone: string | null, userAgent: string | null } ) {
+export default async function updateTimezone( { 
+    oldTimezone, 
+    newTimezone, 
+    userAgent 
+} : { 
+    oldTimezone: string | null, 
+    newTimezone: string | null,
+    userAgent: string | null
+} ) : Promise<ServerResponse<{ user: { timezone: string | null } }>> {
 
     try {
 
@@ -39,7 +48,7 @@ export default async function updateTimezone( { oldTimezone, newTimezone, userAg
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.timezone?.trim().toUpperCase() === newTimezone?.trim().toUpperCase()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.timezone?.trim().toUpperCase() === newTimezone?.trim().toUpperCase()) return { success: true, msg: "Not modified", status: 304, data: { user: { timezone: newTimezone?.trim() || null } } }
         if (user.timezone && user.timezone?.trim().toUpperCase() !== oldTimezone?.trim().toUpperCase()) { 
             console.log(user.timezone?.trim().toUpperCase(), oldTimezone?.trim().toUpperCase())
             invalidateSession()

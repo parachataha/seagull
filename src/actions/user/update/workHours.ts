@@ -8,6 +8,7 @@ import validateSession from "@/actions/auth/validateSession"
 
 // Schemas
 import { workStartSchema, workEndSchema, userAgentSchema } from "@/schemas/user"
+import { ServerResponse } from "@/lib/types/ServerResponse"
 
 /**
  * First validates the user cookie, and updates the authenticated user's work hours
@@ -20,7 +21,10 @@ export default async function updateWorkHours( {
     oldWorkStart: number | null, newWorkStart: number | null, 
     oldWorkEnd: number | null, newWorkEnd: number | null,
     userAgent: string | null
-} ) {
+} ) : Promise<ServerResponse<{ user: {
+    startWork: number | null;
+    endWork: number | null;
+} }>> {
 
     try {
 

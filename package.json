@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@once-ui-system/core": "^1.4.26",
     "@prisma/client": "^6.14.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@radix-ui/react-alert-dialog": "^1.1.14",

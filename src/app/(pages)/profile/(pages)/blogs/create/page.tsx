@@ -2,7 +2,6 @@
 
 import Container from "@/components/layout/Container";
 import FullPage from "@/components/layout/FullPage";
-import { Heading, Input } from "@once-ui-system/core";
 import { ArrowLeftIcon } from "lucide-react";
 import CreateForm from "./CreateForm";
 import Link from "next/link";

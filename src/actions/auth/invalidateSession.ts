@@ -50,7 +50,7 @@ export async function deleteServerSession(sessionId?: string) : Promise<ServerRe
             
             if (!tokenSchema.safeParse(token).success) {
                 deleteClientSession();
-                return { success: true, msg: "Invalid token", status: 400 }
+                return { success: true, msg: "Invalid token", status: 400, data: undefined }
             }
 
             const sessionId = token?.split(".")[0];
@@ -62,7 +62,7 @@ export async function deleteServerSession(sessionId?: string) : Promise<ServerRe
             })
         }
 
-        return { success: true, msg: "Deleted session successfully", status: 200 }
+        return { success: true, msg: "Deleted session successfully", status: 200, data: undefined }
 
     } catch (error) {
 

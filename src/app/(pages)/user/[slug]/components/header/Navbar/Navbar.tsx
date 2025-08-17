@@ -2,8 +2,7 @@
 import { PublicSafeUser } from "@/lib/types/User";
 import NavbarButton from "./NavbarButton";
 import StickyCard from "@/components/ui/StickyCard";
-import { LinkButton } from "@/components/ui/button";
-import { Button } from "@once-ui-system/core";
+import { Button, LinkButton } from "@/components/ui/button";
 
 export default function Navbar( { className, user } : { className?: string, user: PublicSafeUser } ) {
     
@@ -20,7 +19,7 @@ export default function Navbar( { className, user } : { className?: string, user
             </div>
 
             <div className="pr-4">
-                <Button href="/" variant="primary"> Check prices </Button>
+                <Button variant="default"> Check prices </Button>
             </div>
 
         </div>

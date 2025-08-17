@@ -25,7 +25,14 @@ export default async function uploadImage({
     description,
     maxSize = 500000, // 500KB 
 }: UpdateImageProps) : 
-    Promise<ServerResponse<{ name: string; size: number; description?: string }>> {
+    Promise<ServerResponse<
+        { 
+            image: {
+                name: string; 
+                size: number; 
+                description?: string 
+            }
+        }>> {
     
     console.log(file.name, file.size)
 
@@ -36,15 +43,13 @@ export default async function uploadImage({
 
     try {
 
-        console.log("yolo")
-
         // Validate user agent
         if (userAgent && !userAgentSchema.safeParse(userAgent)) {
             return { success: false, msg: "Invalid user agent passed", status: 400 } 
         }
 
         if (!file) {
-            return { success: false, message: "No file provided." };
+            return { success: false, msg: "No file provided.", status: 400 };
         }
 
         if (description && !imageDescriptionSchema.safeParse(description).success) {
@@ -58,13 +63,13 @@ export default async function uploadImage({
 
         // Validate MIME type
         if (!file.type.startsWith(allowedType + "/")) {
-            return { success: false, message: `Invalid file type. Expected ${allowedType}.` };
+            return { success: false, msg: `Invalid file type. Expected ${allowedType}.`, status: 400 };
         }
 
         // Validate file extension
         const ext = file.name.split(".").pop()?.toLowerCase();
         if (!ext || !allowedFormats.includes(ext)) {
-            return { success: false, message: `Invalid file format. Allowed: ${allowedFormats.join(", ")}` };
+            return { success: false, msg: `Invalid file format. Allowed: ${allowedFormats.join(", ")}`, status: 400 };
         }
 
         /**
@@ -72,13 +77,14 @@ export default async function uploadImage({
          */
         const result = await uploadFile(file)
 
-        console.log(result)
+        return { success: false, msg: "This function does not exist yet", status: 404 }
         
     } catch (err: any) {
 
         return {
             success: false,
-            message: err?.message || "Failed to process images",
+            msg: err?.message || "Failed to process images",
+            status: 500
         };
 
     }

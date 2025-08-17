@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "../button";
 import { ArrowLeft, Trash2 } from "lucide-react";
-import { Input } from "@once-ui-system/core";
+import { Input } from "../input";
 
 type AcceptType = "image" | "video" | "text";
 
@@ -131,9 +131,9 @@ export function FileDropzone({
           {/* DESCRIPTION INPUT, only if descriptions prop is provided */}
           {descriptions && setDescriptions && (
             <Input
+              placeholder="Description"
               id="img-description"
               className="!absolute bottom-0 left-0 w-full"
-              label="Description"
               value={descriptions[files.indexOf(selectedImg)] || ""}
               onChange={(e) => handleDescriptionChange(e.target.value)}
             />

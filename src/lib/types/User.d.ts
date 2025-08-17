@@ -4,16 +4,16 @@ import { SessionWithToken } from "./Session"
 
 export type SafeUser = Omit<User, "password"> & {
   avatar?: Avatar | null,
-  skills: UserSkill[],
-  projects: Project[],
-  timelines: Timeline[],
+  skills?: UserSkill[],
+  projects?: Project[],
+  timelines?: Timeline[],
 }
 
 export type PublicSafeUser = Omit<User, "password" | "email"> & {
   avatar?: Avatar | null,
-  skills: UserSkill[],
-  projects: Project[],
-  timelines: Timeline[],
+  skills?: UserSkill[],
+  projects?: Project[],
+  timelines?: Timeline[],
 }
 
 export type SafeSessionWithToken = Omit<SessionWithToken, "secretHash"> 

@@ -7,7 +7,6 @@ import { CardSpotlight } from "@/components/ui/card-spotlight";
 import Content from "./components/Content";
 
 export default function page() {
-
     
     return ( <Card>
         

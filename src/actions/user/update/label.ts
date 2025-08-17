@@ -3,12 +3,21 @@
 import invalidateSession from "@/actions/auth/invalidateSession"
 import validateSession from "@/actions/auth/validateSession"
 import prisma from "@/lib/db"
+import { ServerResponse } from "@/lib/types/ServerResponse"
 import { labelSchema } from "@/schemas/user"
 
 /**
  * First validates the user cookie, and updates the authenticated user's label
  */
-export default async function updateLabel( { oldLabel, newLabel, userAgent } : { oldLabel: string | null, newLabel: string, userAgent: string | null } ) {
+export default async function updateLabel( { 
+    oldLabel, 
+    newLabel, 
+    userAgent 
+} : { 
+    oldLabel: string | null, 
+    newLabel: string, 
+    userAgent: string | null 
+} ) : Promise<ServerResponse<{ user: { label: string } }>> {
 
     try {
 
@@ -35,7 +44,7 @@ export default async function updateLabel( { oldLabel, newLabel, userAgent } : {
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.label?.trim().toLowerCase() === newLabel.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.label?.trim().toLowerCase() === newLabel.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304, data: { user: { label: newLabel.trim() } } }
         if (user.label && user.label?.trim().toLowerCase() !== oldLabel?.trim().toLowerCase()) { 
             invalidateSession()
             return { success: false, msg: "User provided label does not match database", status: 400 }

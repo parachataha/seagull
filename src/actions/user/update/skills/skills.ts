@@ -17,7 +17,7 @@ export default async function updateSkills({
     oldValues: UserSkill[] | undefined,
     newValues: UserSkill[],
     userAgent: string | null
-}) : Promise<ServerResponse<{ user: { Skills: UserSkill[] } }>> {
+}) : Promise<ServerResponse<{ user: { skills: UserSkill[] } }>> {
 
     try {
 
@@ -26,7 +26,7 @@ export default async function updateSkills({
         /**
          * Return if no changes have been made
          */
-        if (JSON.stringify(oldValues) === JSON.stringify(newValues)) return { success: true, msg: "No changes made", status: 304, data : { user: { Skills: newValues } } }
+        if (JSON.stringify(oldValues) === JSON.stringify(newValues)) return { success: true, msg: "No changes made", status: 304, data : { user: { skills: newValues } } }
 
         /** 
          * Validate list lengths (old and new) 
@@ -56,26 +56,24 @@ export default async function updateSkills({
             
         const user = sessionResult.data.user
 
-        console.log("b")
-
         /**
          * Check if the user provided `oldValues` is identical to the database
          */
 
-        for (let index = 0; index < user.Skills.length; index++) {
-            const skill = user.Skills[index];
+        for (let index = 0; (user.skills && index < user.skills.length); index++) {
+            const skill = user.skills?.[index]
             if (!oldValues) break;
 
-            if (skill.name !== oldValues[index].name) {
+            if (skill?.name !== oldValues[index].name) {
                 return { success: false, msg: "Old value does not match database", status: 400 };
             }
-            if (skill.color !== oldValues[index].color) {
+            if (skill?.color !== oldValues[index].color) {
                 return { success: false, msg: "Old value does not match database", status: 400 };
             }
-            if (skill.parentId !== oldValues[index].parentId) {
+            if (skill?.parentId !== oldValues[index].parentId) {
                 return { success: false, msg: "Old value does not match database", status: 400 };
             }
-            if (skill.order !== oldValues[index].order) {
+            if (skill?.order !== oldValues[index].order) {
                 return { success: false, msg: "Old value does not match database", status: 400 };
             }
         }

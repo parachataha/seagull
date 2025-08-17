@@ -58,7 +58,7 @@ export default function NewTimelineDialog({
 
                 <div>
                     <h3 className="text-xl font-semibold"> 
-                        Create your {user.timelines.length === 0 && "first"} timeline 
+                        Create your {user.timelines?.length === 0 && "first"} timeline 
                     </h3>
                     <p className="mt-1 text-foreground/70">
                         Timelines lets you add new projects and lets people see how you progressed over time.

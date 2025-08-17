@@ -15,7 +15,6 @@ import { useState } from "react";
 
 // Server actions
 import useServerAction from "@/hooks/useServerAction";
-import uploadImage from "@/actions/files/uploadImage"
 import createBlog from "@/actions/blogs/createBlog";
 
 export default function CreateForm({ 

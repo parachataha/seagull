@@ -4,15 +4,12 @@ import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 
 // Components
-import { Sidebar, SidebarContent, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { sidebarItems } from "@/lib/data/profileSidebar";
 import Link from "next/link";
-import VerticalUserLabel from "@/components/cards/user/VerticalUserLabel";
 
 // Types
 import { RootState } from "@/app/redux/store";
-import UserAvatar from "@/components/images/UserAvatar";
-import { Card } from "@once-ui-system/core";
 
 export default function ProfileSidebar() {
 

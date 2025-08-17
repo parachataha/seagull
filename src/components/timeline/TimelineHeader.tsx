@@ -8,7 +8,6 @@ import TimelineHeaderItem from "./TimelineHeaderItem";
 import { Button } from "../ui/button";
 import { Modal, ModalBody, ModalTrigger } from "../ui/animated-modal";
 import NewTimelineDialog from "../dialogs/timelines/NewTimelineDialog";
-import { Heading } from "@once-ui-system/core";
 
 export default function TimelineHeader( { 
     timelines = [],
@@ -28,7 +27,7 @@ export default function TimelineHeader( {
 
             <div className="flex justify-between items-end gap-3 w-full overflow-x-auto pr-2">
                 <div>
-                    <Heading className="!mb-3" variant="heading-strong-l">Development</Heading>
+                    <h1 className="!mb-3 text-2xl font-semibold">Development</h1>
                     <div className="flex gap-2 items-end"> 
                         {timelines.length > 0 && 
                             <>

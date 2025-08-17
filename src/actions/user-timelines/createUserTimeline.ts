@@ -20,7 +20,7 @@ export default async function createUserTimeline({
     name: string,
     description?: string,
     userAgent: string
-}) : Promise<ServerResponse<PublicSafeUser>> {
+}) : Promise<ServerResponse<{ user: Partial<PublicSafeUser> }>> {
 
     try {
 
@@ -38,7 +38,7 @@ export default async function createUserTimeline({
             return { success: false, msg: descriptionTest.error.message, status: 400 };
         } 
         if (userAgent && !userAgentTest.success) {
-            return { success: false, msg: descriptionTest.error?.message, status: 400 };
+            return { success: false, msg: descriptionTest.error?.message || "An error occurred", status: 400 };
         } 
 
         /**
@@ -68,8 +68,8 @@ export default async function createUserTimeline({
             success: true,
             msg: "Timeline created successfully",
             data: {
-                user: { 
-                    timelines: [...user.timelines, result]
+                user: {
+                    timelines: [ ...user?.timelines||[] , result ]
                 }
             },
             status: 201,

@@ -1,6 +1,5 @@
 import UserAvatar from "@/components/images/UserAvatar";
 import { PublicSafeUser } from "@/lib/types/User";
-import { Heading } from "@once-ui-system/core";
 
 
 export default function UserHeader ( {
@@ -17,7 +16,7 @@ export default function UserHeader ( {
             className={`w-20 h-20 mb-2`}
         />
 
-        <Heading variant="heading-strong-xl"> {user.name} </Heading>
+        <h1 className="text-2xl font-semibold"> {user.name} </h1>
         
     </div>
     );

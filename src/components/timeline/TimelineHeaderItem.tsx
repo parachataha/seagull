@@ -1,10 +1,10 @@
 "use client"
 
-import { Button } from "@once-ui-system/core";
 import { Timeline } from "@prisma/client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { Button } from "../ui/button";
 
 export default function TimelineHeaderItem( { 
     className,
@@ -31,7 +31,7 @@ export default function TimelineHeaderItem( {
                 
             `}
         > 
-            <Button className={`${url == pathname && "!bg-foreground/5"}`} variant="secondary" size="s"> 
+            <Button className={`text-sm ${url == pathname && "!bg-foreground/5"}`} variant="secondary"> 
                 {timeline.name} 
             </Button>
         </Link>

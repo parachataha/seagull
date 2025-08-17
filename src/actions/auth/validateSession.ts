@@ -109,6 +109,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
                             select: {
                                 id: true,
                                 name: true,
+                                userId: true,
                                 description: true,
                                 createdAt: true,
                                 updatedAt: true,

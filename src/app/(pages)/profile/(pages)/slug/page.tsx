@@ -32,10 +32,11 @@ export default function page() {
 
     const [successMsg, setSuccessMsg] = useState<string>("")
  
-    const { run, loading, error, success } = useServerAction(() => updateSlug({ 
+    const { run, loading, error, success } = useServerAction(() => 
+        updateSlug({ 
             oldSlug: user.slug, 
             newSlug: slug.trim().toLowerCase(), 
-            userAgent: navigator.userAgent 
+            userAgent: navigator.userAgent || null
         }),
         {
             unauthorizedRedirectUrl: "/login",

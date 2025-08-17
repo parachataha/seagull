@@ -3,12 +3,21 @@
 import invalidateSession from "@/actions/auth/invalidateSession"
 import validateSession from "@/actions/auth/validateSession"
 import prisma from "@/lib/db"
+import { ServerResponse } from "@/lib/types/ServerResponse"
 import { slugSchema } from "@/schemas/user"
 
 /**
  * First validates the user cookie, and updates the authenticated user's slug
  */
-export default async function updateSlug( { oldSlug, newSlug, userAgent } : { oldSlug: string | null, newSlug: string, userAgent: string | null } ) {
+export default async function updateSlug( { 
+    oldSlug, 
+    newSlug, 
+    userAgent 
+} : { 
+    oldSlug: string | null, 
+    newSlug: string, 
+    userAgent: string | null 
+} ) : Promise<ServerResponse<{ user: { slug: string } }>> {
 
     try {
 
@@ -35,7 +44,7 @@ export default async function updateSlug( { oldSlug, newSlug, userAgent } : { ol
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.slug?.trim().toLowerCase() === newSlug.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.slug?.trim().toLowerCase() === newSlug.trim().toLowerCase()) return { success: true, msg: "Not modified", status: 304, data: { user: { slug: newSlug.trim().toLowerCase().replaceAll("", "-") } } }
         if (user.slug && user.slug?.trim().toLowerCase() !== oldSlug?.trim().toLowerCase()) { 
             invalidateSession()
             return { success: false, msg: "User provided slug does not match database", status: 400 }

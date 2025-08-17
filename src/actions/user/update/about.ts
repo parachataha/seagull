@@ -43,7 +43,7 @@ export default async function updateAbout( { oldAbout, newAbout, userAgent } : {
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.about?.trim() === newAbout?.trim()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.about?.trim() === newAbout?.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { about: newAbout?.trim() || null } } }
         if (user.about && user.about?.trim() !== oldAbout?.trim()) { 
             invalidateSession()
             return { success: false, msg: "User provided about does not match database", status: 400 }

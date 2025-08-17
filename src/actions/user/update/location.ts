@@ -8,11 +8,20 @@ import validateSession from "@/actions/auth/validateSession"
 
 // Schemas
 import { locationSchema } from "@/schemas/user"
+import { ServerResponse } from "@/lib/types/ServerResponse"
 
 /**
  * First validates the user cookie, and updates the authenticated user's location
  */
-export default async function updateLocation( { oldLocation, newLocation, userAgent } : { oldLocation: string | null, newLocation: string | null, userAgent: string | null } ) {
+export default async function updateLocation( { 
+    oldLocation, 
+    newLocation, 
+    userAgent 
+} : { 
+    oldLocation: string | null, 
+    newLocation: string | null, 
+    userAgent: string | null 
+} ) : Promise<ServerResponse<{ user: { location: string | null } }>> {
 
     try {
 
@@ -39,7 +48,7 @@ export default async function updateLocation( { oldLocation, newLocation, userAg
          * Return if no changes made
          * Double check oldSlug == database value to prevent attacks
          */
-        if (user.location?.trim() === newLocation?.trim()) return { success: true, msg: "Not modified", status: 304 }
+        if (user.location?.trim() === newLocation?.trim()) return { success: true, msg: "Not modified", status: 304, data: { user: { location: newLocation?.trim() || null } } }
         if (user.location && user.location?.trim() !== oldLocation?.trim()) { 
             invalidateSession()
             return { success: false, msg: "User provided slug does not match database", status: 400 }

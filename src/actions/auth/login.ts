@@ -10,15 +10,23 @@ import prisma from "@/lib/db";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { emailSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
 import createSession from "./createSession";
-import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
+import { PublicSafeUser, SafeSessionWithToken } from "@/lib/types/User";
 import verifyPass from "@/lib/password/verifyPass";
 
 export interface SuccessDataType {
-    user: Partial<SafeUser>,
+    user: Partial<PublicSafeUser>,
     session: SafeSessionWithToken
 }
 
-export default async function login( { email, password, userAgent } : { email: string, password: string, userAgent: string | null } ) : Promise<ServerResponse<SuccessDataType>> {
+export default async function login( { 
+    email,
+    password, 
+    userAgent 
+} : { 
+    email: string, 
+    password: string, 
+    userAgent: string | null 
+} ) : Promise<ServerResponse<SuccessDataType>> {
     
     /**
      * Validation
@@ -87,6 +95,7 @@ export default async function login( { email, password, userAgent } : { email: s
 
                 timelines: {
                     select: {
+                        userId: true,
                         id: true,
                         name: true,
                         description: true,

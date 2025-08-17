@@ -29,9 +29,6 @@ export default function SignupPage() {
 
         e.preventDefault()
 
-        // Used to store browser information for security
-        const userAgent = navigator.userAgent || null
-
         // Perform server action
         run()
         

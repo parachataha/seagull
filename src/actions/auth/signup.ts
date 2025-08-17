@@ -96,7 +96,7 @@ export default async function signup( { name, email, password, userAgent } : { n
 
         console.error(error)
 
-        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
+        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500, error: error }
 
     }
 

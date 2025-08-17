@@ -18,7 +18,8 @@ type SuccessResponse<T = undefined> = {
 type ErrorResponse = {
   success: false
   msg: string
-  status: number
+  status: number,
+  error?: any,
 }
 
 export type ServerResponse<T = undefined> = SuccessResponse<T> | ErrorResponse

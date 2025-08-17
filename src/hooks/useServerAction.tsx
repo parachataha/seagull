@@ -23,8 +23,6 @@ export default function useServerAction<T>(
     success: string | null;
 } {
 
-    const { addToast } = useToast();
-
     const dispatch = useDispatch()
     // Loading state for indicating action in progress
     const [loading, setLoading] = useState(false);
@@ -48,7 +46,7 @@ export default function useServerAction<T>(
             /**
              * Run the server action function passed as a parameter
              */
-            console.log("hello world 2")
+
             const result = await actionFn();
 
             console.log(result)
@@ -57,7 +55,10 @@ export default function useServerAction<T>(
             if (!result.success) {
                 setError(result.msg);
 
+                console.log("errorrr")
+
                 if (!options?.noErrorToast) {
+                    console.log("errorrr")
                     toast.error(`${result.msg}`);
                 }
 
@@ -81,13 +82,6 @@ export default function useServerAction<T>(
                 return;
             }
 
-            // Show success toast notification
-            console.log("hello?")
-            addToast({
-                variant: "success",
-                message: result.msg,
-            });
-
             // Return the full result for further handling if needed
             return result;
 
@@ -97,10 +91,7 @@ export default function useServerAction<T>(
             setError(msg);
 
             if (!options?.noErrorToast) {
-                addToast({
-                    variant: "danger",
-                    message: msg,
-                });
+                toast.success(msg);
             }
 
             return { success: false, msg, status: 500 };

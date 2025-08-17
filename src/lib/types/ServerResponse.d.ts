@@ -8,14 +8,11 @@
 import { Session, User } from "@prisma/client"
 import { PublicSafeUser, SafeSessionWithToken, SafeUser } from "./User"
 
-type SuccessResponse = {
+type SuccessResponse<T = undefined> = {
   success: true
   msg: string
   status: number
-  data: {
-    user?: PublicSafeUser | SafeSessionWithToken | SafeUser,
-    session?: SafeSessionWithToken
-  }
+  data: T
 }
 
 type ErrorResponse = {

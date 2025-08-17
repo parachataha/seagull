@@ -1,12 +1,7 @@
-
-import '@once-ui-system/core/css/styles.css';
-import '@once-ui-system/core/css/tokens.css';
-
 import "../styles/globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { DataThemeProvider, IconProvider, LayoutProvider, ThemeProvider, ThemeSwitcher, ToastProvider } from "@once-ui-system/core";
 import ReduxProvider from './redux/ReduxProvider';
 import Navbar from '@/components/layout/Navbar';
 import { Metadata } from 'next';
@@ -43,36 +38,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
           ${geistSans.variable} ${geistMono.variable} antialiased
         `}
       >
-        <LayoutProvider>
-            <DataThemeProvider>
-              <ThemeProvider
-                theme="system" // system | dark | light
-                accent="green" // blue | indigo | violet | magenta | pink | red | orange | yellow | moss | green | emerald | aqua | cyan
-                neutral="gray" // sand | gray | slate
-                solid="contrast" // color | contrast
-                solidStyle="flat" // flat | plastic
-                surface="translucent" // filled | translucent
-                transition="all"
-                border="conservative"
-              >
-                <ToastProvider>
 
-                <ReduxProvider>
+        <ReduxProvider>
 
-                  {/* USED TO FETCH USER */}
-                  <UserProvider />
+          {/* USED TO FETCH USER */}
+          <UserProvider />
 
-                  <Container className='w-full mt-5'>
-                    <Navbar />
-                  </Container>
-                  {children}
+          <Container className='w-full mt-5'>
+            <Navbar />
+          </Container>
+          {children}
 
-                </ReduxProvider>
+        </ReduxProvider>
 
-              </ToastProvider>
-            </ThemeProvider>
-          </DataThemeProvider>
-        </LayoutProvider>
       </body>
     </html>
   );

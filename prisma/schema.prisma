@@ -35,6 +35,7 @@ model User {
   skills    UserSkill[]
   timelines Timeline[]
   Project   Project[]
+  Blog      Blog[]
 }
 
 model UserSkill {
@@ -66,6 +67,7 @@ model Image {
   user         User?          @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
   User         User[]
   ProjectImage ProjectImage[]
+  Blog         Blog[]
 }
 
 //
@@ -82,7 +84,7 @@ model Session {
 }
 
 //
-// PROJECTS
+// TIMELINES
 //
 model Timeline {
   id          Int     @id @default(autoincrement())
@@ -98,6 +100,9 @@ model Timeline {
   @@unique([userId, name])
 }
 
+//
+// PROJECTS
+//
 model Project {
   id             Int     @id @default(autoincrement())
   timelineId     Int
@@ -144,4 +149,44 @@ model ProjectImage {
   image   Image   @relation(fields: [imageId], references: [id])
 
   @@unique([projectId, imageId])
+}
+
+//
+// BLOGS
+//
+model Blog {
+  id             Int     @id @default(autoincrement())
+  slug           String  @unique
+  title          String
+  description    String?
+  userId         Int?
+  teamId         Int?
+  organizationId Int?
+  thumbnailId    Int?
+  pinnedDocId    Int?    @unique
+  createdAt      Int
+  updatedAt      Int?
+
+  // Relations
+  user      User?  @relation(fields: [userId], references: [id])
+  thumbnail Image? @relation(fields: [thumbnailId], references: [id])
+  pinnedDoc Doc?   @relation("PinnedDoc", fields: [pinnedDocId], references: [id])
+  docs      Doc[]
+}
+
+model Doc {
+  id          Int     @id @default(autoincrement())
+  slug        String  @unique
+  title       String
+  description String?
+  body        Json
+  blogId      Int
+  createdAt   Int
+  updatedAt   Int?
+  isPublished Boolean @default(false)
+  order       Int?
+
+  // Relations
+  blog     Blog  @relation(fields: [blogId], references: [id])
+  pinnedBy Blog? @relation("PinnedDoc")
 }

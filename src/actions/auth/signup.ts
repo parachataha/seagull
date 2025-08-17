@@ -94,6 +94,8 @@ export default async function signup( { name, email, password, userAgent } : { n
             status: 409,
         }
 
+        console.error(error)
+
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 
     }

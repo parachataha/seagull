@@ -47,7 +47,7 @@ export default function useServerAction<T>(
                     router.push(options?.unauthorizedRedirectUrl ?? "/login");
                 }
 
-                return; // ✅ void branch
+                return; 
             }
 
             setSuccess(result.msg);

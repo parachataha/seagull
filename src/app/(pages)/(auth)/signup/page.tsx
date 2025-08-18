@@ -6,12 +6,15 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Container from "@/components/layout/Container";
 import useServerAction from "@/hooks/useServerAction";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
 
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+
+    const router = useRouter();
 
     const { run, loading, error, success } = useServerAction(() => signup({
             name: name.trim(),
@@ -22,6 +25,9 @@ export default function SignupPage() {
         {
             unauthorizedRedirectUrl: "/profile",
             noSuccessToast: false,
+            onSuccess: (data) => {
+                router.push("/profile")
+            }
         }
     );
 

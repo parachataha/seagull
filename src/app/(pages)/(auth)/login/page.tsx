@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 // Hooks
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
 
@@ -19,6 +20,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("")
 
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const { run, loading, error, success } = useServerAction(() => login({
         email: email.trim().toLowerCase(),
@@ -26,6 +28,9 @@ export default function LoginPage() {
         userAgent: navigator.userAgent
     }), {
         unauthorizedRedirectUrl: "/profile",
+        onSuccess: (data) => {
+            router.push("/profile")
+        }
     }
     );
 

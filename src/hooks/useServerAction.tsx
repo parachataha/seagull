@@ -54,12 +54,14 @@ export default function useServerAction<T>(
             options?.onSuccess?.(result.data);
 
             if ((result.data as any)?.user) {
+                console.log(result.data)
                 dispatch(updateUser((result.data as any).user));
             }
 
-            if (!options?.noSuccessToast) {
-                toast.success(result.msg);
+            if (options?.noSuccessToast) {
+                return;
             }
+            toast.success(result.msg);
 
             return result;
         } catch (err: any) {

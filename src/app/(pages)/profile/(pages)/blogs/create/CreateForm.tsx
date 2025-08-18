@@ -100,7 +100,7 @@ export default function CreateForm({
                     id="description"
                     placeholder="Write a short description..."
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e : any) => setDescription(e.target.value)}
                     disabled={loading}
                 />
             </div>

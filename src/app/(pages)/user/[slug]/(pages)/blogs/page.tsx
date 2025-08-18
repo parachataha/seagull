@@ -2,14 +2,17 @@
  * Allows users to view a user's blogs and allow the owner to add new blogs, edit existing ones and manage them.
  */
 
-import getUserBlogs from "@/actions/blogs/getUserBlogs";
+// Server actions
+import getUserBlogs from "@/actions/blogs/read/getUserBlogs";
 
+// Components
+import BlogCard from "@/components/cards/blog/BlogCard";
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
 import H2 from "@/components/typography/H2";
-
-import { ServerResponse } from "@/lib/types/ServerResponse";
-import { Blog } from "@prisma/client";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import ManageButton from "@/components/buttons/ManageButton";
 
 import { notFound } from "next/navigation";
 
@@ -21,29 +24,40 @@ export default async function page ( {
 
     const { slug } = await params;
 
-    const result :
-        ServerResponse<{
-            blogs: Blog[], 
-            user: { name: string, id: number }
-        }> 
-    = await getUserBlogs( {userSlug: slug.trim().replaceAll(" ", "-").toLowerCase()} );
+    const result = await getUserBlogs( {userSlug: slug.trim().replaceAll(" ", "-").toLowerCase()} );
 
-    if (!result.success) notFound()
+    if (!result.success || !result.data.blogs) notFound()
 
     const blogs = result.data.blogs;
+    const user = result.data.user;
     
     return ( <Page>
 
         <Container>
+
+            <div className="flex">
+                <Link
+                    href="./"
+                    className="mb-4"
+                >
+                    <ArrowLeft size={28} />
+                </Link>
+            </div>
+
+            <header className="flex justify-between">
+                <H2 className=""> {user.name}'s Blogs </H2>
+                <ManageButton> Manage blogs </ManageButton> { /* Used to display manage button if owner */ }
+            </header>
             
-            <H2 className=""> {result.data.user.name}'s Blogs </H2>
 
-            <div className="flex gap-2 flex-wrap mt-3">
+            <div className="flex gap-2 flex-wrap mt-6">
 
-                {blogs.map((blog : Blog, index : number) => (
-                    <div>
-                        {blog.title}
-                    </div>
+                {blogs.map((blog, index) => (
+                    <BlogCard 
+                        key={index}
+                        userSlug={slug} 
+                        blog={blog} 
+                    />
                 ))}
 
             </div>

@@ -1,6 +1,7 @@
 "use server"
 
 import prisma from "@/lib/db";
+import { BlogWithDocsBasic } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema } from "@/schemas/user"
 import { Blog } from "@prisma/client";
@@ -13,7 +14,7 @@ export default async function getUserBlogs({
     userSlug
 } : {
     userSlug : string
-}) : Promise<ServerResponse<{blogs: Blog[], user: { name: string, id: number }}>> {
+}) : Promise<ServerResponse<{blogs: BlogWithDocsBasic[], user: { name: string, id: number }}>> {
     
     try {
 
@@ -28,6 +29,7 @@ export default async function getUserBlogs({
             select: {
                 name: true,
                 id: true,
+                slug: true
             }
         })
 
@@ -35,7 +37,40 @@ export default async function getUserBlogs({
 
         const blogs = await prisma.blog.findMany({
             where: {
-                userId: owner.id
+                userId: owner.id,
+            },
+            orderBy: {
+                createdAt: "asc",
+            },
+            select: {
+                id: true,
+                slug: true,
+                title: true,
+                description: true,
+                createdAt: true,
+                updatedAt: true,
+                userId: true,
+                organizationId: true,
+                teamId: true,
+                thumbnailId: true,
+                pinnedDocId: true,
+
+                docs: {
+                    select: {
+                        id: true,
+                        slug: true,
+                        title: true,
+                        description: true,
+                        blogId: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        isPublished: true,
+                        order: true,
+                    },
+                    orderBy: {
+                        order: "asc",
+                    }
+                }
             }
         })
 
@@ -50,7 +85,7 @@ export default async function getUserBlogs({
                     blogs: [],  
                     user: {
                         name: owner.name,
-                        id: owner.id
+                        id: owner.id,
                     }
                 } 
             }
@@ -64,7 +99,7 @@ export default async function getUserBlogs({
                 blogs: blogs,
                 user: {
                     id: owner.id,
-                    name: owner.name
+                    name: owner.name,
                 }
             }
         }

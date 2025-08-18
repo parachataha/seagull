@@ -1,6 +1,6 @@
 import { BookOpen, Calendar, Newspaper, PenBox, Search, Settings, Wallpaper, type LucideIcon } from "lucide-react"
 
-export const sidebarItems : { title: string, url: string, icon: LucideIcon }[] = [
+export const sidebarItems : { title: string, url: string, icon: LucideIcon, disabled?: boolean }[] = [
     {
         title: "Profile",
         url: "/profile",
@@ -20,20 +20,24 @@ export const sidebarItems : { title: string, url: string, icon: LucideIcon }[] =
         title: "Projects",
         url: "/profile/projects",
         icon: Wallpaper,
+        disabled: true
     },
     {
         title: "Qualifications",
         url: "#",
         icon: Calendar,
+        disabled: true
     },
     {
         title: "Freelancing",
         url: "#",
         icon: Search,
+        disabled: true
     },
     {
         title: "Teams",
         url: "#",
         icon: Settings,
+        disabled: true
     },
 ]

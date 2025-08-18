@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from "@/lib/db";
-import { BlogWithDocsBasic } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema } from "@/schemas/user"
 import { Blog } from "@prisma/client";
@@ -14,7 +14,7 @@ export default async function getUserBlogs({
     userSlug
 } : {
     userSlug : string
-}) : Promise<ServerResponse<{blogs: BlogWithDocsBasic[], user: { name: string, id: number }}>> {
+}) : Promise<ServerResponse<{blogs: BlogWithDocsBasicAndAuthor[]}>> {
     
     try {
 
@@ -22,22 +22,11 @@ export default async function getUserBlogs({
             return { success: false, msg: "Invalid user slug", status: 400 };
         }
 
-        const owner = await prisma.user.findUnique({
-            where: {
-                slug: userSlug.trim().replaceAll(" ", "-").toLowerCase()
-            },
-            select: {
-                name: true,
-                id: true,
-                slug: true
-            }
-        })
-
-        if (!owner) throw new Error("Internal database error occurred fetching user id")
-
         const blogs = await prisma.blog.findMany({
             where: {
-                userId: owner.id,
+                author: {
+                    slug: userSlug.trim().toLowerCase().replaceAll(" ", "-")
+                }
             },
             orderBy: {
                 createdAt: "asc",
@@ -54,6 +43,14 @@ export default async function getUserBlogs({
                 teamId: true,
                 thumbnailId: true,
                 pinnedDocId: true,
+
+                author: {
+                    select: {
+                        id: true,
+                        name: true,
+                        slug: true
+                    }
+                },
 
                 docs: {
                     select: {
@@ -83,10 +80,6 @@ export default async function getUserBlogs({
                 status: 404, 
                 data: { 
                     blogs: [],  
-                    user: {
-                        name: owner.name,
-                        id: owner.id,
-                    }
                 } 
             }
         }
@@ -97,16 +90,12 @@ export default async function getUserBlogs({
             status: 200,
             data: {
                 blogs: blogs,
-                user: {
-                    id: owner.id,
-                    name: owner.name,
-                }
             }
         }
 
     } catch (error : any) {
 
-        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
+        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500, error: error }
 
     }
 }

@@ -168,7 +168,7 @@ model Blog {
   updatedAt      Int?
 
   // Relations
-  user      User?  @relation(fields: [userId], references: [id])
+  author    User?  @relation(fields: [userId], references: [id])
   thumbnail Image? @relation(fields: [thumbnailId], references: [id])
   pinnedDoc Doc?   @relation("PinnedDoc", fields: [pinnedDocId], references: [id])
   docs      Doc[]

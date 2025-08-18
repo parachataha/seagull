@@ -3,6 +3,7 @@
  */
 
 // Server actions
+import getBlog from "@/actions/blogs/read/getBlog";
 import getUserBlogs from "@/actions/blogs/read/getUserBlogs";
 import ManageButton from "@/components/buttons/ManageButton";
 
@@ -14,7 +15,7 @@ import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
 import H2 from "@/components/typography/H2";
 import { Card, CardContent } from "@/components/ui/card";
-import { BlogWithDocsBasic, DocsBasic } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthor, DocsBasic } from "@/lib/types/Blog";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -23,32 +24,27 @@ import { notFound } from "next/navigation";
 export default async function page ( {
     params
 } : {
-    params : Promise<{ slug: string, blogSlug: string }>
+    params : Promise<{ blogSlug: string }>
 } ) {
 
-    const { slug, blogSlug } = await params;
+    const { blogSlug } = await params;
 
-    const result = await getUserBlogs( {userSlug: slug.trim().replaceAll(" ", "-").toLowerCase()} );
+    const result = await getBlog( {blogSlug: blogSlug.trim().replaceAll(" ", "-").toLowerCase()} );
 
-    if (!result.success || !result.data.blogs) notFound()
+    if (!result.success || !result.data.blog) notFound()
 
-    const blogs : BlogWithDocsBasic[] = result.data.blogs;
-    const blog : BlogWithDocsBasic | undefined = result.data.blogs.find(blog => blog.slug === blogSlug);
+    const blog : BlogWithDocsBasicAndAuthor = result.data.blog;
+    const author = result.data.blog.author;
     const docsBasic : DocsBasic[] | undefined = blog?.docs;
 
     if (!blog) notFound()
-
-    const user = result.data.user;
     
     return ( <Page>
 
         <Container>
         
             <div className="flex">
-                <Link 
-                    href="./"
-                    className="mb-4"
-                >
+                <Link href="./" className="mb-4">
                     <ArrowLeft size={28} />
                 </Link>
             </div>
@@ -56,12 +52,10 @@ export default async function page ( {
             <header>
                 <Card variant="accent">
                     <CardContent className="h-48 flex flex-col py-4 justify-end">
-
                         <H2 className=""> {blog.title} </H2>
-                        <Link href={`/user/${slug}`}>
-                            <p className="text-foreground/40 mt-1"> {user.name}'s Blog </p>
+                        <Link href={`/user/${author?.slug}`}>
+                            <p className="text-foreground/40 mt-1"> {author?.name}'s Blog </p>
                         </Link>
-
                     </CardContent>
                 </Card>
 
@@ -72,7 +66,6 @@ export default async function page ( {
 
 
             <main className="mt-6">
-
                 <div className="flex gap-2 flex-wrap">
 
                     {docsBasic && docsBasic?.length > 0 ? <> 
@@ -81,7 +74,6 @@ export default async function page ( {
                         {docsBasic.map((doc, index) => (
                             <DocCard 
                                 key={index}
-                                userSlug={slug} 
                                 blogSlug={blogSlug}
                                 doc={doc} 
                             />
@@ -96,7 +88,6 @@ export default async function page ( {
                     </div>}
 
                 </div>
-
             </main>
 
 

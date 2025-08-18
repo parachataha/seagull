@@ -1,6 +1,6 @@
 import { LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BlogWithDocsBasic } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
 import { PublicSafeUser } from "@/lib/types/User";
 import { Blog } from "@prisma/client";
 import Image from "next/image";
@@ -8,15 +8,13 @@ import Link from "next/link";
 
 export default function BlogCard ( {
     blog,
-    userSlug,
 } : {
-    blog: BlogWithDocsBasic;
-    userSlug: string
+    blog: BlogWithDocsBasicAndAuthor;
 } ) {
     
     return ( 
     <Link
-        href={`/user/${userSlug}/blogs/${blog.slug}`}
+        href={`/blogs/${blog.slug}`}
     >
         <Card variant="accent">
 

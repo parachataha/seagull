@@ -9,16 +9,14 @@ import Link from "next/link";
 export default function DocCard ( {
     doc,
     blogSlug,
-    userSlug,
 } : {
     doc: DocsBasic;
     blogSlug: string;
-    userSlug: string
 } ) {
     
     return ( 
     <Link
-        href={`/user/${userSlug}/blogs/${blogSlug}/${doc.slug}`}
+        href={`/user/blogs/${blogSlug}/${doc.slug}`}
     >
         <Card variant="accent">
 

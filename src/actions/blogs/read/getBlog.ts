@@ -1,6 +1,5 @@
 "use server"
 
-import validateSession from "@/actions/auth/validateSession";
 import prisma from "@/lib/db";
 import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
@@ -11,25 +10,21 @@ import { Blog } from "@prisma/client";
  * Used to fetch all basic blog details owned by a user 
  */
 
-export default async function getOwnedBlogs({
-    userAgent
+export default async function getBlog({
+    blogSlug
 } : {
-    userAgent: string | null;
-}) : Promise<ServerResponse<{user: { blogs: BlogWithDocsBasicAndAuthor[],  }}>> {
+    blogSlug : string
+}) : Promise<ServerResponse<{blog: BlogWithDocsBasicAndAuthor}>> {
     
     try {
 
-        const sessionResult = await validateSession(userAgent);
-        if (!sessionResult.success || !sessionResult.data?.user) return { success: false, msg: sessionResult.msg, status: sessionResult.status }
-        
-        const user = sessionResult.data.user
+        if (!slugSchema.safeParse(blogSlug.trim().replaceAll(" ", "-").toLowerCase()).success) {
+            return { success: false, msg: "Invalid blog slug", status: 400 };
+        }
 
-        const blogs = await prisma.blog.findMany({
+        const blog = await prisma.blog.findUnique({
             where: {
-                userId: user.id,
-            },
-            orderBy: {
-                createdAt: "asc",
+                slug: blogSlug.trim().replaceAll(" ","-").toLowerCase()
             },
             select: {
                 id: true,
@@ -46,10 +41,10 @@ export default async function getOwnedBlogs({
 
                 author: {
                     select: {
-                        id: true,
                         name: true,
-                        slug: true,
-                    }
+                        id: true,
+                        slug: true
+                    },
                 },
 
                 docs: {
@@ -71,18 +66,11 @@ export default async function getOwnedBlogs({
             }
         })
 
-        if (!blogs) throw new Error("Internal database error occurred fetching user blogs")
-
-        if (blogs.length === 0) {
+        if (!blog) {
             return {  
-                success: true,
-                msg: "User has no blogs", 
-                status: 404, 
-                data: { 
-                    user: {
-                        blogs: [],  
-                    }
-                } 
+                success: false,
+                msg: "Blog does not exist", 
+                status: 404
             }
         }
 
@@ -91,9 +79,7 @@ export default async function getOwnedBlogs({
             msg: "User blogs found",
             status: 200,
             data: {
-                user: {
-                    blogs: blogs
-                }
+                blog: blog,
             }
         }
 

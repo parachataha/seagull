@@ -29,7 +29,8 @@ export default async function page ( {
     if (!result.success || !result.data.blogs) notFound()
 
     const blogs = result.data.blogs;
-    const user = result.data.user;
+
+    const author = blogs[0].author
     
     return ( <Page>
 
@@ -45,7 +46,7 @@ export default async function page ( {
             </div>
 
             <header className="flex justify-between">
-                <H2 className=""> {user.name}'s Blogs </H2>
+                <H2 className=""> {author?.name}'s Blogs </H2>
                 <ManageButton> Manage blogs </ManageButton> { /* Used to display manage button if owner */ }
             </header>
             
@@ -55,7 +56,6 @@ export default async function page ( {
                 {blogs.map((blog, index) => (
                     <BlogCard 
                         key={index}
-                        userSlug={slug} 
                         blog={blog} 
                     />
                 ))}

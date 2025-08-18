@@ -62,7 +62,6 @@ export default function page ( {
                         <BlogCard
                             key={index}
                             blog={blog}
-                            userSlug={String(user.slug)}
                         />
                     ))}
                 </>} 

@@ -1,10 +1,12 @@
-const basicColors = [
-  { name: "foreground", cssVar: "var(--foreground)" },
-  { name: "accent", cssVar: "var(--accent)" },
-  { name: "muted", cssVar: "var(--muted)" },
-];
-
 const colors = [
+
+  // Basic colors
+  [
+    { name: "foreground", cssVar: "var(--foreground)" },
+    { name: "accent", cssVar: "var(--accent)" },
+    { name: "muted", cssVar: "var(--muted)" },
+  ],
+
   // Reds
   [
     { name: "light-red", cssVar: "var(--light-red)" },
@@ -83,5 +85,5 @@ const colors = [
   ],
 ] as const;
 
-export type ColorName = typeof colors[number][number]["name"] | typeof basicColors[number]["name"];
-export { colors, basicColors };
+export type ColorName = typeof colors[number][number]["name"];
+export { colors };

@@ -12,6 +12,7 @@ import { emailSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
 import createSession from "./createSession";
 import { PublicSafeUser, SafeSessionWithToken } from "@/lib/types/User";
 import verifyPass from "@/lib/password/verifyPass";
+import { cookies } from "next/headers";
 
 export interface SuccessDataType {
     user: Partial<PublicSafeUser>,
@@ -35,8 +36,9 @@ export default async function login( {
     if (!passwordSchema.safeParse(password.trim()).success) return { success: false, msg: "Invalid password", status: 400 }
     if (userAgent && !userAgentSchema.safeParse(userAgent.trim()).success) return { success: false, msg: "Invalid user agent passed", status: 400 }
 
-    // Used to store createdAt value
-    const now = new Date()
+    const cookieStore = await cookies()
+
+    if (cookieStore.get("session")?.value) return { success: false, msg: "You are already authenticated", status: 401 } 
 
     try {
 

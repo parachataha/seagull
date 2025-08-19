@@ -1,0 +1,138 @@
+
+/* ------------------------------
+   Blockquote
+------------------------------ */
+.document-body code {
+    background-color: var(--muted);
+    width: 100%;
+    display: block;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.document-body blockquote {
+    border-left: 4px solid var(--muted-foreground); /* left border for emphasis */
+    margin: 1em 0; /* space above and below */
+    padding: 0.5em 1em; /* inner padding */
+    quotes: "\201C""\201D""\2018""\2019"; /* smart quotes for content */
+    color: var(--muted-foreground); /* muted text color */
+    background-color: var(--card); /* subtle background */
+    border-radius: 4px; /* rounded corners */
+}
+
+.document-body blockquote p {
+    display: inline; /* keep paragraphs inline inside blockquote */
+    margin: 0; /* remove default margin */
+}
+
+/* ------------------------------
+   Horizontal Rule
+------------------------------ */
+.document-body hr {
+    margin: 1em 1em; /* spacing around the rule */
+    border: none; /* remove default border */
+    border-top: 1px solid var(--muted-foreground); /* subtle top border */
+}
+
+/* ------------------------------
+   Headings
+------------------------------ */
+.document-body h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 1em 0 0.2em 0; /* top/bottom spacing */
+}
+
+.document-body h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0.9em 0 0.2em 0;
+}
+
+.document-body h3 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0.2em 0 0.2em 0;
+}
+
+.document-body h4 {
+    font-size: 14px;
+    color: var(--muted-foreground);
+    font-weight: 500;
+}
+
+/* ------------------------------
+   Unordered List
+------------------------------ */
+.document-body ul {
+    list-style-type: disc; /* classic bullet points */
+    padding-left: 1.5em; /* indentation */
+    margin: 0.5em 0; /* spacing above and below */
+    color: var(--foreground);
+}
+
+.document-body ul li {
+    margin: 0.25em 0; /* spacing between items */
+}
+
+/* ------------------------------
+   Ordered List
+------------------------------ */
+.document-body ol {
+    list-style-type: decimal; /* classic numbered list */
+    padding-left: 1.5em; /* indentation */
+    margin: 0.5em 0;
+    color: var(--foreground);
+}
+
+.document-body ol li {
+    margin: 0.25em 0; /* spacing between items */
+}
+
+/* ------------------------------
+   Nested Lists
+------------------------------ */
+.document-body ul ul,
+.document-body ol ul,
+.document-body ul ol,
+.document-body ol ol {
+    margin-top: 0.25em; /* tighter spacing for nested lists */
+    margin-bottom: 0.25em;
+    padding-left: 1.25em; /* extra indentation for nested level */
+}
+
+/* ------------------------------
+   Tables
+------------------------------ */
+.document-body table {
+    width: 100%;
+    border-collapse: collapse; /* merge borders */
+    margin: 1em 0;
+    background: none; /* no background */
+}
+
+.document-body th,
+.document-body td {
+    border: 1px solid var(--muted-foreground); /* border around each cell */
+    padding: 0.5em 0.75em;
+    text-align: left;
+    vertical-align: top;
+    background: none; /* keep cells transparent */
+}
+
+.document-body th {
+    font-weight: 600;
+    color: var(--foreground);
+    background-color: var(--muted);
+}
+
+table .selectedCell {
+  background: rgba(103, 212, 255, 0.15);
+  content: '';
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 2;
+}

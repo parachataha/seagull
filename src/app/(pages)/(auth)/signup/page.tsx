@@ -1,85 +1,25 @@
-"use client";
-import signup from "@/actions/auth/signup";
 import Page from "@/components/layout/Page";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
 import Container from "@/components/layout/Container";
-import useServerAction from "@/hooks/useServerAction";
-import { useRouter } from "next/navigation";
+import SignupForm from "@/components/forms/auth/SignupForm";
+
+import { metadata } from "@/lib/page-metadata/signup";
+export { metadata }
 
 export default function SignupPage() {
 
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const router = useRouter();
-
-    const { run, loading, error, success } = useServerAction(() => signup({
-            name: name.trim(),
-            email: email.trim().toLowerCase(),
-            password: password.trim(),
-            userAgent: navigator.userAgent
-        }), 
-        {
-            unauthorizedRedirectUrl: "/profile",
-            noSuccessToast: false,
-            onSuccess: (data) => {
-                router.push("/profile")
-            }
-        }
-    );
-
-    async function handleSignup(e : any) {
-
-        e.preventDefault()
-
-        // Perform server action
-        run()
-        
-    }
 
     return ( <Page>
 
-        <Container>
+        <Container className="!max-w-200">
 
-            <form onSubmit={handleSignup} className="flex flex-col gap-3">
-
-                <h1 className="text-2xl">Signup</h1>
-
+            <div className="grid sm:grid-cols-2 gap-5 h-full items-center">
                 <div>
-                    {loading && <p> Loading </p>}
-                    {error && <p className="text-red-400"> {error} </p>}
-                    {success && <p className="text-green-600"> {success} </p>}
+                    <h1 className="text-2xl font-semibold mb-3"> Signup to Seagull </h1>
+                    <SignupForm/>   
                 </div>
+                <div className="h-full max-h-100 rounded-lg bg-gradient-yellow-pink">  </div>
+            </div>
 
-                <Input
-                    name="name"
-                    placeholder="Enter name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    type="text"
-                />
-
-                <Input
-                    placeholder="Enter email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                />
-
-                <Input
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                />
-
-                <Button type="submit" variant="default">Signup</Button>
-
-            </form>
-            
         </Container>
 
     </Page> )

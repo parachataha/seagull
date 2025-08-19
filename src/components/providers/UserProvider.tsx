@@ -21,6 +21,9 @@ import { useSelector } from "react-redux"
 // Pages that require auth
 const authPages = ["/profile"]
 
+// Pages that do not allow auth
+const noAuthPages = ["/login", "/signup"]
+
 export default function UserProvider() {
 
     const pathname = usePathname()

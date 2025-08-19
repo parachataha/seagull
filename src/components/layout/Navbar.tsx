@@ -11,6 +11,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
+import UserLabel from "../cards/user/UserLabel"
 
 export default function Navbar() {
   return (
@@ -24,15 +25,18 @@ export default function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Blogs</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <NavigationMenuLink>Link</NavigationMenuLink>
+                <NavigationMenuLink>Seagull</NavigationMenuLink>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
 
+      <div>
+        <UserLabel/>
+      </div>
 
     </div>
   )

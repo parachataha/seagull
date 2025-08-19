@@ -5,17 +5,22 @@ import { useDropzone, Accept } from "react-dropzone";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "../button";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, ImageIcon, Trash2 } from "lucide-react";
 import { Input } from "../input";
 
 type AcceptType = "image" | "video" | "text";
 
 interface FileDropzoneProps {
   className?: string;
+  variant?: "default" | "dashed-border"
+
   accept: AcceptType;
   multiple?: boolean;
   files: File[];
   setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+
+  placeholderFileType?: string;
+
   showPreview?: boolean;
   descriptions?: string[];
   setDescriptions?: React.Dispatch<React.SetStateAction<string[]>>;
@@ -39,10 +44,14 @@ const ACCEPT_MAP: Record<AcceptType, Accept> = {
 
 export function FileDropzone({
   className = "",
+  variant="default",
   accept,
   multiple = false,
   files,
   setFiles,
+
+  placeholderFileType = "file",
+
   showPreview = true,
   descriptions,
   setDescriptions,
@@ -98,7 +107,7 @@ export function FileDropzone({
     <>
       {/* Show selected image preview or dropzone */}
       {selectedImg ? (
-        <Card className="relative flex items-center justify-center h-60">
+        <Card className="relative flex items-center justify-center h-60 p-0">
 
           {/* DISPLAY IMAGE */}
           <Image
@@ -110,7 +119,7 @@ export function FileDropzone({
           />
 
           {/* BACK AND DELETE BUTTONS */}
-          <div className="buttons absolute top-3 left-3 backdrop-blur-2xl bg-muted/20 flex flex-col gap-2">
+          <div className="buttons absolute top-3 left-3 backdrop-blur-2xl flex flex-col gap-2">
             <Button
               variant="ghost"
               className="!px-2 !bg-muted"
@@ -145,31 +154,98 @@ export function FileDropzone({
         <Card
           className={`
             !p-0 !m-0
-            w-full bg-muted flex flex-col justify-center 
-            ${isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/30"}
+            w-full flex flex-col justify-center
+            rounded-xl
+            transition-color
+            ${variant == "default" ? 
+              `bg-muted ${isDragActive && "bg-muted-foreground"}` : 
+              `!border-dashed border-2 ${isDragActive ? "!bg-primary/10 border-primary" : "!bg-transparent"}`
+            }
             ${className}
           `}
         >
           <CardContent className="!p-0 !m-0">
             <div
               {...getRootProps()}
-              className="p-6 text-center cursor-pointer transition mb-2"
+              className="!px-0 !py-0 !m-0 text-center cursor-pointer transition mb-2"
             >
-              <input {...getInputProps()} className="w-full h-20" />
-              {isDragActive ? (
-                <p className="text-primary font-medium">Drop the file{multiple && "s"} here…</p>
-              ) : (
-                <p className="text-muted-foreground">
-                  Drag your file{multiple && "s"} here or click to select {!multiple && "one"}
-                </p>
-              )}
+              <input {...getInputProps()} className="w-full h-full" />
+              {!multiple && files.length > 0 ? 
+              <div>
+                {files.map((file, index) => {
+                  const previewUrl = URL.createObjectURL(file);
+                  
+                  if (file.type.startsWith("image/")) {
+                    return (
+                        <div className="relative" key={index}>
+                        <Button
+                          variant="destructive"
+                          className="text-red-500 !px-2 absolute top-3 left-3 z-20 backdrop-blur-lg"
+                          onClick={() => setFiles([])}
+                        >
+                          <Trash2 />
+                        </Button>
+                          <Image  
+                            src={previewUrl}
+                            alt={file.name}
+                            className="object-contain h-full w-full !relative rounded-md"
+                            onLoad={() => URL.revokeObjectURL(previewUrl)}
+                            fill
+                          />
+                        </div>
+                    );
+                  }
+
+                  if (file.type.startsWith("video/")) {
+                    return (
+                      <video
+                        key={index}
+                        src={previewUrl}
+                        controls
+                        className="rounded-lg"
+                        onLoadedData={() => URL.revokeObjectURL(previewUrl)}
+                      />
+                    );
+                  }
+
+                  return (
+                    <div key={index} className="text-sm text-muted-foreground">
+                      {file.name}
+                    </div>
+                  );
+                })}
+              </div>
+              :
+              <>
+                {isDragActive ? (
+                  <div 
+                    className={`
+                      w-full h-full gap-2 
+                      font-medium text-primary 
+                      flex flex-col items-center justify-center py-20
+                    `}>
+                    <ImageIcon size={56} strokeWidth={1.5}/>
+                    Drop the {placeholderFileType}{multiple && "s"} here…
+                  </div>
+                ) : (
+                  <div 
+                    className={`
+                      w-full h-full gap-2 
+                      font-medium text-muted-foreground 
+                      flex flex-col items-center justify-center py-20
+                    `}>
+                    <ImageIcon size={56} strokeWidth={1.2}/>
+                    Drag your {placeholderFileType}{multiple && "s"} here or click to select {!multiple && "one"}
+                  </div>
+                )}
+              </>}
             </div>
           </CardContent>
         </Card>
       )}
 
-      {/* FILE PREVIEW AREA */}
-      {showPreview && files.length > 0 && (
+      {/* FILE PREVIEW AREA FOR MULTIPLE FILES */}
+      {multiple && showPreview && files.length > 0 && (
         <Card className="py-2 mt-3">
           <div className="flex items-center flex-wrap gap-3 px-3">
             {files.map((file, index) => {

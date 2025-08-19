@@ -11,6 +11,7 @@ import { ServerResponse } from "@/lib/types/ServerResponse";
 import { emailSchema, nameSchema, passwordSchema, userAgentSchema } from "@/schemas/user";
 import createSession from "./createSession";
 import { SafeSessionWithToken, SafeUser } from "@/lib/types/User";
+import { cookies } from "next/headers";
 
 export interface SuccessDataType {
     user: Partial<SafeUser>,
@@ -26,6 +27,10 @@ export default async function signup( { name, email, password, userAgent } : { n
     if (!emailSchema.safeParse(email.trim()).success) return { success: false, msg: "Invalid email", status: 400 }
     if (!passwordSchema.safeParse(password.trim()).success) return { success: false, msg: "Invalid password", status: 400 }
     if (userAgent && !userAgentSchema.safeParse(userAgent.trim()).success) return { success: false, msg: "Invalid user agent passed", status: 400 }
+
+    const cookieStore = await cookies()
+
+    if (cookieStore.get("session")?.value) return { success: false, msg: "You are already authenticated", status: 401 } 
 
     // Used to store createdAt value
     const now = new Date()

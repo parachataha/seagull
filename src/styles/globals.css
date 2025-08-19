@@ -4,7 +4,10 @@
 @import "./components.css";
 @import "./custom.css";
 @import "./variables.css";
-@import "./typography.css";
+@import "./document-body.css";
+
+@import '../styles/_variables.scss';                            
+@import '../styles/_keyframe-animations.scss';                     
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -14,8 +17,8 @@ body {
 
 :root {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.1450 0 0);
-  --card: oklch(1 0 0);
+  --foreground: #0F0F10;
+  --card: oklch(0.98 0 0);
   --card-foreground: oklch(0.1450 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.1450 0 0);
@@ -23,12 +26,12 @@ body {
   --primary-foreground: oklch(1.0000 0 0);
   --secondary: oklch(0.5206 0.0782 195.0205);
   --secondary-foreground: oklch(1.0000 0 0);
-  --muted: oklch(0.9700 0 0);
+  --muted: oklch(0.9400 0 0);
   --muted-foreground: oklch(0.5560 0 0);
   --accent: oklch(0.9890 0.0157 196.9024);
 
   --accent-foreground: oklch(0.1684 0 0);
-  --destructive: oklch(64.555% 0.2401 26.746 / 30%);
+  --destructive: oklch(64.555% 0.2401 26.746);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9220 0 0);
   --input: oklch(0.9220 0 0);
@@ -125,7 +128,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0A0A0A;
+    --background: #0F0F10;
     --foreground: oklch(0.9850 0 0);
     --card: oklch(0.2050 0 0);
     --card-foreground: oklch(0.9850 0 0);
@@ -139,7 +142,7 @@ body {
     --muted-foreground: oklch(0.7316 0 0);
     --accent: oklch(0.3228 0.0331 192.5807);
     --accent-foreground: oklch(0.9850 0 0);
-    --destructive: oklch(64.555% 0.2401 26.746 / 30%);
+    --destructive: oklch(64.555% 0.2401 26.746);
     --destructive-foreground: oklch(0.9850 0 0);
     --border: oklch(0.2750 0 0);
     --input: oklch(0.3250 0 0);

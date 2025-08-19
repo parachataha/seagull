@@ -1,9 +1,9 @@
 "use client"
 
 import { useState } from "react";
-import { FileDropzone } from "../ui/files/FileDropzone";
-import { Input, Label, Textarea } from "../ui/input";
-import RichTextEditor from "../ui/rich-text-editor/RichTextEditor";
+import { FileDropzone } from "../../ui/files/FileDropzone";
+import { Input, Label, Textarea } from "../../ui/input";
+import RichTextEditor from "../../ui/rich-text-editor/RichTextEditor";
 
 /**
  * The form allowing authenticated users to create new documents/articles

@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client"
 
-export type BlogWithDocsBasicAndAuthor = Prisma.BlogGetPayload<{
+export type BlogWithDocsBasicAndAuthorAndThumbnail = Prisma.BlogGetPayload<{
   select: {
     id: true
     slug: true
@@ -11,13 +11,18 @@ export type BlogWithDocsBasicAndAuthor = Prisma.BlogGetPayload<{
     userId: true
     organizationId: true
     teamId: true
-    thumbnailId: true
+    thumbnailId: false,
+    thumbnail: {
+      select: {
+        url: true,
+      }
+    }
     pinnedDocId: true
     author: {
       select: {
-        id: true
-        name: true
-        slug: true
+        id: true,
+        name: true,
+        slug: true,
       }
     }
     docs: {

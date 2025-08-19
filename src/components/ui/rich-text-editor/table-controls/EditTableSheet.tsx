@@ -33,7 +33,7 @@ export function EditTableSheet({ editor }: { editor: Editor }) {
       <SheetContent side="right" overlay={false}>
         <SheetHeader>
           <SheetTitle>Manage table</SheetTitle>
-          <SheetDescription>Customize your table just to your liking</SheetDescription>
+          <SheetDescription>Customize your table just to your liking. Before managing cells, rows or columns, make sure to select the correct area by clicking or hold clicking</SheetDescription>
         </SheetHeader>
         <SheetBody>
           <div className="flex flex-col gap-3">

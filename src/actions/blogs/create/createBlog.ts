@@ -1,13 +1,18 @@
 "use server"
-
+// Lib
 import prisma from "@/lib/db";
+
+// Types & schemas
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { blogDescriptionSchema, blogSlugSchema, blogTitleSchema } from "@/schemas/blog";
 import { fileSchema } from "@/schemas/image";
 import { idSchema, userAgentSchema } from "@/schemas/user";
-import validateSession from "../auth/validateSession";
 import { PublicSafeUser } from "@/lib/types/User";
 import { Blog } from "@prisma/client";
+
+// Server actions
+import validateSession from "../../auth/validateSession";
+import uploadThing from "@/actions/files/uploadThing";
 
 export default async function createBlog({
     userAgent,
@@ -15,14 +20,12 @@ export default async function createBlog({
     description,
     slug,
     thumbnail,
-    userId,
 } : {
     userAgent: string | null;
     title: string,
     description: string,
     slug: string,
     thumbnail: File | null,
-    userId?: number 
 }) : Promise<ServerResponse<Blog>> {
 
     try {
@@ -50,10 +53,6 @@ export default async function createBlog({
             return { success: false, msg: "Invalid file", status: 400 }
         }
 
-        if (userId && !idSchema.safeParse(userId).success) {
-            return  { success: false, msg: "Invalid user ID", status: 400 }
-        }
-
         /**
          * Authenticate user
          */
@@ -62,31 +61,86 @@ export default async function createBlog({
         
         const user : PublicSafeUser = sessionResult.data.user
 
-        let finalUserId = userId
-
-        if (!userId) {
-            finalUserId = user.id
+        if (!user || !user.id) {
+            return { success: false, msg: "Not authorized to create blog", status: 403 }
         }
 
-        if (userId && user.id !== userId) {
-            return { success: false, msg: "Not authorized to create blog on behalf of this user", status: 401 }
-        }
+        /**
+         * Upload image in uploadThing
+         */
 
-        const result = await prisma.blog.create({
-            data: {
-                title: title.trim(),
-                slug: slug.trim().replaceAll(" ", "").toLowerCase(),
-                description: description.trim(),
-                createdAt: Math.floor(new Date().getTime() / 1000),
-                userId: finalUserId 
+        
+        let result;
+        let successMsg = "Blog created successfully"
+        let imageUrl = "";
+        
+        const createdAt = Math.floor(Date.now() / 1000);
+
+        if (thumbnail) {
+
+            let uploadThingResult = null;
+
+            uploadThingResult = await uploadThing({
+                createdAt,
+                userAgent: userAgent || null,
+                file: thumbnail,
+                description: description,
+            })
+
+            result = await prisma.blog.create({
+                  data: {
+                    title: title.trim(),
+                    slug: slug.trim().replaceAll(" ", "").toLowerCase(),
+                    description: null,
+                    createdAt,
+                    userId: user.id
+                }
+            })
+
+            if (!result) throw new Error("Database internal error occurred creating blog")
+
+            if (!uploadThingResult.success) {
+                successMsg = `Blog create successfully however thumbnail could not be uploaded due to ${uploadThingResult.msg}`
+            } else {
+                const imageDBResult = await prisma.image.create({
+                    data: {
+                        userId: user.id,
+                        name: `blog thumbnail`,
+                        url: uploadThingResult.data.url,
+                        description: null,
+                        size: thumbnail.size,
+                        createdAt,
+                        Blog: {
+                            connect: {
+                                id: result.id
+                            }
+                        }
+                    }
+                })
+                imageUrl = uploadThingResult.data.url
+
+                if (!imageDBResult) throw new Error("Database internal error occurred image row in database")
             }
-        })
+
+
+        } else {
+            result = await prisma.blog.create({
+                data: {
+                    title: title.trim(),
+                    slug: slug.trim().replaceAll(" ", "").toLowerCase(),
+                    description: description.trim(),
+                    createdAt,
+                    userId: user.id,
+                }
+            })
+        }
+        
 
         if (!result) throw new Error("Database internal error occurred creating blog")
 
         return {
             success: true,
-            msg: "Blog created successfully",
+            msg: successMsg,
             status: 200,
             data: {
                 id: result.id,
@@ -107,7 +161,7 @@ export default async function createBlog({
 
         if (error.code === "P2002") return { 
             success: false, 
-            msg: "You already have a blog with that slug",
+            msg: "A blog already exists with that URL. Change it and try again",
             status: 409,
         }
 

@@ -1,4 +1,4 @@
-import CreateDocForm from "@/components/forms/CreateDocForm";
+import CreateDocForm from "@/components/forms/doc/CreateDocForm";
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
 import { Label } from "@/components/ui/input";

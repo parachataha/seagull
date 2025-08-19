@@ -15,14 +15,18 @@ import { useState } from "react";
 
 // Server actions
 import useServerAction from "@/hooks/useServerAction";
-import createBlog from "@/actions/blogs/createBlog";
+import createBlog from "@/actions/blogs/create/createBlog";
+import { Alert, AlertIcon, AlertTitle } from "@/components/ui/alert";
+import { AlertCircleIcon, CheckIcon, LoaderCircleIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export default function CreateForm({ 
+export default function CreateBlogForm({ 
     className = ""
 } : {
     className?: string
 }) {
 
+    const router = useRouter();
     const user = useSelector((state : RootState) => state.user);
 
     // Form states
@@ -51,7 +55,7 @@ export default function CreateForm({
         }),
         {
             onSuccess: (data) => {
-                console.log(data)
+                router.push(`/blogs/${data?.slug}`)
             }
         }
     );
@@ -66,6 +70,17 @@ export default function CreateForm({
     return (
         <form onSubmit={handleSubmit} className={`flex flex-col gap-4 ${className}`}>
 
+            {(error || success) && <div className="my-1">
+                {error && <Alert variant="destructive" appearance="outline">
+                        <AlertIcon> <AlertCircleIcon /> </AlertIcon>
+                        <AlertTitle>{error || "An error occurred"}</AlertTitle>
+                </Alert>}
+                {success && <Alert variant="success" appearance="outline">
+                        <AlertIcon> <CheckIcon /> </AlertIcon>
+                        <AlertTitle>{success || "Blog created successfully"}</AlertTitle>
+                </Alert>}
+            </div>}
+
             <div>
                 <Label>Title</Label>
                 <Input
@@ -76,7 +91,7 @@ export default function CreateForm({
                     disabled={loading}
                     onChange={(e) => {
                         setTitle(e.target.value)
-                        setSlug( e.target.value.replaceAll(" ", "-").toLowerCase() )
+                        setSlug( e.target.value.trim().replaceAll(" ", "-").toLowerCase() )
                     }}
                 />
             </div>
@@ -109,6 +124,8 @@ export default function CreateForm({
                 <Label>Thumbnail</Label>
                 <FileDropzone
 
+                variant="dashed-border"
+
                 files={files}
                 setFiles={setFiles}
 
@@ -120,18 +137,21 @@ export default function CreateForm({
                 />
             </div>
 
-            {error || success && <div className="my-2">
-                {error && <p className="text-red-500"> error: {error} </p>}
-                {success && <p className="text-green-500"> {success} </p>}
+            {(error || success) && <div className="my-1">
+                {error && <Alert variant="destructive" appearance="outline">
+                        <AlertIcon> <AlertCircleIcon /> </AlertIcon>
+                        <AlertTitle>{error || "An error occurred"}</AlertTitle>
+                </Alert>}
+                {success && <Alert variant="success" appearance="outline">
+                        <AlertIcon> <CheckIcon /> </AlertIcon>
+                        <AlertTitle>{success || "Blog created successfully"}</AlertTitle>
+                </Alert>}
             </div>}
 
-            <div className="flex mt-1">
-                <Button 
-                    variant="neutral" 
-                    type="submit"
-                    disabled={loading}
-                >
-                    Create Blog
+            <div className="flex pb-3">
+                <Button disabled={loading} variant="neutral">
+                    {loading && <LoaderCircleIcon className="animate-spin size-4" />}
+                    {loading ? "Loading" : "Create Blog"}
                 </Button>
             </div>
         </form>

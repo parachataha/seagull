@@ -1,10 +1,9 @@
 "use server"
 
 import prisma from "@/lib/db";
-import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema } from "@/schemas/user"
-import { Blog } from "@prisma/client";
 
 /**
  * Used to fetch all basic blog details owned by a user 
@@ -14,7 +13,7 @@ export default async function getBlog({
     blogSlug
 } : {
     blogSlug : string
-}) : Promise<ServerResponse<{blog: BlogWithDocsBasicAndAuthor}>> {
+}) : Promise<ServerResponse<{blog: BlogWithDocsBasicAndAuthorAndThumbnail}>> {
     
     try {
 
@@ -36,9 +35,12 @@ export default async function getBlog({
                 userId: true,
                 organizationId: true,
                 teamId: true,
-                thumbnailId: true,
                 pinnedDocId: true,
-
+                thumbnail: {
+                    select: {
+                        url: true,
+                    }
+                },
                 author: {
                     select: {
                         name: true,
@@ -46,7 +48,6 @@ export default async function getBlog({
                         slug: true
                     },
                 },
-
                 docs: {
                     select: {
                         id: true,

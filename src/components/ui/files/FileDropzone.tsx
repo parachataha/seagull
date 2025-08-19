@@ -121,6 +121,7 @@ export function FileDropzone({
           {/* BACK AND DELETE BUTTONS */}
           <div className="buttons absolute top-3 left-3 backdrop-blur-2xl flex flex-col gap-2">
             <Button
+              mode="icon"
               variant="ghost"
               className="!px-2 !bg-muted"
               onClick={() => setSelectedImg(null)}
@@ -129,8 +130,9 @@ export function FileDropzone({
             </Button>
 
             <Button
+              mode="icon"
               variant="destructive"
-              className="text-red-500 !px-2"
+              className="!text-foreground !px-2"
               onClick={() => handleDelete(selectedImg)}
             >
               <Trash2 />
@@ -179,8 +181,9 @@ export function FileDropzone({
                     return (
                         <div className="relative" key={index}>
                         <Button
+                          mode="icon"
                           variant="destructive"
-                          className="text-red-500 !px-2 absolute top-3 left-3 z-20 backdrop-blur-lg"
+                          className="!px-2 absolute top-3 left-3 z-20 backdrop-blur-lg"
                           onClick={() => setFiles([])}
                         >
                           <Trash2 />

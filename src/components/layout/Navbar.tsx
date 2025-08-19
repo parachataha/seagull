@@ -12,6 +12,7 @@ import {
   NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import UserLabel from "../cards/user/UserLabel"
+import { PlusIcon } from "lucide-react"
 
 export default function Navbar() {
   return (
@@ -25,7 +26,7 @@ export default function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Blogs</NavigationMenuTrigger>
+              <NavigationMenuTrigger>About</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <NavigationMenuLink>Seagull</NavigationMenuLink>
               </NavigationMenuContent>
@@ -34,7 +35,7 @@ export default function Navbar() {
         </NavigationMenu>
       </div>
 
-      <div>
+      <div className="flex gap-2">
         <UserLabel/>
       </div>
 

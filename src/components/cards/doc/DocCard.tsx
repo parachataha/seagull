@@ -16,7 +16,7 @@ export default function DocCard ( {
     
     return ( 
     <Link
-        href={`/user/blogs/${blogSlug}/${doc.slug}`}
+        href={`/blogs/${blogSlug}/${doc.slug}`}
     >
         <Card variant="accent">
 

@@ -31,7 +31,7 @@
 .document-body hr {
     margin: 1em 1em; /* spacing around the rule */
     border: none; /* remove default border */
-    border-top: 1px solid var(--muted-foreground); /* subtle top border */
+    border-top: 1px solid var(--muted); /* subtle top border */
 }
 
 /* ------------------------------

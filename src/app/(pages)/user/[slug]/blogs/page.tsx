@@ -9,7 +9,6 @@ import getUserBlogs from "@/actions/blogs/read/getUserBlogs";
 import BlogCard from "@/components/cards/blog/BlogCard";
 import Container from "@/components/layout/Container";
 import Page from "@/components/layout/Page";
-import H2 from "@/components/typography/H2";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import ManageButton from "@/components/buttons/ManageButton";
@@ -45,13 +44,13 @@ export default async function page ( {
                 </Link>
             </div>
 
-            <header className="flex justify-between">
-                <H2 className=""> {author?.name}'s Blogs </H2>
+            <header className="flex justify-between pt-3 pb-5 mb-6 border-b">
+                <h2 className="text-2xl font-semibold"> {author?.name}'s Blogs </h2>
                 <ManageButton> Manage blogs </ManageButton> { /* Used to display manage button if owner */ }
             </header>
             
 
-            <div className="flex gap-2 flex-wrap mt-6">
+            <div className="flex gap-2 flex-wrap">
 
                 {blogs.map((blog, index) => (
                     <BlogCard 

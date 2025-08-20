@@ -4,16 +4,17 @@ import { RootState } from "@/app/redux/store";
 import UserAvatar from "@/components/images/UserAvatar";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/input";import { MenubarSeparator } from "@/components/ui/menubar";
 ;
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { BuildingIcon, FilePenIcon, NotebookIcon, PlusIcon, UserIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 
 
-export default function UserLabel ( {
+export default function NavUserActions ( {
     className = ""
 } : {
     className?: string
@@ -30,7 +31,22 @@ export default function UserLabel ( {
                 <DropdownMenuContent>
                     <DropdownMenuLabel> Content </DropdownMenuLabel>
                     <DropdownMenuItem> <Link className="flex gap-2 items-center" href="/profile/blogs/create"> <NotebookIcon/> Blog </Link> </DropdownMenuItem>
-                    <DropdownMenuItem disabled> <FilePenIcon/> Document </DropdownMenuItem>
+                    {user?.blogs && user.blogs.length > 0 ? 
+                        <DropdownMenuSub>
+                            <DropdownMenuSubTrigger> <FilePenIcon/> Document </DropdownMenuSubTrigger>
+                            <DropdownMenuSubContent>  
+                                {user.blogs.map((blog : BlogWithDocsBasicAndAuthorAndThumbnail) => (
+                                    <DropdownMenuItem key={blog.id}> 
+                                        <Link href={`/blogs/${blog.slug}/create`}>
+                                            {blog.title}
+                                        </Link>
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuSubContent>
+                        </DropdownMenuSub> 
+                    :
+                        <DropdownMenuItem disabled> <FilePenIcon/> Document </DropdownMenuItem>
+                    }
                     <MenubarSeparator />
                     <DropdownMenuLabel> Collaboration </DropdownMenuLabel>
                     <DropdownMenuItem disabled> <UsersIcon/> Team </DropdownMenuItem>

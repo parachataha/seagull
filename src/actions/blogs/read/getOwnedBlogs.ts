@@ -2,7 +2,7 @@
 
 import validateSession from "@/actions/auth/validateSession";
 import prisma from "@/lib/db";
-import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema } from "@/schemas/user"
 import { Blog } from "@prisma/client";
@@ -15,7 +15,7 @@ export default async function getOwnedBlogs({
     userAgent
 } : {
     userAgent: string | null;
-}) : Promise<ServerResponse<{user: { blogs: BlogWithDocsBasicAndAuthor[],  }}>> {
+}) : Promise<ServerResponse<{user: { blogs: BlogWithDocsBasicAndAuthorAndThumbnail[],  }}>> {
     
     try {
 
@@ -43,6 +43,12 @@ export default async function getOwnedBlogs({
                 teamId: true,
                 thumbnailId: true,
                 pinnedDocId: true,
+
+                thumbnail: {
+                    select: {
+                        url: true
+                    }
+                },
 
                 author: {
                     select: {

@@ -105,6 +105,26 @@ export default async function validateSession( userAgent: string | null ) : Prom
                                 createdAt: true
                             }
                         },
+                        blogs: {
+                            select: {
+                                id: true,
+                                title: true,
+                                slug: true,
+                                description: true,
+                                docs: {
+                                    select: {
+                                        id: true,
+                                        slug: true,
+                                        title: true,
+                                    }
+                                },
+                                thumbnail: {
+                                    select: {
+                                        url: true
+                                    }
+                                }
+                            }
+                        },
                         timelines: {
                             select: {
                                 id: true,

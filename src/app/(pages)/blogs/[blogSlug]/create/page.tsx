@@ -17,7 +17,6 @@ export default async function page ( {
     const {blogSlug} = await params
 
     if (!blogSlug) notFound();
-
     
     return ( <Page>
 
@@ -26,7 +25,13 @@ export default async function page ( {
             <div className="flex flex-col w-full h-full items-center justify-between">
 
                 <div className="w-full max-w-200">
-                    <CreateDocForm />
+
+                    <header className="pb-4 mb-4">
+                        <h2 className="text-2xl font-semibold"> Create new document</h2>
+                        <p className="text-muted-foreground font-semibold mt-1"> {blogSlug} </p>
+                    </header>
+
+                    <CreateDocForm blogSlug={blogSlug}/>
 
                 </div>
 

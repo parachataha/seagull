@@ -54,3 +54,87 @@ export type DocsBasic = Prisma.DocGetPayload<{
     order: true
   }
 }>
+
+export type DocWithThumbnail = Prisma.DocGetPayload<{
+  select: {
+    id: true,
+    slug: true,
+    title: true,
+    description: true,
+    createdAt: true,
+    updatedAt: true,
+    isPublished: true,
+    body: true,
+    thumbnail: {
+      select: {
+        url: true,
+        description: true,
+      }
+    }
+  }
+}>
+
+export type DocWithThumbnailAndAuthor = Prisma.DocGetPayload<{
+  select: {
+    id: true,
+    slug: true,
+    title: true,
+    description: true,
+    createdAt: true,
+    updatedAt: true,
+    isPublished: true,
+    body: true,
+    blog: {
+      select: {
+        author: {
+          select: {
+            name: true,
+            slug: true,
+          }
+        },
+      }
+    }
+    thumbnail: {
+      select: {
+        url: true,
+        description: true,
+      }
+    }
+  }
+}>
+
+export type DocWithThumbnailAndBlogBasics = Prisma.DocGetPayload<{
+  select: {
+    id: true,
+    slug: true,
+    title: true,
+    description: true,
+    createdAt: true,
+    updatedAt: true,
+    isPublished: true,
+    body: true,
+    blog: {
+      select: {
+        slug: true,
+        title: true,
+        thumbnail: {
+          select: {
+            url: true
+          }
+        }
+        author: {
+          select: {
+            name: true,
+            slug: true,
+          }
+        },
+      }
+    }
+    thumbnail: {
+      select: {
+        url: true,
+        description: true,
+      }
+    }
+  }
+}>

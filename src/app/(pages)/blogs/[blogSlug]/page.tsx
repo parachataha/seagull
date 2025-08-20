@@ -55,7 +55,7 @@ export default async function page ( {
             <header>
                 <Card variant="accent">
                     <CardContent 
-                        className="h-48 flex flex-col py-4 justify-end bg-cover" 
+                        className="h-48 flex flex-col py-4 justify-end bg-cover bg-no-repeat bg-center" 
                         style={{ backgroundImage: blog.thumbnail?.url && `linear-gradient(to top, var(--card), transparent), url(${blog.thumbnail?.url})` }}
                         >
                         <H2 className=""> {blog.title} </H2>

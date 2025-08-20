@@ -22,8 +22,7 @@ export default function LoginForm({ className = "" }: { className?: string }) {
 
     const router = useRouter();
 
-    const { run, loading, error, success } = useServerAction(
-    () =>
+    const { run, loading, error, success } = useServerAction(() =>
         login({
             email: email.trim().toLowerCase(),
             password: password.trim(),
@@ -32,8 +31,7 @@ export default function LoginForm({ className = "" }: { className?: string }) {
     {
         unauthorizedRedirectUrl: "/profile",
         onSuccess: () => router.push("/profile"),
-    }
-    );
+    });
 
     async function handleLogin(e: React.FormEvent) {
         e.preventDefault();

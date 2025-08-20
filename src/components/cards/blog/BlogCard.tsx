@@ -1,6 +1,6 @@
 import { LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BlogWithDocsBasicAndAuthor } from "@/lib/types/Blog";
+import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { PublicSafeUser } from "@/lib/types/User";
 import { Blog } from "@prisma/client";
 import Image from "next/image";
@@ -9,7 +9,7 @@ import Link from "next/link";
 export default function BlogCard ( {
     blog,
 } : {
-    blog: BlogWithDocsBasicAndAuthor;
+    blog: BlogWithDocsBasicAndAuthorAndThumbnail;
 } ) {
     
     return ( 
@@ -18,7 +18,10 @@ export default function BlogCard ( {
     >
         <Card variant="accent">
 
-            <CardContent className="px-3 py-3 pt-40 flex flex-col items-start w-50">
+            <CardContent 
+                className="px-3 py-3 pt-40 flex flex-col items-start w-50 bg-cover bg-no-repeat bg-center" 
+                style={{ backgroundImage: blog.thumbnail?.url && `linear-gradient(to top, var(--background), transparent), url(${blog.thumbnail?.url})` }}
+            >
 
                 <div>
                     {blog.title}

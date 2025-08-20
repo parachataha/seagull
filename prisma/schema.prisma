@@ -34,8 +34,8 @@ model User {
   images    Image[]     @relation("UserImages")
   skills    UserSkill[]
   timelines Timeline[]
-  Project   Project[]
-  Blog      Blog[]
+  project   Project[]
+  blogs     Blog[]
 }
 
 model UserSkill {
@@ -67,6 +67,7 @@ model Image {
   user         User?          @relation("UserImages", fields: [userId], references: [id], onDelete: Cascade)
   User         User[]
   ProjectImage ProjectImage[]
+  Doc          Doc[]
   Blog         Blog[]
 }
 
@@ -176,10 +177,11 @@ model Blog {
 
 model Doc {
   id          Int     @id @default(autoincrement())
-  slug        String  @unique
+  slug        String
   title       String
   description String?
   body        Json
+  thumbnailId Int?
   blogId      Int
   createdAt   Int
   updatedAt   Int?
@@ -187,6 +189,9 @@ model Doc {
   order       Int?
 
   // Relations
-  blog     Blog  @relation(fields: [blogId], references: [id])
-  pinnedBy Blog? @relation("PinnedDoc")
+  blog      Blog   @relation(fields: [blogId], references: [id])
+  pinnedBy  Blog?  @relation("PinnedDoc")
+  thumbnail Image? @relation(fields: [thumbnailId], references: [id])
+
+  @@unique([blogId, slug])
 }

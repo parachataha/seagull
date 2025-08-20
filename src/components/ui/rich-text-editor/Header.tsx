@@ -1,6 +1,6 @@
 "use client"
 
-import { Bold, Italic, Underline, List, ListOrdered, Quote, Minus, ChevronDown, Highlighter, Code2Icon, Strikethrough, TableIcon } from "lucide-react"
+import { Bold, Italic, Underline, List, ListOrdered, Quote, Minus, ChevronDown, Highlighter, Code2Icon, Strikethrough, TableIcon, Trash2Icon } from "lucide-react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { Editor } from "@tiptap/react"
 import { useEffect, useState } from "react"
@@ -205,13 +205,23 @@ export default function RichTextEditorHeader({
                 >
                     <Minus className="h-4 w-4" />
                 </ToggleGroupItem>
-                <ToggleGroupItem
-                    value="table"
-                    aria-label="Insert table"
-                    onClick={() => editor.chain().focus().insertTable().run()}
-                >
-                    <TableIcon className="h-4 w-4" />
-                </ToggleGroupItem>
+                {editor.isActive("table") ? 
+                    <ToggleGroupItem 
+                        value="delete-table"
+                        aria-label="Delete table"
+                        onClick={() => editor.chain().focus().deleteTable().run()}
+                    >
+                        <Trash2Icon className="h-4 w-4" />
+                    </ToggleGroupItem> 
+                :
+                    <ToggleGroupItem
+                        value="table"
+                        aria-label="Insert table"
+                        onClick={() => editor.chain().focus().insertTable().run()}
+                    >
+                        <TableIcon className="h-4 w-4" />
+                    </ToggleGroupItem>
+                }
             </ToggleGroup>
 
         </div>

@@ -12,3 +12,5 @@ export const blogSlugSchema = z
     message:
         "Only English letters, digits, and - . _ ~ are allowed",
 })
+
+export const bodySchema = z.json()

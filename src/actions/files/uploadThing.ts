@@ -21,7 +21,6 @@ type fileExtensions = (string | "png" | "jpg" | "jpeg" | "gif" | "bmp" | "webp" 
 
 export default async function uploadThing( {
     file,
-    description = null,
     userAgent = null,
     requirements = {
         maxSize: 1_000_000, // 1000 kilobytes
@@ -30,7 +29,6 @@ export default async function uploadThing( {
     }
 } : {
     file: File;
-    description: string | null;
     userAgent: string | null;
     createdAt?: number;
     requirements?: {
@@ -58,11 +56,7 @@ export default async function uploadThing( {
         if (!file || !fileSchema.safeParse(file).success) {
             return { success: false, msg: "Invalid file provided.", status: 400 };
         }
-
-        if (description && !imageDescriptionSchema.safeParse(description).success) {
-            return { success: false, msg: "Invalid image description", status: 400 }
-        }   
-
+        
         // Ensure the file is not too big
         if (file.size > maxSize) { 
             return { success: false, msg: `${file?.name || "X"} file is too large as it is ${file?.size || "Y"} bytes. The max size is ${maxSize} bytes`, status: 400 }

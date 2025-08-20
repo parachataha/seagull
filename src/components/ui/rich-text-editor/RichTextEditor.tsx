@@ -1,7 +1,7 @@
 'use client'
 
 // Hooks
-import { useEditor, EditorContent } from '@tiptap/react'
+import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react'
 
 // Elements
 import StarterKit from '@tiptap/starter-kit'
@@ -16,8 +16,26 @@ import Heading from '@tiptap/extension-heading'
 import Header from "./Header"
 import Menubar from "./Menubar"
 import { Skeleton } from '../skeleton'
+import { useEffect } from 'react'
+
+// Customize table to allow context menu - FUTURE FEATURE
+import { Table } from '@tiptap/extension-table'
+import TableNodeView from './table-controls/TableNodeView'
+import { CharacterCount } from '@tiptap/extensions'
+
+const CustomTable = Table.extend({
+  addNodeView() {
+    return ({ node, editor, getPos }) => {
+      return ReactNodeViewRenderer(TableNodeView)
+    }
+  },
+})
+
 
 export default function RichTextEditor ({
+    data,
+    setData,
+    maxCharacterLimit = null,
     defaultContent = 
         `
             <p> 
@@ -29,27 +47,44 @@ export default function RichTextEditor ({
             </blockquote>
         `
 } : {
-    defaultContent?: string
+    data: any;
+    setData: React.Dispatch<React.SetStateAction<any>>;
+    maxCharacterLimit?: number | null;
+    defaultContent?: string;
 }) {
     const editor = useEditor({
-    extensions: [
-        StarterKit,
-        Document,
-        Paragraph,
-        Text,
-        TableKit.configure({
-            table: { resizable: true, allowTableNodeSelection: true },
-        }),
-        Highlight.configure({ 
-            multicolor: true 
-        }),
-        Heading.configure({
-            levels: [1, 2, 3, 4],
-        }),
-    ],
-    content: defaultContent,
-    immediatelyRender: false,
+        extensions: [
+            StarterKit,
+            Document,
+            Paragraph,
+            Text,
+            TableKit.configure({
+                table: { resizable: true, allowTableNodeSelection: true },
+            }),
+            Highlight.configure({ 
+                multicolor: true 
+            }),
+            Heading.configure({
+                levels: [1, 2, 3, 4],
+            }),
+            CharacterCount
+        ],
+        content: defaultContent,
+        immediatelyRender: false,
     })
+
+    // Keep external state in sync with editor
+    useEffect(() => {
+        if (!editor) return
+        const updateHandler = () => {
+            setData(editor.getJSON())
+        }
+        editor.on('update', updateHandler)
+        return () => {
+            editor.off('update', updateHandler)
+        }
+    }, [editor, setData])
+
 
     // Display loading animation
     if (!editor) return <>
@@ -59,7 +94,7 @@ export default function RichTextEditor ({
 
     return (<div>
 
-        <div className="bg-card p-2 rounded flex flex-col gap-2 sticky top-0 shadow-2xl z-20">
+        <div className="bg-popover/70 backdrop-blur-xl p-2 rounded flex flex-col gap-2 sticky top-0 shadow-2xl z-20">
             <Menubar
                 editor={editor} 
             />
@@ -69,7 +104,7 @@ export default function RichTextEditor ({
             />
         </div>
 
-        <div className='bg-card rounded-lg document-body'>
+        <div className='bg-card rounded-b-lg document-body'>
             <div className="relative">
                 <EditorContent
                     placeholder='Start editing here'

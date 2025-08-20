@@ -84,7 +84,6 @@ export default async function createBlog({
                 createdAt,
                 userAgent: userAgent || null,
                 file: thumbnail,
-                description: description,
             })
 
             result = await prisma.blog.create({
@@ -166,7 +165,6 @@ export default async function createBlog({
         }
 
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
-
 
     }
 

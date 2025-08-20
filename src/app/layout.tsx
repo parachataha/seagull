@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import ReduxProvider from './redux/ReduxProvider';
 import Navbar from '@/components/layout/Navbar';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import UserProvider from '@/components/providers/UserProvider';
 import Container from '@/components/layout/Container';
 
@@ -22,11 +22,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: '#C37F57',
+}
+
 export const metadata: Metadata = {
   applicationName: 'Seagull',
   title: "Seagull - Your Number One Blog Creator",
   description: "Unleash your creativity with our very own blog editor.",
-  themeColor: "#C37F57",
   openGraph: {
       title: "Your Number One Blog Creator",
       description: "Unleash your creativity with our very own blog editor.",

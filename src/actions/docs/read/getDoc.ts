@@ -16,6 +16,8 @@ export default async function getDoc({
     blogSlug : string;
     docSlug : string;
 }) : Promise<ServerResponse<{doc: DocWithThumbnailAndBlogBasics}>> {
+
+    console.log("asdfsad")
     
     try {
 
@@ -95,6 +97,8 @@ export default async function getDoc({
         }
 
     } catch (error : any) {
+        
+        console.log(error);
 
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 

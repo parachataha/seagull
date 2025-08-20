@@ -4,18 +4,17 @@ import Page from "@/components/layout/Page";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { generateHTML } from '@tiptap/html'
+import { generateHTML } from '@tiptap/html/server'
+import { JSONContent } from '@tiptap/core'
 import ReadOnly, { tiptapExtensions } from "@/components/ui/rich-text-editor/ReadOnly";
 import BlogLabel from "@/components/cards/blog/BlogLabel";
-import { Label } from "@/components/ui/input";
 import Link from "next/link";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 type ParamsType = Promise<{ docSlug: string, blogSlug: string }>
 
 export async function generateMetadata(
     { params }: { params: ParamsType },
-    parent: ResolvingMetadata
 ): Promise<Metadata> {
 
     const { docSlug, blogSlug } = await params;
@@ -35,7 +34,7 @@ export async function generateMetadata(
             description: "Sorry, this article does not seem to exist",
             type: "article",
             images: [
-                    "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+                    "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MWtJBA0GV5A2bEgvDlrfomqMG09RCujZ3sVBhO",
                 ],
         },
         twitter: {
@@ -43,7 +42,7 @@ export async function generateMetadata(
             title: "Page not found",
             description: "Sorry, this article does not seem to exist",
             images: [
-                "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+                "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MWtJBA0GV5A2bEgvDlrfomqMG09RCujZ3sVBhO",
             ],
         },
     }
@@ -52,10 +51,12 @@ export async function generateMetadata(
     const blog = doc.blog;
     const author = blog.author;
 
+    const tiptapBody: JSONContent = doc.body as JSONContent || { type: 'doc', content: [] }
+
     /**
      * Convert HTML to plain text and get first 160 characters
      */
-    const htmlContent = generateHTML(doc.blog, tiptapExtensions);
+    const htmlContent = generateHTML(tiptapBody, tiptapExtensions);
     const description = htmlContent.replace(/<[^>]+>/g, '').slice(0, 160);
 
     return {
@@ -69,9 +70,9 @@ export async function generateMetadata(
             description,
             type: "article",
             images: [
-                    doc.thumbnail?.url ||
-                    "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
-                ],
+                doc.thumbnail?.url ||
+                "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+            ],
         },
         twitter: {
             card: "summary_large_image",
@@ -85,7 +86,6 @@ export async function generateMetadata(
     };
 
 }
-
 
 export default async function page ( {
     params

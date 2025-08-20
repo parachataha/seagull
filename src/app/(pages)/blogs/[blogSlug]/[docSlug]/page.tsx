@@ -5,15 +5,92 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { generateHTML } from '@tiptap/html'
-import ReadOnly from "@/components/ui/rich-text-editor/ReadOnly";
+import ReadOnly, { tiptapExtensions } from "@/components/ui/rich-text-editor/ReadOnly";
 import BlogLabel from "@/components/cards/blog/BlogLabel";
 import { Label } from "@/components/ui/input";
 import Link from "next/link";
+import { Metadata, ResolvingMetadata } from "next";
+
+type ParamsType = Promise<{ docSlug: string, blogSlug: string }>
+
+export async function generateMetadata(
+    { params }: { params: ParamsType },
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+
+    const { docSlug, blogSlug } = await params;
+
+    const result = await getDoc({ 
+        blogSlug: blogSlug.trim().replaceAll(" ", "-").toLowerCase(),
+        docSlug: docSlug.trim().replaceAll(" ", "-").toLowerCase(),
+    });
+
+    if (result.status === 404 || !result.success) return {
+        applicationName: 'Seagull',
+        title: "Page not found",
+        description: "Sorry, this article does not seem to exist",
+        themeColor: "#C37F57",
+        openGraph: {
+            title: "Page not found",
+            description: "Sorry, this article does not seem to exist",
+            type: "article",
+            images: [
+                    "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+                ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: "Page not found",
+            description: "Sorry, this article does not seem to exist",
+            images: [
+                "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+            ],
+        },
+    }
+
+    const doc = result.data.doc;
+    const blog = doc.blog;
+    const author = blog.author;
+
+    /**
+     * Convert HTML to plain text and get first 160 characters
+     */
+    const htmlContent = generateHTML(doc.blog, tiptapExtensions);
+    const description = htmlContent.replace(/<[^>]+>/g, '').slice(0, 160);
+
+    return {
+        applicationName: 'Seagull',
+        title: doc.title,
+        description,
+        authors: [{ name: blog.author?.name || "Seagull", url: `/` }],
+        themeColor: "#C37F57",
+        openGraph: {
+            title: doc.title,
+            description,
+            type: "article",
+            images: [
+                    doc.thumbnail?.url ||
+                    "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+                ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: doc.title,
+            description,
+            images: [
+                doc.thumbnail?.url ||
+                "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+            ],
+        },
+    };
+
+}
+
 
 export default async function page ( {
     params
 } : {
-    params : Promise<{ blogSlug: string, docSlug: string }>
+    params : ParamsType
 } ) {
 
     const { blogSlug, docSlug } = await params;

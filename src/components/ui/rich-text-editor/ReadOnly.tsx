@@ -23,8 +23,7 @@ type ReadOnlyProps = {
   json: any // your tiptap JSON (body)
 }
 
-export default function ReadOnly({ json }: ReadOnlyProps) {
-  const html = generateHTML(json, [
+export const tiptapExtensions = [
     Document,
     Paragraph,
     Text,
@@ -40,7 +39,10 @@ export default function ReadOnly({ json }: ReadOnlyProps) {
     HorizontalRule,
     HardBreak, 
     TableKit,
-  ])
+  ]
+
+export default function ReadOnly({ json }: ReadOnlyProps) {
+  const html = generateHTML(json, tiptapExtensions)
 
   return (
     <div

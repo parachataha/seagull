@@ -8,6 +8,8 @@ import { Metadata, Viewport } from 'next';
 import UserProvider from '@/components/providers/UserProvider';
 import Container from '@/components/layout/Container';
 
+import { GoogleAnalytics } from '@next/third-parties/google'
+
 interface RootLayoutProps {
   children: React.ReactNode;
 }
@@ -72,6 +74,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         </ReduxProvider>
 
+        <GoogleAnalytics gaId="G-NLZM6GH365" /> { /* hannahparacha */ }
+        <GoogleAnalytics gaId="G-W64Y07B332" /> { /* seagull-app */ }
       </body>
     </html>
   );

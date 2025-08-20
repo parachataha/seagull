@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       description: "Unleash your creativity with our very own blog editor.",
       type: "article",
       images: [
-        "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+        "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MWnZ8mE8Lqfva2GSmjTdkc6XKhlbV5tZUsYoNz",
       ],
   },
   twitter: {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
       title: "Your Number One Blog Creator",
       description: "Unleash your creativity with our very own blog editor.",
       images: [
-        "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MW2ucz8CDXwvPbRW5gAI4D8i7o0Uct9HMTplya",
+        "https://z90iq4irr8.ufs.sh/f/b0Ply9TOA2MWnZ8mE8Lqfva2GSmjTdkc6XKhlbV5tZUsYoNz",
       ],
   },
 };

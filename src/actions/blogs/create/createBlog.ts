@@ -151,6 +151,7 @@ export default async function createBlog({
                 organizationId: result.organizationId,
                 thumbnailId: result.thumbnailId,
                 pinnedDocId: null,
+                isPublic: true,
                 createdAt: result.createdAt,
                 updatedAt: null,
             }

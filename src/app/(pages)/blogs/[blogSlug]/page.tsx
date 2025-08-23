@@ -76,7 +76,7 @@ export default async function page ( {
             </header>
 
             {/* This banner only appears if the user owns the blog */}
-            <OwnerBanner className="mt-3"/>
+            <OwnerBanner authorId={author?.id} className="mt-3"/>
 
             <main className="mt-6">
                 <div className="flex gap-2 flex-wrap">

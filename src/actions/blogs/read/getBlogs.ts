@@ -48,6 +48,12 @@ export default async function getBlogs() : Promise<ServerResponse<{blogs: BlogWi
                         updatedAt: true,
                         isPublished: true,
                         order: true,
+                        thumbnail: {
+                            select:{
+                                url: true,
+                                description: true
+                            }
+                        }
                     },
                     orderBy: {
                         order: "asc",

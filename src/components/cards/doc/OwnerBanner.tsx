@@ -4,9 +4,9 @@ import { RootState } from "@/app/redux/store";
 import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { EyeClosedIcon, FolderOutputIcon, PenIcon, PinIcon, PlusIcon, Trash2Icon } from "lucide-react";
+import { EllipsisVerticalIcon, EyeClosedIcon, FolderOutputIcon, PenIcon, PinIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
@@ -14,36 +14,36 @@ import { useDispatch, useSelector } from "react-redux";
 export default function OwnerBanner ({ 
     children,
     className = "",
-    authorId = 0,
+    authorSlug = ""
 } : {
     children?: React.ReactNode,
-    className?: string
-    authorId?: number
+    className?: string,
+    authorSlug?: string | null | undefined
 }) {
 
-    const params = useParams<{ blogSlug: string; }>()
+    const router = useRouter();
 
     const dispatch = useDispatch();
     const user = useSelector((state : RootState) => state.user);
     
-    if (authorId === user.id) return ( <Card className={className} variant="accent">
+    if (authorSlug === user.slug) return ( <Card className={className} variant="accent">
         <CardContent className="flex justify-between items-center !p-2">
+            <LinkButton href="edit" variant="neutral" appearance="ghost"> Edit document </LinkButton>
             <DropdownMenu> 
                 <DropdownMenuTrigger asChild>
-                    <button className="cursor-pointer !text-foreground/50 text-sm pl-2 active:bg-foreground/5"> Manage blog </button>
+                    <Button variant="neutral" mode="icon" appearance="ghost"> <EllipsisVerticalIcon/> </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-45">
-                    <DropdownMenuLabel> Blog actions </DropdownMenuLabel>
-                    <DropdownMenuItem> <PenIcon/> Edit details </DropdownMenuItem>
-                    <DropdownMenuItem variant="destructive"> <EyeClosedIcon/> Unlist blog </DropdownMenuItem>
-                    <DropdownMenuSeparator/>
                     <DropdownMenuLabel> Doc actions </DropdownMenuLabel>
+                    <Link href="edit">
+                        <DropdownMenuItem> <PenIcon/> Edit doc </DropdownMenuItem>
+                    </Link>
                     <DropdownMenuItem> <PinIcon/> Pin doc </DropdownMenuItem>
                     <DropdownMenuItem> <FolderOutputIcon/> Move doc </DropdownMenuItem>
+                    <DropdownMenuItem variant="destructive"> <EyeClosedIcon/> Hide doc </DropdownMenuItem>
                     <DropdownMenuItem variant="destructive"> <Trash2Icon/> Delete doc </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <LinkButton href={`/blogs/${params.blogSlug}/create`} variant="ghostBg"> <PlusIcon/> Document </LinkButton>
         </CardContent>
     </Card>
     );

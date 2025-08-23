@@ -17,6 +17,7 @@ import { Scrollspy } from "@/components/ui/scrollspy";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import HeadingsList from "./HeadingsList";
 import { generateHTML } from "@tiptap/html/server";
+import OwnerBanner from "@/components/cards/doc/OwnerBanner";
 
 type ParamsType = Promise<{ docSlug: string, blogSlug: string }>
 
@@ -119,6 +120,8 @@ export default async function page ( {
     return ( <Page>
 
         <Container>
+
+            <OwnerBanner authorSlug={author?.slug} className="mb-14"/>
 
             {/* Split the page */}
             <div className="flex lg:flex-row flex-col gap-6 pb-12 w-full">

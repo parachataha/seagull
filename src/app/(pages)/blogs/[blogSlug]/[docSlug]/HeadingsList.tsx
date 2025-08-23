@@ -50,7 +50,7 @@ export default function HeadingsList({ json }: { json: JSONContent }) {
             <h2 className="text-sm text-muted-foreground font-semibold flex gap-2 items-center">
                 <TextIcon size={20} /> On this page
             </h2>
-            <ul className="text-foreground/70 list-none pl-4 space-y-1 border-l ml-2 pb-1">
+            <ul className="!text-foreground/80 list-none pl-4 space-y-1 border-l ml-2 pb-1">
                 {headings.map((h, i) => (
                     <li key={i} className={`ml-${(h.level - 1) * 4}`}>
                         <a

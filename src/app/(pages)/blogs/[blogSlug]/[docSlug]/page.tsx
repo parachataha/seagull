@@ -4,12 +4,19 @@ import Page from "@/components/layout/Page";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { generateHTML } from '@tiptap/html/server'
 import { JSONContent } from '@tiptap/core'
 import ReadOnly, { tiptapExtensions } from "@/components/ui/rich-text-editor/ReadOnly";
 import BlogLabel from "@/components/cards/blog/BlogLabel";
 import Link from "next/link";
 import { Metadata } from "next";
+import { Button } from "@/components/ui/button";
+import { LinkIcon, Scroll, TriangleAlertIcon } from "lucide-react";
+import CopyLinkButton from "@/components/buttons/CopyLinkButton";
+import ShareButton from "@/components/buttons/ShareButton";
+import { Scrollspy } from "@/components/ui/scrollspy";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import HeadingsList from "./HeadingsList";
+import { generateHTML } from "@tiptap/html/server";
 
 type ParamsType = Promise<{ docSlug: string, blogSlug: string }>
 
@@ -114,19 +121,28 @@ export default async function page ( {
         <Container>
 
             {/* Split the page */}
-            <div className="flex gap-2">
+            <div className="flex lg:flex-row flex-col gap-6 pb-12 w-full">
                 {/* Main article content */}
-                <div>
-                    <article className="max-w-200">
+                <div className="w-full flex-grow">
 
-                        <header className="pt-6 pb-8 mb-8 border-b">
+                    <article className="max-w-200 w-full">
 
-                            <h1 className="text-3xl font-bold mb-1"> {doc.title} </h1>
-                            <Link href={`/user/${blog.author?.slug}/blogs`}>
-                                <p className="text-sm text-muted-foreground mb-4 hover:underline"> By {blog.author?.name} </p>
-                            </Link>
+                        <header className="pb-8 mb-8 border-b">
 
-                            {doc.thumbnail && <>
+                            <div className="flex justify-between items-start gap-2 lg:gap-4">
+                                <div>
+                                    <h1 className="text-3xl font-bold mb-1"> {doc.title} </h1>
+                                    <Link href={`/user/${blog.author?.slug}/blogs`}>
+                                        <p className="text-sm text-muted-foreground mb-4 hover:underline"> By {blog.author?.name} </p>
+                                    </Link>
+                                </div>
+                                <ShareButton
+                                    title={doc.title}
+                                    description={`Check out this new article by ${blog.author?.name || "John Doe"} on Seagull`}
+                                />
+                            </div>
+
+                            {doc.thumbnail && <div>
                                 {/* RENDER THUMBNAIL */}
                                 {doc.thumbnail.url && 
                                     <Image
@@ -135,7 +151,7 @@ export default async function page ( {
                                         alt={doc.thumbnail.description || "Image"}
                                         width={200}
                                         height={200}
-                                        className="w-full object-contain rounded-xl"
+                                        className="object-contain w-full rounded-xl"
                                     />
                                 }
 
@@ -143,32 +159,44 @@ export default async function page ( {
                                 {doc.thumbnail.description && 
                                     <p className="mt-3 text-sm text-muted-foreground"> {doc.thumbnail.description} </p>
                                 }
-                            </>}
+                            </div>}
                             
                             {/* BLOG AND AUTHOR INFO */}
-                            <div className="mt-6">
-                                <div className="flex">
-                                    <BlogLabel  
-                                        className="w-full max-w-60"
-                                        slug={blog.slug}
-                                        thumbnail={blog.thumbnail?.url}
-                                        title={blog.title}
-                                        authorName={null}
-                                    />
+                            <Scrollspy>
+                                <div className="mt-6">
+                                    <div className="flex">
+                                        <BlogLabel  
+                                            className="w-full max-w-60"
+                                            slug={blog.slug}
+                                            thumbnail={blog.thumbnail?.url}
+                                            title={blog.title}
+                                            authorName={null}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
+                            </Scrollspy>
 
                         </header>
 
-                        <main className="pb-16"> 
+                        <main className="pb-8"> 
                             {/* ARTICLE BODY */}    
                             <ReadOnly json={doc.body}/>
                         </main>
+                        
+                        <div className="flex gap-2">
+                            <Button disabled variant="destructive" appearance="ghostBg"> <TriangleAlertIcon/> Report </Button>
+                        <CopyLinkButton icon="LinkIcon" />
+                        </div>
 
                     </article>
+
                 </div>
 
                 {/* Scroll tracker */}
+                <div className="w-full max-w-72">
+                    <HeadingsList json={doc.body as JSONContent}/>
+                </div>
+
             </div>
 
 

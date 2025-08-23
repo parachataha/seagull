@@ -9,8 +9,9 @@ import { Label } from "@/components/ui/input";import { MenubarSeparator } from "
 ;
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
-import { BuildingIcon, FilePenIcon, NotebookIcon, PlusIcon, UserIcon, UsersIcon } from "lucide-react";
+import { BuildingIcon, FilePenIcon, NotebookIcon, PlusIcon, User, UserIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
 
@@ -21,6 +22,7 @@ export default function NavUserActions ( {
 } ) {
 
     const user = useSelector((state : RootState) => state.user);
+    const router = useRouter();
     
     if (user.email) return ( 
         <>
@@ -30,16 +32,14 @@ export default function NavUserActions ( {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuLabel> Content </DropdownMenuLabel>
-                    <DropdownMenuItem> <Link className="flex gap-2 items-center" href="/profile/blogs/create"> <NotebookIcon/> Blog </Link> </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push(`/blogs/${user.slug}/create-blog`)}> <NotebookIcon/> Blog </DropdownMenuItem>
                     {user?.blogs && user.blogs.length > 0 ? 
                         <DropdownMenuSub>
                             <DropdownMenuSubTrigger> <FilePenIcon/> Document </DropdownMenuSubTrigger>
                             <DropdownMenuSubContent>  
                                 {user.blogs.map((blog : BlogWithDocsBasicAndAuthorAndThumbnail) => (
-                                    <DropdownMenuItem key={blog.id}> 
-                                        <Link href={`/blogs/${blog.slug}/create`}>
-                                            {blog.title}
-                                        </Link>
+                                <DropdownMenuItem key={blog.id} onClick={() => router.push(`/blogs/${blog.slug}/create`)}> 
+                                        {blog.title} 
                                     </DropdownMenuItem>
                                 ))}
                             </DropdownMenuSubContent>
@@ -70,13 +70,24 @@ export default function NavUserActions ( {
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent>
-                    <div className="flex flex-col gap-2">
-                        <p className="text-xs text-foreground/50"> Welcome {user.name || "John Doe"} </p>
+                    <div className="flex flex-col gap-1">
+                        {/* <p className="text-xs text-foreground/50"> Welcome {user.name || "John Doe"} </p> */}
                         <LinkButton href="/profile" variant="ghostBg" className="!justify-start"> <UserIcon/> View Profile </LinkButton>
+                        <div className="flex gap-1">
+                            <LinkButton href={`/user/${user.slug}/blogs`} variant="ghostBg" className="!justify-start"> <NotebookIcon/> Blogs </LinkButton>
+                            <LinkButton href={`/user/${user.slug}/portfolio`} variant="ghostBg" className="!justify-start"> <UserIcon/> Portfolio </LinkButton>
+                        </div>
                     </div>
                 </PopoverContent>
             </Popover>
         
         </>
+    ) 
+    
+    return (
+        <div className="flex items-center bg-muted rounded-full p-1 gap-0.5">
+            {/* <LinkButton href="/login" variant="ghostBg" className="rounded-l-full rounded-r-md"> Login </LinkButton>
+            <LinkButton href="/signup" variant="ghostBg" className="rounded-r-full rounded-l-md"> Signup </LinkButton> */}
+        </div>
     );
 }

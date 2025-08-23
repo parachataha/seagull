@@ -31,6 +31,7 @@ const buttonVariants = cva(
       appearance: {
         default: '',
         ghost: '',
+        ghostBg: '',
       },
       underline: {
         solid: '',
@@ -290,6 +291,11 @@ const buttonVariants = cva(
 
       // Ghost
       {
+        variant: 'neutral',
+        appearance: 'ghost',
+        className: 'bg-transparent !text-foreground/90 hover:bg-muted data-[state=open]:bg-muted',
+      },
+      {
         variant: 'primary',
         appearance: 'ghost',
         className: 'bg-transparent text-primary/90 hover:bg-muted data-[state=open]:bg-muted',
@@ -298,6 +304,28 @@ const buttonVariants = cva(
         variant: 'destructive',
         appearance: 'ghost',
         className: 'bg-transparent text-destructive/90 hover:bg-destructive/5 data-[state=open]:bg-destructive/5',
+      },
+      {
+        variant: 'ghost',
+        mode: 'icon',
+        className: 'text-muted-foreground',
+      },
+
+      // GhostBg
+      {
+        variant: 'neutral',
+        appearance: 'ghostBg',
+        className: '!bg-foreground/5 !text-foreground/90 hover:bg-muted data-[state=open]:bg-muted',
+      },
+      {
+        variant: 'primary',
+        appearance: 'ghostBg',
+        className: '!bg-primary/10 !text-primary/90 hover:bg-muted data-[state=open]:bg-muted',
+      },
+      {
+        variant: 'destructive',
+        appearance: 'ghostBg',
+        className: '!bg-destructive/10 !text-destructive/90 hover:bg-destructive/5 data-[state=open]:bg-destructive/5',
       },
       {
         variant: 'ghost',

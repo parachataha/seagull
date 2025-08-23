@@ -1,7 +1,7 @@
 'use client'
 
 // Hooks
-import { useEditor, EditorContent, ReactNodeViewRenderer } from '@tiptap/react'
+import { useEditor, EditorContent, ReactNodeViewRenderer, JSONContent } from '@tiptap/react'
 
 // Elements
 import StarterKit from '@tiptap/starter-kit'
@@ -47,8 +47,8 @@ export default function RichTextEditor ({
             </blockquote>
         `
 } : {
-    data: any;
-    setData: React.Dispatch<React.SetStateAction<any>>;
+    data: JSONContent;
+    setData: React.Dispatch<React.SetStateAction<JSONContent>>;
     maxCharacterLimit?: number | null;
     defaultContent?: string;
 }) {
@@ -76,13 +76,17 @@ export default function RichTextEditor ({
     // Keep external state in sync with editor
     useEffect(() => {
         if (!editor) return
+        
         const updateHandler = () => {
-            setData(editor.getJSON())
+            const safeBody = JSON.parse(JSON.stringify(editor.getJSON()))
+            setData(safeBody)
         }
         editor.on('update', updateHandler)
+
         return () => {
             editor.off('update', updateHandler)
         }
+
     }, [editor, setData])
 
 

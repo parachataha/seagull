@@ -22,7 +22,7 @@ export default function Navbar() {
           <h1 className="text-lg font-semibold"> Seagull </h1>
         </Link>
 
-        <NavigationMenu>
+        {/* <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>About</NavigationMenuTrigger>
@@ -31,7 +31,7 @@ export default function Navbar() {
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
-        </NavigationMenu>
+        </NavigationMenu> */}
       </div>
 
       <div className="flex gap-2">

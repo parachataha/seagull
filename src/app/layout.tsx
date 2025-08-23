@@ -66,7 +66,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
           {/* USED TO FETCH USER */}
           <UserProvider />
-
+          
+          
           <Container className='w-full mt-5'>
             <Navbar />
           </Container>

@@ -1,5 +1,6 @@
 "use server"
 
+import validateSession from "@/actions/auth/validateSession";
 import prisma from "@/lib/db";
 import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
@@ -10,9 +11,9 @@ import { slugSchema } from "@/schemas/user"
  */
 
 export default async function getBlog({
-    blogSlug
+    blogSlug,
 } : {
-    blogSlug : string
+    blogSlug : string,
 }) : Promise<ServerResponse<{blog: BlogWithDocsBasicAndAuthorAndThumbnail}>> {
     
     try {
@@ -59,6 +60,12 @@ export default async function getBlog({
                         updatedAt: true,
                         isPublished: true,
                         order: true,
+                        thumbnail: {
+                            select: {
+                                url: true,
+                                description: true
+                            }
+                        }
                     },
                     orderBy: {
                         order: "asc",

@@ -27,7 +27,6 @@ export default function CreateBlogForm({
 }) {
 
     const router = useRouter();
-    const user = useSelector((state : RootState) => state.user);
 
     // Form states
     const [slug, setSlug] = useState<string>("");

@@ -69,6 +69,12 @@ export default async function getOwnedBlogs({
                         updatedAt: true,
                         isPublished: true,
                         order: true,
+                        thumbnail: {
+                            select: {
+                                url: true,
+                                description: true
+                            }
+                        },
                     },
                     orderBy: {
                         order: "asc",

@@ -13,4 +13,7 @@ export const blogSlugSchema = z
         "Only English letters, digits, and - . _ ~ are allowed",
 })
 
-export const bodySchema = z.json()
+export const bodySchema = z.object({
+    type: z.literal("doc"),
+    content: z.array(z.any()),
+})

@@ -28,6 +28,8 @@ export default async function validateSession( userAgent: string | null ) : Prom
 
     try {
 
+        console.log("TEST: ", userAgent)
+
         /**
          * Validate userAgent if any
          */
@@ -175,9 +177,12 @@ export default async function validateSession( userAgent: string | null ) : Prom
          * Check if session is expired or not.
          * If so: invalidate the session
          */
+        const expiresAt = result.expiresAt;
         const nowSeconds = Math.floor(Date.now() / 1000)
         if (nowSeconds > result.expiresAt) {
             // Delete session from db and client
+
+            console.log("Uhhh: ", nowSeconds, expiresAt)
 
             const result = await invalidateSession(sessionId); 
             if (!result.success) return { success: false, msg: result.msg, status: result.status }

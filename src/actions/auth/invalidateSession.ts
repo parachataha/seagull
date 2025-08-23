@@ -5,69 +5,55 @@ import { tokenPartSchema, tokenSchema } from "@/schemas/session";
 import { cookies } from "next/headers";
 
 /**
- * Delete sessions from client and database
- * @param sessionId - Session id
+ * Invalidate session (server-side). This function only removes DB session(s).
+ * Do NOT mutate cookies here because this function is used during SSR/validation.
  */
-export default async function invalidateSession(sessionId?: string) : Promise<ServerResponse> {
-    const result = await deleteServerSession(sessionId);
-    deleteClientSession()
-    return result;
+export default async function invalidateSession(sessionId?: string) : Promise<ServerResponse<{ deleted: number }>> {
+  "use server"
+  // Only delete from DB (no cookie mutation)
+  return await deleteServerSession(sessionId);
 }
 
 /**
- * @function deleteClientSession() - Delete sessions on the client side
+ * Delete the client-side cookie. This is a Server Action and only deletes the cookie.
+ * Call this from the client when you want the user's browser cookie removed.
  */
 export async function deleteClientSession() {
-    const cookieStore = await cookies();
-    cookieStore.delete("session")
+  "use server"
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
 }
 
 /**
- * Delete sessions from the database only
- * @param sessionId - Session id
+ * Delete sessions from the database only. Uses deleteMany to avoid throwing if missing.
  */
-export async function deleteServerSession(sessionId?: string) : Promise<ServerResponse> {
-    
-    try {
+export async function deleteServerSession(sessionId?: string) : Promise<ServerResponse<{ deleted: number }>> {
+  try {
+    if (sessionId) {
+      if (!tokenPartSchema.safeParse(sessionId).success) {
+        return { success: false, msg: "Invalid sessionId", status: 400 };
+      }
+      const { count } = await prisma.session.deleteMany({
+        where: { id: sessionId }
+      });
+      return { success: true, msg: "Deleted session from DB", status: 200, data: { deleted: count } };
+    } else {
+      const cookieStore = await cookies();
+      const token = cookieStore.get("session")?.value;
 
-        /**
-         * When a session ID is given, delete the specific id
-         * Else, we will find the cookie and delete the stored cookie and the corresponding value in the db
-         */
-        if (sessionId) {
-            // WHEN ID GIVEN
-            if (!tokenPartSchema.safeParse(sessionId).success) return { success: false, msg: "Invalid sessionId", status: 400 }
-            
-            await prisma.session.delete({
-                where: {
-                    id: sessionId
-                }
-            })
-        } else {
-            // WHEN NO ID IS GIVEN
-            const cookieStore = await cookies()
-            const token = cookieStore.get("session")?.value
-            
-            if (!tokenSchema.safeParse(token).success) {
-                deleteClientSession();
-                return { success: true, msg: "Invalid token", status: 400, data: undefined }
-            }
+      if (!tokenSchema.safeParse(token).success) {
+        return { success: true, msg: "Invalid token", status: 400, data: { deleted: 0 } };
+      }
 
-            const sessionId = token?.split(".")[0];
+      const sessionIdFromToken = token!.split(".")[0];
 
-            await prisma.session.delete({
-                where: {
-                    id: sessionId
-                }
-            })
-        }
+      const { count } = await prisma.session.deleteMany({
+        where: { id: sessionIdFromToken }
+      });
 
-        return { success: true, msg: "Deleted session successfully", status: 200, data: undefined }
-
-    } catch (error) {
-
-        return { success: false, msg: "Internal server error occurred when deleting database session", status: 500 }
-        
+      return { success: true, msg: "Deleted session from DB", status: 200, data: { deleted: count } };
     }
-
+  } catch (error) {
+    return { success: false, msg: "Internal server error occurred when deleting database session", status: 500 };
+  }
 }

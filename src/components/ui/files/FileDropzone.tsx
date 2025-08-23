@@ -184,7 +184,10 @@ export function FileDropzone({
                           mode="icon"
                           variant="destructive"
                           className="!px-2 absolute top-3 left-3 z-20 backdrop-blur-lg"
-                          onClick={() => setFiles([])}
+                          onClick={(e) => {
+                          e.stopPropagation();
+                            setFiles([]);
+                          }}
                         >
                           <Trash2 />
                         </Button>

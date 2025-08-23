@@ -1,3 +1,4 @@
+"use client"
 import { ReactNode, RefObject, useCallback, useEffect, useRef } from 'react';
 
 type ScrollspyProps = {

@@ -5,11 +5,13 @@ import uploadThing from "@/actions/files/uploadThing";
 import prisma from "@/lib/db";
 import { DocWithThumbnail } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse"
-import { blogSlugSchema, blogTitleSchema, bodySchema } from "@/schemas/blog";
-import { fileSchema, imageDescriptionSchema } from "@/schemas/image";
-import { describe } from "node:test";
+
+// Types
+import { JSONContent } from "@tiptap/react";
 
 // Schemas
+import { blogSlugSchema, blogTitleSchema, bodySchema } from "@/schemas/blog";
+import { fileSchema, imageDescriptionSchema } from "@/schemas/image";
 
 export default async function createDoc({
     userAgent = null,
@@ -27,7 +29,7 @@ export default async function createDoc({
     userAgent: string | null;
 
     title: string;
-    body: JSON | undefined;
+    body: JSONContent | undefined;
     slug: string;
     blogSlug: string;
 
@@ -39,9 +41,11 @@ export default async function createDoc({
 
     try { 
 
-        const cleanedBody = JSON.parse(JSON.stringify(body));
+        console.log("before: ", body, typeof body);
 
-        if (!body) return { success: false, msg: "Invalid body", status: 400 }
+        const cleanedBody = body;
+
+        if (!cleanedBody) return { success: false, msg: "Invalid body", status: 400 }
 
         if (!blogTitleSchema.safeParse(title.trim()).success) return { success: false, msg: "Invalid title", status: 400 }
         if (!bodySchema.safeParse(cleanedBody).success) return { success: false, msg: "Body is not valid", status: 400 }
@@ -141,6 +145,14 @@ export default async function createDoc({
             msg: "You already have a document in this blog with that URL. Please change it and try again",
             status: 409,
         }
+        if (error.code === "P2006") {
+            return {
+                success: false,
+                msg: "Your content is too deeply nested that it will break our poor old system! This is often found in your bullet points, tables or general structure and try again.",
+                status: 400,
+            }
+        }
+
 
         return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500, error: error }
 

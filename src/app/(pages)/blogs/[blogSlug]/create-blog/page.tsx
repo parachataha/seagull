@@ -3,7 +3,8 @@ import FullPage from "@/components/layout/FullPage";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import H2 from "@/components/typography/H2";
-import CreateBlogForm from "../../../../../../components/forms/blog/CreateBlogForm";
+import CreateBlogForm from "@/components/forms/blog/CreateBlogForm";
+import BackButton from "@/components/buttons/BackButton";
 
 export default function page ( {
      
@@ -15,9 +16,7 @@ export default function page ( {
         
         <Container className="!max-w-200">
 
-            <Link href="/profile/blogs">
-                <ArrowLeftIcon size={32} className="!mt-8 !mb-6"/>
-            </Link>
+            <BackButton className="mt-6 mb-8"/>
 
             <H2> Create blog </H2>
             <p className="!mt-2 text-foreground/80"> A blog allows you to create a group of relating documents </p>

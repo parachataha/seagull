@@ -4,34 +4,16 @@ import prisma from "@/lib/db";
 import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
 import { ServerResponse } from "@/lib/types/ServerResponse";
 import { slugSchema } from "@/schemas/user"
-import { Blog } from "@prisma/client";
 
 /**
- * Used to fetch all basic blog details owned by a user 
+ * Used to fetch 10 blogs 
  */
 
-export default async function getUserBlogs({
-    userSlug
-} : {
-    userSlug : string
-}) : Promise<ServerResponse<{blogs: BlogWithDocsBasicAndAuthorAndThumbnail[]}>> {
+export default async function getBlogs() : Promise<ServerResponse<{blogs: BlogWithDocsBasicAndAuthorAndThumbnail[]}>> {
     
     try {
 
-        if (!slugSchema.safeParse(userSlug.trim().replaceAll(" ", "-").toLowerCase()).success) {
-            return { success: false, msg: "Invalid user slug", status: 400 };
-        }
-
         const blogs = await prisma.blog.findMany({
-            where: {
-                author: {
-                    slug: userSlug.trim().toLowerCase().replaceAll(" ", "-")
-                },
-                isPublic: true,
-            },
-            orderBy: {
-                createdAt: "asc",
-            },
             select: {
                 id: true,
                 slug: true,
@@ -42,23 +24,19 @@ export default async function getUserBlogs({
                 userId: true,
                 organizationId: true,
                 teamId: true,
-                thumbnailId: true,
                 pinnedDocId: true,
-
                 thumbnail: {
                     select: {
-                        url: true
+                        url: true,
                     }
                 },
-
                 author: {
                     select: {
-                        id: true,
                         name: true,
+                        id: true,
                         slug: true
-                    }
+                    },
                 },
-
                 docs: {
                     select: {
                         id: true,
@@ -70,33 +48,16 @@ export default async function getUserBlogs({
                         updatedAt: true,
                         isPublished: true,
                         order: true,
-                        thumbnail: {
-                            select: {
-                                url: true,
-                                description: true
-                            }
-                        },
-
                     },
                     orderBy: {
                         order: "asc",
                     }
                 }
-            }
+            },
+            take: 10
         })
 
-        if (!blogs) throw new Error("Internal database error occurred fetching user blogs")
-
-        if (blogs.length === 0) {
-            return {  
-                success: true,
-                msg: "User has no blogs", 
-                status: 404, 
-                data: { 
-                    blogs: [],  
-                } 
-            }
-        }
+        if (!blogs) throw new Error("Internal database error occurred when fetching blogs")
 
         return {
             success: true,
@@ -109,7 +70,7 @@ export default async function getUserBlogs({
 
     } catch (error : any) {
 
-        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500, error: error }
+        return { success: false, msg: typeof error == "string" ? error : "Internal error occurred", status: 500 }
 
     }
 }

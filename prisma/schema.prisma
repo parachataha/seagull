@@ -156,17 +156,18 @@ model ProjectImage {
 // BLOGS
 //
 model Blog {
-  id             Int     @id @default(autoincrement())
-  slug           String  @unique
+  id             Int      @id @default(autoincrement())
+  slug           String   @unique
   title          String
   description    String?
   userId         Int?
   teamId         Int?
   organizationId Int?
   thumbnailId    Int?
-  pinnedDocId    Int?    @unique
+  pinnedDocId    Int?     @unique
   createdAt      Int
   updatedAt      Int?
+  isPublic       Boolean? @default(true)
 
   // Relations
   author    User?  @relation(fields: [userId], references: [id])

@@ -3,8 +3,9 @@
 import { Alert, AlertIcon, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input, Label } from "@/components/ui/input";
+import { Input, InputAddon, InputGroup, Label } from "@/components/ui/input";
 import { AlertCircleIcon, CheckIcon, LoaderCircleIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PublishDocDialog ( {
@@ -28,6 +29,9 @@ export default function PublishDocDialog ( {
 } ) {
 
     const [stage, setStage] = useState<(1 | 2)>(1);
+    const pathname = usePathname()
+
+    const blogName = pathname.split("/")[2] || "blog"
 
     // Move to next stage if loading is complete and successful
     useEffect(() => {
@@ -53,11 +57,14 @@ export default function PublishDocDialog ( {
         {stage === 1 && <div>
             
             <Label>Setup your URL</Label>
-            <Input
-                placeholder="my-awesome-blog-url"
-                value={slug}
-                onChange={(e) => setSlug(e.target.value.trim().replaceAll(" ", "").toLowerCase())}
-            />
+            <InputGroup>
+                <InputAddon> {blogName || "blog"} </InputAddon>
+                <Input
+                    placeholder="my-awesome-blog-url"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value.trim().replaceAll(" ", "").toLowerCase())}
+                />
+            </InputGroup>
 
             {<div className="mt-3">
                 {error && <Alert variant="destructive" appearance="outline">

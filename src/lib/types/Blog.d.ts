@@ -35,7 +35,13 @@ export type BlogWithDocsBasicAndAuthorAndThumbnail = Prisma.BlogGetPayload<{
         createdAt: true
         updatedAt: true
         isPublished: true
-        order: true
+        order: true,
+        thumbnail: {
+          select: {
+            url: true,
+            description: true
+          }
+        }
       }
     }
   }

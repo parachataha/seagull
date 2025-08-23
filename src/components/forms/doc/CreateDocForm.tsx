@@ -1,16 +1,25 @@
 "use client"
-
-import { FormEventHandler, useEffect, useState } from "react";
+// Components
 import { FileDropzone } from "../../ui/files/FileDropzone";
 import { Input, Label, Textarea } from "../../ui/input";
-import RichTextEditor from "../../ui/rich-text-editor/RichTextEditor";
 import { Button } from "@/components/ui/button";
-import { GlobeIcon, SaveIcon } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import PublishDocDialog from "@/components/dialogs/docs/PublishDocDialog";
+import RichTextEditor from "../../ui/rich-text-editor/RichTextEditor";
+
+// Icons
+import { GlobeIcon, SaveIcon } from "lucide-react";
+
+// Hooks
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useServerAction from "@/hooks/useServerAction";
+
+// Hooks
 import createDoc from "@/actions/docs/create/createDoc";
+
+// Types
+import { JSONContent } from "@tiptap/react";
 
 /**
  * The form allowing authenticated users to create new documents/articles
@@ -30,7 +39,7 @@ export default function CreateDocForm ( {
     const [slug, setSlug] = useState<string>("")
     const [description, setDescription] = useState<string>("")
     const [imageDescription, setImageDescription] = useState<string>("")
-    const [body, setBody] = useState<JSON | undefined>()
+    const [body, setBody] = useState<JSONContent | undefined>()
 
     const [isPublic, setIsPublic] = useState<boolean>(false)
 
@@ -39,7 +48,7 @@ export default function CreateDocForm ( {
             userAgent: navigator.userAgent,
 
             title: title.trim(),
-            body: body,
+            body: body as JSONContent,
             blogSlug: blogSlug.trim(),
             slug: slug.trim().replaceAll(" ", "-").toLowerCase(),
             
@@ -106,7 +115,7 @@ export default function CreateDocForm ( {
 
             <div>
                 <RichTextEditor 
-                    data={body}
+                    data={body as JSONContent}
                     setData={setBody}
                 />
             </div>

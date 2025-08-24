@@ -75,7 +75,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
         </ReduxProvider>
 
-        <GoogleAnalytics gaId="G-NLZM6GH365" /> { /* hannahparacha */ }
+        {/* <GoogleAnalytics gaId="G-NLZM6GH365" /> { /* hannahparacha */ }
         <GoogleAnalytics gaId="G-W64Y07B332" /> { /* seagull-app */ }
       </body>
     </html>

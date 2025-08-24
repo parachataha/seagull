@@ -22,7 +22,7 @@ export default async function page ( {
 
         <Container>
 
-            <div className="flex gap-3 pt-6">
+            <div className="flex flex-col lg:flex-row gap-3 pt-6">
                 <div className="w-full max-w-200">
 
                     <header className="pb-4 mb-4">

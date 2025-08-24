@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { EllipsisVerticalIcon, EyeClosedIcon, FolderOutputIcon, PenIcon, PinIcon, Trash2Icon } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 
 // Hooks
 import { useDispatch, useSelector } from "react-redux";
@@ -22,20 +22,21 @@ export default function OwnerBanner ({
 }) {
 
     const router = useRouter();
+    const pathname = usePathname();
 
     const dispatch = useDispatch();
     const user = useSelector((state : RootState) => state.user);
     
     if (authorSlug === user.slug) return ( <Card className={className} variant="accent">
         <CardContent className="flex justify-between items-center !p-2">
-            <LinkButton href="edit" variant="neutral" appearance="ghost"> Edit document </LinkButton>
+            <LinkButton href={`${pathname}/edit`} variant="neutral" appearance="ghost"> Edit document </LinkButton>
             <DropdownMenu> 
                 <DropdownMenuTrigger asChild>
                     <Button variant="neutral" mode="icon" appearance="ghost"> <EllipsisVerticalIcon/> </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="min-w-45">
                     <DropdownMenuLabel> Doc actions </DropdownMenuLabel>
-                    <Link href="edit">
+                    <Link href={`${pathname}/edit`}>
                         <DropdownMenuItem> <PenIcon/> Edit doc </DropdownMenuItem>
                     </Link>
                     <DropdownMenuItem> <PinIcon/> Pin doc </DropdownMenuItem>

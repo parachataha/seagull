@@ -60,6 +60,9 @@ export default async function getBlogs() : Promise<ServerResponse<{blogs: BlogWi
                     }
                 }
             },
+            where: {
+                isPublic: true,
+            },
             take: 10
         })
 

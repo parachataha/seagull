@@ -65,7 +65,7 @@ export async function generateMetadata(
      * Convert HTML to plain text and get first 160 characters
      */
     const htmlContent = generateHTML(tiptapBody, tiptapExtensions);
-    const description = htmlContent.replace(/<[^>]+>/g, '').slice(0, 160);
+    const description = `${htmlContent.replace(/<[^>]+>/g, '').slice(0, 160)}...`;
 
     return {
         applicationName: 'Seagull',
@@ -116,7 +116,7 @@ export default async function page ( {
     const doc = result.data.doc;
     const blog = result.data.doc.blog;
     const author = result.data.doc.blog.author;
-    
+
     return ( <Page>
 
         <Container>

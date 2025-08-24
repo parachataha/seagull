@@ -32,7 +32,7 @@ export default async function Home() {
         </header> 
 
         {/* BLOGS SECTION */}
-        <Label>Browser Blogs</Label>
+        <Label>Browse Blogs</Label>
         <div className="flex flex-wrap gap-2">
           {blogs.map(blog => (
             <BlogCard

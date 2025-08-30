@@ -9,6 +9,7 @@ import UserProvider from '@/components/providers/UserProvider';
 import Container from '@/components/layout/Container';
 
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Toaster } from "sonner";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -64,7 +65,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
 
         <ReduxProvider>
-
+          <Toaster/>
           {/* USED TO FETCH USER */}
           <UserProvider />
           
@@ -72,8 +73,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <Container className='w-full mt-5'>
             <Navbar />
           </Container>
-          {children}
 
+          {children}
+          
         </ReduxProvider>
 
         {/* <GoogleAnalytics gaId="G-NLZM6GH365" /> { /* hannahparacha */ }

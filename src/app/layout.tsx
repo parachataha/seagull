@@ -75,7 +75,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           </Container>
 
           {children}
-          
+
         </ReduxProvider>
 
         {/* <GoogleAnalytics gaId="G-NLZM6GH365" /> { /* hannahparacha */ }

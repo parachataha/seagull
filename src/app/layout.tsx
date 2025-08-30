@@ -58,6 +58,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <body
         className={`
+          bg-blur-top
           ${geistSans.variable} ${geistMono.variable} antialiased
         `}
       >

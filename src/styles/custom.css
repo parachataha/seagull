@@ -9,6 +9,21 @@
     background-position: 50%;
 }
 
+.bg-blur {
+    background-image: url("/images/backgrounds/bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position-y: 0%;
+}
+
+.bg-blur-top {
+    background-image: url("/images/backgrounds/bg-top.png");
+    background-repeat: no-repeat;
+    background-size: containb;
+    background-position-y: 0%;
+    background-position-x: 50%;
+}
+
 .bg-gradient-glow { 
     background-image: linear-gradient(to right, rgba(255, 255, 255, 0), white, rgba(255, 255, 255, 0));
     background-repeat: no-repeat;

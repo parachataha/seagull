@@ -25,7 +25,7 @@ export default function BlogLabel ( {
             <Card className="border-0">
                 <div className="flex items-center gap-3 p-2">
                     <Image  
-                        src={thumbnail || ""}
+                        src={thumbnail || " "}
                         alt={title}
                         width={50}
                         height={50}

@@ -2,9 +2,12 @@ import getBlogs from "@/actions/blogs/read/getBlogs";
 import BlogCard from "@/components/cards/blog/BlogCard";
 import UserCard from "@/components/cards/user/UserCard";
 import Container from "@/components/layout/Container";
+import FullPage from "@/components/layout/FullPage";
 import Page from "@/components/layout/Page";
+import { Button, LinkButton } from "@/components/ui/button";
 import { Label } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ArrowRightIcon } from "lucide-react";
 
 export default async function Home() {
 
@@ -22,48 +25,41 @@ export default async function Home() {
 
   return (
     <Page>
-      <Container>
 
-        <header className="pb-5 mb-5">
-          <h1 className="text-2xl font-bold"> 
-            Welcome back
-          </h1>
-          <p className="text-muted-foreground"> Unleash your imagination and creativity </p>
+      <Container>
+        <header className="h-110 rounded-xl flex flex-col gap-2 items-center justify-center p-3">
+          <h1 className="text-3xl font-medium"> The Truth and The Truth Only. </h1>
+          <p className="text-lg font-medium"> Create your first blog today and share your knowledge with the world </p>
+          <LinkButton 
+            href="/signup" 
+            variant="ghostBg"
+            className="group"
+          >
+            Get started today
+            {/* <ArrowRightIcon className="group-hover:translate-x-3 transition"/>  */}
+          </LinkButton>
         </header> 
 
         {/* BLOGS SECTION */}
-        <Label>Browse Blogs</Label>
-        <div className="flex flex-wrap gap-2">
-          {blogs.map(blog => (
-            <BlogCard
-              key={blog.id}
-              blog={blog}
-            />
-          ))}
-        </div>
+        <div className="flex flex-col items-center justify-between gap-2">
 
-        {/* USER SECTION */}
+          <p className="text-sm text-foreground/50"> Check out current blogs </p>
+          <div className="flex flex-wrap justify-center gap-2">
+            {blogs.map(blog => (
+              <BlogCard
+                key={blog.id}
+                blog={blog}
+              />
+            ))}
+          </div>
 
-        <Label className="mt-7">Browser Users</Label>
-        <div className="flex flex-wrap gap-2">
-
-          <UserCard
-            name="Taha Paracha"
-            slug="tahaparacha"
-            avatarURL="a"
-            label="Developer & Designer"
-          />
-
-          <UserCard
-            name="Hannah Paracha"
-            slug="hannahparacha"
-            avatarURL="a"
-            label="Psychology Student"
-          />
+          {/* <div className="mt-28">
+            <h2 className="text-2xl"> An immersive blog and portfolio creator </h2>
+          </div> */}
 
         </div>
-
       </Container>
+
     </Page>
   );
 }

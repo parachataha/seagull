@@ -27,9 +27,9 @@ export default async function Home() {
     <Page>
 
       <Container>
-        <header className="h-110 rounded-xl flex flex-col gap-2 items-center justify-center p-3">
-          <h1 className="text-3xl font-medium"> The Truth and The Truth Only. </h1>
-          <p className="text-lg"> Create your first blog today and share your knowledge with the world </p>
+        <header className="h-160 rounded-xl flex flex-col gap-3 items-center justify-center p-3">
+          <h1 className="text-5xl"> The Truth and The Truth Only. </h1>
+          <p className="text-xl"> Create your first blog today and share your knowledge with the world </p>
           <LinkButton 
             href="/signup" 
             variant="ghostBg"

@@ -19,7 +19,7 @@
 .bg-blur-top {
     background-image: url("/images/backgrounds/bg-top.png");
     background-repeat: no-repeat;
-    background-size: containb;
+    background-size: contain;
     background-position-y: 0%;
     background-position-x: 50%;
 }

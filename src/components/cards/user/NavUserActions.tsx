@@ -85,9 +85,9 @@ export default function NavUserActions ( {
     ) 
     
     return (
-        <div className="flex items-center bg-muted rounded-full p-1 gap-0.5">
-            {/* <LinkButton href="/login" variant="ghostBg" className="rounded-l-full rounded-r-md"> Login </LinkButton>
-            <LinkButton href="/signup" variant="ghostBg" className="rounded-r-full rounded-l-md"> Signup </LinkButton> */}
+        <div className="flex items-center bg-foreground/5 rounded-full p-1 gap-0.5">
+            <LinkButton href="/login" variant="ghostBg" className="rounded-l-full rounded-r-md"> Login </LinkButton>
+            <LinkButton href="/signup" variant="ghostBg" className="rounded-r-full rounded-l-md"> Signup </LinkButton>
         </div>
     );
 }

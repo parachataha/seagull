@@ -65,7 +65,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
 
         <ReduxProvider>
-          <Toaster/>
+          <Toaster
+            theme="system"
+          />
           {/* USED TO FETCH USER */}
           <UserProvider />
           

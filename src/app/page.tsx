@@ -27,7 +27,7 @@ export default async function Home() {
     <Page>
 
       <Container>
-        <header className="h-160 rounded-xl flex flex-col gap-3 items-center justify-center p-3">
+        <header className="h-160 rounded-xl flex flex-col gap-3 items-center text-center justify-center p-3">
           <h1 className="text-5xl font-gelasio"> The Truth and The Truth Only. </h1>
           <p className="text-xl my-4"> Create your first blog today and share your knowledge with the world </p>
           <LinkButton 

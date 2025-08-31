@@ -121,10 +121,10 @@ export default async function page ( {
 
         <Container>
 
-            <OwnerBanner authorSlug={author?.slug} className="mb-14"/>
+            <OwnerBanner authorSlug={author?.slug} className="my-4"/>
 
             {/* Split the page */}
-            <div className="flex lg:flex-row flex-col gap-6 pb-12 w-full">
+            <div className="mt-7 flex lg:flex-row flex-col gap-6 pb-12 w-full">
                 {/* Main article content */}
                 <div className="w-full flex-grow">
 

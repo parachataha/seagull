@@ -133,7 +133,7 @@ body {
   :root {
     --background: #0F0F10;
     --foreground: oklch(0.9850 0 0);
-    --card: oklch(0.2050 0 0);
+    --card: var(--background);
     --card-foreground: oklch(0.9850 0 0);
     --popover: oklch(0.230 0 0);
     --popover-foreground: oklch(0.9850 0 0);

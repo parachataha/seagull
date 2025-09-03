@@ -25,6 +25,7 @@ const initialState: ReduxPublicSafeUser = {
   },
   projects: [],
   timelines: [],
+  blogs: [],
 };
 
 const userSlice = createSlice({

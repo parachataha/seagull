@@ -10,6 +10,7 @@ import useServerAction from "@/hooks/useServerAction";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 export default function page ( {
      
@@ -34,6 +35,13 @@ export default function page ( {
     }, [user.email])
     
     return ( <div>
+
+        <PageHeader
+            className="mb-5"
+            breadcrumbs={[
+                { label: "Blogs", href: "/profile/blogs" }
+            ]}
+        />
         
         <CardSpotlight>
                 <h3 className="font-semibold"> Your blogs </h3>

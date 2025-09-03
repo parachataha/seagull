@@ -118,7 +118,7 @@ export default async function validateSession( userAgent: string | null ) : Prom
                                         id: true,
                                         slug: true,
                                         title: true,
-                                    }
+                                    },
                                 },
                                 thumbnail: {
                                     select: {

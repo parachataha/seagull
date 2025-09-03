@@ -5,33 +5,31 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { EyeIcon } from "lucide-react";
 import { LinkButton } from "@/components/ui/button";
 import ViewProfileButton from "@/components/buttons/ViewProfileButton";
+import FullPage from "@/components/layout/FullPage";
 
 
 export default function ProfileLayout( { children } : { children: React.ReactNode } ) {
     
-    return ( <Page>
+    return ( <FullPage className="!bg-popover !p-0 !m-0">
         
-        <Container>
+        <Container className="!max-w-350 !p-0 !m-0">
+            <div className="pb-6">
 
-            <div className="flex gap-2 justify-between">
-                <h1 className="text-2xl font-semibold"> Your Profile </h1>
-                <ViewProfileButton /> { /* View button linking to own profile */ }
-            </div>
+                <SidebarProvider>
+                    <div className="flex gap-2 relative flex-grow pt-6 px-4">
 
-            <SidebarProvider>
-                <div className="flex gap-2 relative flex-grow pt-6">
+                        <ProfileSidebar />
 
-                    <ProfileSidebar />
+                        <div className="w-full h-full grow px-8 py-6 bg-background rounded-xl">
+                            {children}
+                        </div>
 
-                    <div className="w-full h-full grow">
-                        {children}
                     </div>
-
-                </div>
-            </SidebarProvider>
+                </SidebarProvider>
+            </div>
 
         </Container>
         
-    </Page>
+    </FullPage>
     );
 }

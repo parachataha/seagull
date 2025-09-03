@@ -1,17 +1,21 @@
 import { Card, CardContent } from "@/components/ui/card";
 import ContentWrapper from "./components/Content";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 
 export default function SkillsPage() {
     
-    return ( <Card>
+    return ( <>
 
-        <CardContent className="flex flex-col gap-4">
+        <PageHeader
+            className="mb-5"
+            breadcrumbs={[
+                { label: "Skills", href: "/profile/skills" }
+            ]}
+        />
 
-            <ContentWrapper/>
+        <ContentWrapper/>
 
-        </CardContent>
-        
-    </Card>
+    </> 
     );
 }

@@ -1,12 +1,5 @@
 import ManageDocDropdown from "@/components/dropdowns/dropdowns/ManageDocDropdown";
-import ManageableDropdown from "@/components/dropdowns/ManageableDropdown";
-import { Button, LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { DocsBasic, DocWithThumbnail } from "@/lib/types/Blog";
-import { PublicSafeUser } from "@/lib/types/User";
-import { Blog, Doc } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function DocCard ( {

@@ -1,3 +1,4 @@
+import ManageBlogDropdown from "@/components/dropdowns/dropdowns/ManageBlogDropdown";
 import { LinkButton } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { BlogWithDocsBasicAndAuthorAndThumbnail } from "@/lib/types/Blog";
@@ -15,8 +16,13 @@ export default function BlogCard ( {
     return ( 
     <Link
         href={`/blogs/${blog.slug}`}
+        className="relative"
     >
         <Card variant="accent">
+
+            <ManageBlogDropdown
+                authorId={blog?.author?.id || 0}
+            />
 
             <CardContent 
                 className="px-3 py-3 pt-40 flex flex-col items-start w-50 bg-cover bg-no-repeat bg-center" 

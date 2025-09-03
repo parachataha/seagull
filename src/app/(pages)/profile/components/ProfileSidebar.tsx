@@ -10,6 +10,7 @@ import Link from "next/link";
 
 // Types
 import { RootState } from "@/app/redux/store";
+import Image from "next/image";
 
 export default function ProfileSidebar() {
 
@@ -19,10 +20,12 @@ export default function ProfileSidebar() {
   return ( 
     <div className="flex flex-col justify-between !h-[75vh] min-w-46">
 
-      <SidebarMenu className="mt-4">
+      <SidebarMenu>
         <SidebarGroup>
           {/* <SidebarGroupLabel> Navigation </SidebarGroupLabel> */}
           <div className="flex flex-col gap-1">
+
+            <h2 className="text-sm font-medium mb-3"> Your profile </h2>
             {/* SIDEBAR ITEMS */}
             {sidebarItems.map(item => {
               return ( 

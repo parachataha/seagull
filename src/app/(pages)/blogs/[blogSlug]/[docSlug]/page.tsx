@@ -72,7 +72,6 @@ export async function generateMetadata(
         title: doc.title,
         description,
         authors: [{ name: blog.author?.name || "Seagull", url: `/` }],
-        themeColor: "#C37F57",
         openGraph: {
             title: doc.title,
             description,

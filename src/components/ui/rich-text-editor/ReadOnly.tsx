@@ -20,6 +20,7 @@ import HorizontalRule from "@tiptap/extension-horizontal-rule"
 import HardBreak from "@tiptap/extension-hard-break"
 import { TableKit } from "@tiptap/extension-table"
 import Heading from "@tiptap/extension-heading"
+import Link from "@tiptap/extension-link"
 
 type ReadOnlyProps = {
     json: any // tiptap JSON (body)
@@ -81,6 +82,7 @@ export const tiptapExtensions = [
     HorizontalRule,
     HardBreak,
     TableKit,
+    Link,
 ]
 
 export default function ReadOnly({ json }: ReadOnlyProps) {

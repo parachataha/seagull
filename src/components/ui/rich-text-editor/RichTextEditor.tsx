@@ -11,6 +11,7 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Text from '@tiptap/extension-text'
 import Highlight from '@tiptap/extension-highlight'
 import Heading from '@tiptap/extension-heading'
+import Link from '@tiptap/extension-link'
 
 // Components
 import Header from "./Header"
@@ -58,6 +59,7 @@ export default function RichTextEditor ({
             Document,
             Paragraph,
             Text,
+            Link,
             TableKit.configure({
                 table: { resizable: true, allowTableNodeSelection: true },
             }),

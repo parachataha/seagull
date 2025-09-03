@@ -26,12 +26,12 @@ export default function BlogCard ( {
 
             <CardContent 
                 className="px-3 py-3 pt-40 flex flex-col items-start w-50 bg-cover bg-no-repeat bg-center" 
-                style={{ backgroundImage: blog.thumbnail?.url && `linear-gradient(to top, var(--background), transparent), url(${blog.thumbnail?.url})` }}
+                style={{ backgroundImage: blog.thumbnail?.url && `linear-gradient(to top, black, transparent), url(${blog.thumbnail?.url})` }}
             >
 
-                <div>
+                <div className="text-white">
                     {blog.title}
-                    <p className="text-sm text-muted-foreground mt-[1px]"> {blog.docs.length} published </p>
+                    <p className="text-sm text-white/50 mt-[1px]"> {blog.docs.length} published </p>
                 </div>
 
             </CardContent>

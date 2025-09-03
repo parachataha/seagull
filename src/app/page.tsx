@@ -5,6 +5,7 @@ import Container from "@/components/layout/Container";
 import FullPage from "@/components/layout/FullPage";
 import Page from "@/components/layout/Page";
 import { Button, LinkButton } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ArrowRightIcon } from "lucide-react";
@@ -28,6 +29,11 @@ export default async function Home() {
 
       <Container>
         <header className="h-160 rounded-xl flex flex-col gap-3 items-center text-center justify-center p-3">
+
+            <div className="py-2 mb-1 px-3 bg-foreground/5 rounded-lg border-border">
+              <h3 className="text-sm font-medium"> Seagull is in alpha </h3>
+            </div>
+
           <h1 className="text-5xl font-gelasio"> The Truth and The Truth Only. </h1>
           <p className="text-xl my-4"> Create your first blog today and share your knowledge with the world </p>
           <LinkButton 
@@ -36,7 +42,6 @@ export default async function Home() {
             className="group"
           >
             Get started today
-            {/* <ArrowRightIcon className="group-hover:translate-x-3 transition"/>  */}
           </LinkButton>
         </header> 
 
@@ -53,11 +58,11 @@ export default async function Home() {
             ))}
           </div>
 
-          {/* <div className="mt-28">
-            <h2 className="text-2xl"> An immersive blog and portfolio creator </h2>
-          </div> */}
-
         </div>
+
+        <div className="mb-4 flex flex-col items-center justify-between text-center">
+        </div>
+
       </Container>
 
     </Page>

@@ -10,6 +10,7 @@ export const sidebarItems : { title: string, url: string, icon: LucideIcon, disa
         title: "Profile",
         url: "/profile/edit",
         icon: PenBox,
+        disabled: true,
     },
     {
         title: "Skills",

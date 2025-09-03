@@ -23,7 +23,7 @@ const buttonVariants = cva(
         ghost:
           '!text-foreground hover:bg-muted hover:text-muted-foreground data-[state=open]:bg-muted data-[state=open]:text-muted-foreground',
         ghostBg:
-          '!text-foreground bg-foreground/5 hover:bg-muted hover:text-muted-foreground data-[state=open]:bg-muted data-[state=open]:text-muted-foreground',
+          '!text-foreground bg-foreground/5 hover:bg-foreground/10 hover:text-muted-foreground data-[state=open]:bg-foreground/10 data-[state=open]:text-muted-foreground',
         dim: 'text-muted-foreground hover:text-foreground data-[state=open]:text-foreground',
         foreground: '',
         inverse: '',

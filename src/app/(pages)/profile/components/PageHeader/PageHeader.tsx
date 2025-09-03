@@ -10,10 +10,10 @@ import UserAvatar from "@/components/images/UserAvatar";
 // Components
 import React from "react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
+import { Button, LinkButton } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
-import { LayoutDashboardIcon } from "lucide-react";
+import { HomeIcon, LayoutDashboardIcon } from "lucide-react";
 
 // Hooks
 import { useSelector } from "react-redux";
@@ -65,7 +65,7 @@ export default function PageHeader ( {
         <div className="flex items-center gap-2 text-sm">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="!py-2">
+                    <Button variant="ghost" className="!py-2 !px-2">
                         <UserAvatar
                             className="w-6 h-6"
                             src={user.avatar.url}
@@ -80,6 +80,11 @@ export default function PageHeader ( {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
+
+            <LinkButton href="/" mode="icon" variant="ghostBg">
+                <HomeIcon/>
+            </LinkButton>
+
         </div>
 
     </div>
